@@ -6,7 +6,7 @@ jobs:
    steps:
       - run:
           command: |
-            git clone --recursive https://github.com/strongreasons/msm-4.4 -b onyx kernel && cd kernel
+            git clone --recursive https://github.com/strongreasons/msm-4.4 -b hmp kernel && cd kernel
             curl https://raw.githubusercontent.com/strongreasons/cooking-kernel/circle/build.sh > run.sh
             source run.sh
           no_output_timeout : 5h
