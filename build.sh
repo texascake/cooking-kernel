@@ -215,7 +215,7 @@ DATE=$(TZ=Asia/Jakarta date +"%Y%m%d")
   	fi
 
 	msger -n "|| Cloning Anykernel ||"
-	git clone --depth=1 https://github.com/Tiktodz/AnyKernel3.git -b hmp-old AnyKernel3
+	git clone --depth=1 https://github.com/Tiktodz/AnyKernel3.git -b hmp-old AnyKernel
 
 	if [ $BUILD_DTBO = 1 ]
 	then
@@ -345,7 +345,7 @@ build_kernel()
 		 "${MAKE[@]}" modules INSTALL_MOD_PATH="$KERNEL_DIR"/out/modules
 	    make -j"$PROCS" O=out \
 		 "${MAKE[@]}" modules_install INSTALL_MOD_PATH="$KERNEL_DIR"/out/modules
-	    find "$KERNEL_DIR"/out/modules -type f -iname '*.ko' -exec cp {} AnyKernel3/modules/system/lib/modules/ \;
+	    find "$KERNEL_DIR"/out/modules -type f -iname '*.ko' -exec cp {} AnyKernel/modules/system/lib/modules/ \;
 	fi
 
 		BUILD_END=$(date +"%s")
@@ -376,12 +376,12 @@ build_kernel()
 gen_zip()
 {
 	msger -n "|| Zipping into a flashable zip ||"
-	mv "$KERNEL_DIR"/out/arch/arm64/boot/$FILES AnyKernel3/$FILES
+	mv "$KERNEL_DIR"/out/arch/arm64/boot/$FILES AnyKernel/$FILES
 	if [ $BUILD_DTBO = 1 ]
 	then
-	mv "$KERNEL_DIR"/out/arch/arm64/boot/dtbo.img AnyKernel3/dtbo.img
+	mv "$KERNEL_DIR"/out/arch/arm64/boot/dtbo.img AnyKernel/dtbo.img
 	fi
-	cdir AnyKernel3
+	cdir AnyKernel
 	cp -af $KERNEL_DIR/init.$CODENAME.Spectrum.rc spectrum/init.spectrum.rc && sed -i "s/persist.spectrum.kernel.*/persist.spectrum.kernel TheOneMemory/g" spectrum/init.spectrum.rc
 	cp -af $KERNEL_DIR/changelog META-INF/com/google/android/aroma/changelog.txt
 	cp -af anykernel-real.sh anykernel.sh
