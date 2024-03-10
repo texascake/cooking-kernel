@@ -173,7 +173,7 @@ then
 fi
 
 #Check Kernel Version
-KERVER=$(make kernelversion)
+KERVER=$(cd $KERNEL_DIR/kernel; make kernelversion)
 
 # Set a commit head
 COMMIT_HEAD=$(git log --oneline -1)
