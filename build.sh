@@ -126,8 +126,8 @@ make -j$(nproc --all) O=out LLVM=1\
 BUILD_END=$(date +"%s")
 DIFF=$(($BUILD_END - $BUILD_START))
 
-echo -e "$red**** Kernel Compilation Completed ****"
-echo -e "$red**** Verify Image.gz-dtb ****"
+echo -e "$red**** Kernel Compilation Completed ****$nocol"
+echo -e "$red**** Verify Image.gz-dtb ****$nocol"
 
 if ! [ -f $KERNELDIR/out/arch/arm64/boot/Image.gz-dtb ];then
     tg_post_build "error.log" "Compile Error!!"
@@ -136,7 +136,7 @@ if ! [ -f $KERNELDIR/out/arch/arm64/boot/Image.gz-dtb ];then
 fi
 
 # Anykernel3 time!!
-echo -e "$red**** Verifying AnyKernel3 Directory ****"
+echo -e "$red**** Verifying AnyKernel3 Directory ****$nocol"
 if ! [ -d "$KERNELDIR/AnyKernel3" ]; then
   echo "AnyKernel3 not found! Cloning..."
   if ! git clone --depth=1 -b zeus https://github.com/Tiktodz/AnyKernel3 -b eas AnyKernel3; then
@@ -190,7 +190,7 @@ zip -r9 "../$FINAL_KERNEL_ZIP" * -x .git README.md placeholder anykernel-real.sh
 ## Prepare a final zip variable
 ZIP_FINAL="$FINAL_KERNEL_ZIP"
 
-echo -e "$yellow|| Signing Zip ||"
+echo -e "$yellow|| Signing Zip ||$nocol"
 tg_post_msg "<code>Signing Zip file with AOSP keys..</code>"
 
 curl -sLo zipsigner-3.0.jar https://github.com/Magisk-Modules-Repo/zipsigner/raw/master/bin/zipsigner-3.0-dexed.jar
@@ -199,7 +199,7 @@ ZIP_FINAL="$ZIP_FINAL-signed"
 
 cd ..
 
-echo -e "$red**** Uploading your zip now ****"
+echo -e "$red**** Uploading your zip now ****$nocol"
 tg_post_build "$ZIP_FINAL.zip" "*Build completed in $(($DIFF / 60)) minute(s) and $(($DIFF % 60)) second(s)*
 
 \`\`\`Latest Changelog
