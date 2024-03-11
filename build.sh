@@ -4,10 +4,11 @@
 KERNELDIR=$(pwd)
 KERNELNAME=TheOneMemory
 CODENAME=Hayzel
-VARIANT=HMP
+VARIANT=EAS
 BASE=EOL
 DEVICENAME=X00TD
-sed -i 's/CONFIG_LOCALVERSION=.*/CONFIG_LOCALVERSION="-TheOneMemory/hmp"/g' arch/arm64/configs/X00TD_defconfig
+
+#sed -i 's/CONFIG_LOCALVERSION=.*/CONFIG_LOCALVERSION="-TheOneMemory/HeterogeneousMultiProcessing"/g' arch/arm64/configs/X00TD_defconfig
 #sed -i "s/CONFIG_WIREGUARD=.*/# CONFIG_WIREGUARD is not set/g" arch/arm64/configs/X00TD_defconfig
 
 TG_SUPER=0
@@ -90,6 +91,9 @@ yellow='\033[0;33m'
 red='\033[0;31m'
 nocol='\033[0m'
 
+# Java
+command -v java > /dev/null 2>&1
+
 # Clean build always lol
 # echo -e "$yellow**** Cleaning ****"
 mkdir -p out
@@ -98,7 +102,7 @@ make O=out clean
 echo "**** Kernel defconfig is set to $KERNEL_DEFCONFIG ****"
 echo -e "$cyan***********************************************"
 echo    "                    BUILDING KERNEL                 "
-echo -e "$cyan***********************************************"
+echo -e "**********************************************$nocol"
 make $KERNEL_DEFCONFIG O=out 2>&1 | tee -a error.log
 make -j$(nproc --all) O=out LLVM=1\
 		ARCH=arm64 \
@@ -135,7 +139,7 @@ fi
 echo -e "$red**** Verifying AnyKernel3 Directory ****"
 if ! [ -d "$KERNELDIR/AnyKernel3" ]; then
   echo "AnyKernel3 not found! Cloning..."
-  if ! git clone --depth=1 -b zeus https://github.com/Tiktodz/AnyKernel3 -b hmp-old AnyKernel3; then
+  if ! git clone --depth=1 -b zeus https://github.com/Tiktodz/AnyKernel3 -b eas AnyKernel3; then
     tg_post_build "$KERNELDIR/out/arch/arm64/boot/Image.gz-dtb" "Failed to Clone Anykernel, Sending image file instead"
     echo "Cloning failed! Aborting..."
     exit 1
@@ -184,7 +188,7 @@ cd ../../../..
 zip -r9 "../$FINAL_KERNEL_ZIP" * -x .git README.md placeholder anykernel-real.sh .gitignore zipsigner* "*.zip"
 
 ## Prepare a final zip variable
-ZIP_FINAL="$FINAL_KERNEL_ZIP-$DATE"
+ZIP_FINAL="$FINAL_KERNEL_ZIP"
 
 echo -e "$yellow|| Signing Zip ||"
 tg_post_msg "<code>Signing Zip file with AOSP keys..</code>"
@@ -196,7 +200,7 @@ ZIP_FINAL="$ZIP_FINAL-signed"
 cd ..
 
 echo -e "$red**** Uploading your zip now ****"
-tg_post_build "$ZIP_FINAL.zip" "*Build completed in $(($DIFF / 60)) minute(s) and $(($DIFF % 60)) second(s)*"
+tg_post_build "$ZIP_FINAL.zip" "*Build completed in $(($DIFF / 60)) minute(s) and $(($DIFF % 60)) second(s)*
 
 \`\`\`Latest Changelog
 $(git log --oneline -n5 | cut -d" " -f2- | awk '{print "• " $(A)}')
