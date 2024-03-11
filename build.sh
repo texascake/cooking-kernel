@@ -53,7 +53,7 @@ tg_post_build()
 	fi
 }
 
-tg_post_msg "$(date '+%d %b %Y, %H:%M %Z')%0A%0A<===============>Building $KERNELNAME Kernel for $DEVICENAME%0ABuild URL <a href='$CIRCLE_BUILD_URL'>Here</a>"
+tg_post_msg "$(date '+%d %b %Y, %H:%M %Z')%0A%0ABuilding $KERNELNAME Kernel for $DEVICENAME%0ABuild URL <a href='$CIRCLE_BUILD_URL'>Here</a>"
 
 if ! [ -d "$KERNELDIR/trb_clang" ]; then
   echo "trb_clang not found! Cloning..."
@@ -156,7 +156,7 @@ git log --oneline -n15 | cut -d " " -f 2- | awk '{print "<*> " $(A) "</*>"}' | t
 echo "**** Copying Image.gz-dtb ****"
 cp $KERNELDIR/out/arch/arm64/boot/Image.gz-dtb $ANYKERNEL3_DIR/
 
-echo "**** Time to zip up! ****"
+echo -e "$red**** Time to zip up! ****$nocol"
 cd $ANYKERNEL3_DIR/
 cp -af $KERNEL_DIR/init.$CODENAME.Spectrum.rc spectrum/init.spectrum.rc && sed -i "s/persist.spectrum.kernel.*/persist.spectrum.kernel TheOneMemory/g" spectrum/init.spectrum.rc
 cp -af $KERNEL_DIR/changelog META-INF/com/google/android/aroma/changelog.txt
@@ -194,11 +194,11 @@ ZIP_FINAL="$FINAL_KERNEL_ZIP"
 echo -e "$yellow|| Signing Zip ||$nocol"
 tg_post_msg "<code>Signing Zip file with AOSP keys..</code>"
 
+cd ..
+
 curl -sLo zipsigner-3.0.jar https://github.com/Magisk-Modules-Repo/zipsigner/raw/master/bin/zipsigner-3.0-dexed.jar
 java -jar zipsigner-3.0.jar "$ZIP_FINAL".zip "$ZIP_FINAL"-signed.zip
 ZIP_FINAL="$ZIP_FINAL-signed"
-
-cd ..
 
 echo -e "$red**** Uploading your zip now ****$nocol"
 tg_post_build "$ZIP_FINAL.zip" "*Build completed in $(($DIFF / 60)) minute(s) and $(($DIFF % 60)) second(s)*
