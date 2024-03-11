@@ -89,15 +89,14 @@ red='\033[0;31m'
 nocol='\033[0m'
 
 # Clean build always lol
-# echo "**** Cleaning ****"
-# rm -rf Zeus*.zip
+# echo -e "$yellow**** Cleaning ****"
 mkdir -p out
 make O=out clean
 
 echo "**** Kernel defconfig is set to $KERNEL_DEFCONFIG ****"
 echo -e "$cyan***********************************************"
-echo    "                    BUILDING KERNEL                "
-echo -e "****************************************************"
+echo    "                    BUILDING KERNEL                 "
+echo -e "$cyan***********************************************"
 make $KERNEL_DEFCONFIG O=out 2>&1 | tee -a error.log
 make -j$(nproc --all) O=out LLVM=1\
 		ARCH=arm64 \
@@ -121,8 +120,8 @@ make -j$(nproc --all) O=out LLVM=1\
 BUILD_END=$(date +"%s")
 DIFF=$(($BUILD_END - $BUILD_START))
 
-echo "**** Kernel Compilation Completed ****"
-echo "**** Verify Image.gz-dtb ****"
+echo -e "$red**** Kernel Compilation Completed ****"
+echo -e "$red**** Verify Image.gz-dtb ****"
 
 if ! [ -f $KERNELDIR/out/arch/arm64/boot/Image.gz-dtb ];then
     tg_post_build "error.log" "Compile Error!!"
@@ -131,7 +130,7 @@ if ! [ -f $KERNELDIR/out/arch/arm64/boot/Image.gz-dtb ];then
 fi
 
 # Anykernel3 time!!
-echo "**** Verifying AnyKernel3 Directory ****"
+echo -e "$red**** Verifying AnyKernel3 Directory ****"
 if ! [ -d "$KERNELDIR/AnyKernel3" ]; then
   echo "AnyKernel3 not found! Cloning..."
   if ! git clone --depth=1 -b zeus https://github.com/Tiktodz/AnyKernel3 -b hmp-old AnyKernel3; then
