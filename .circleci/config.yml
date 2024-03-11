@@ -2,12 +2,16 @@ version: 2.1
 jobs:
   compile:
    docker:
-      - image: wizardprjkt/build:kernel
+      - image: debian:bookworm-slim
    steps:
       - run:
+          shell: /bin/bash
           command: |
-            git clone --depth=1 https://github.com/strongreasons/kernel_asus_sdm636 -b hmp kernel && cd kernel
-            curl https://raw.githubusercontent.com/Tiktodz/cooking-kernel/circle/build.sh > run.sh
+            apt update -y && apt upgrade -y && apt install -y sudo
+            sudo apt install glibc-source bc bison ca-certificates curl default-jre flex gcc git libc6-dev libssl-dev openssl python-is-python3 wget zip zstd make gcc-arm-linux-gnueabi software-properties-common build-essential libarchive-tools gcc-aarch64-linux-gnu tzdata -y || exit 1
+            sudo rm -rf /etc/localtime && sudo ln -s /usr/share/zoneinfo/Asia/Jakarta /etc/localtime
+            git clone --depth=1 https://github.com/strongreasons/kernel_asus_sdm636.git -b hmp kernel && cd kernel
+            curl https://raw.githubusercontent.com/strongreasons/cooking-kernel/circle/build.sh > run.sh
             source run.sh
           no_output_timeout : 1h
 workflows:
