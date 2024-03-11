@@ -2,10 +2,12 @@
 
 #set -e
 KERNELDIR=$(pwd)
-KERNELNAME="TheOneMemory"
-DEVICENAME="X00TD"
-VARIANT="EOL"
-sed -i 's/CONFIG_LOCALVERSION=.*/CONFIG_LOCALVERSION="-TheOneMemory"/g' arch/arm64/configs/X00TD_defconfig
+KERNELNAME=TheOneMemory
+CODENAME=Hayzel
+VARIANT=HMP
+BASE=EOL
+DEVICENAME=X00TD
+sed -i 's/CONFIG_LOCALVERSION=.*/CONFIG_LOCALVERSION="-TheOneMemory/hmp"/g' arch/arm64/configs/X00TD_defconfig
 #sed -i "s/CONFIG_WIREGUARD=.*/# CONFIG_WIREGUARD is not set/g" arch/arm64/configs/X00TD_defconfig
 
 TG_SUPER=0
@@ -49,7 +51,7 @@ tg_post_build()
 	fi
 }
 
-tg_post_msg "$(date '+%d %b %Y, %H:%M %Z')%0A%0ABuilding $KERNELNAME for $DEVICENAME%0ABuild URL <a href='$CIRCLE_BUILD_URL'>Here</a>"
+tg_post_msg "$(date '+%d %b %Y, %H:%M %Z')%0A%0A<===============>Building $KERNELNAME Kernel for $DEVICENAME%0ABuild URL <a href='$CIRCLE_BUILD_URL'>Here</a>"
 
 if ! [ -d "$KERNELDIR/trb_clang" ]; then
   echo "trb_clang not found! Cloning..."
@@ -67,7 +69,7 @@ fi
 ## Copy this script inside the kernel directory
 KERNEL_DEFCONFIG=X00TD_defconfig
 DATE=$(date '+%Y%m%d')
-FINAL_KERNEL_ZIP="$KERNELNAME-$DEVICENAME-$(date '+%Y%m%d-%H%M').zip"
+FINAL_KERNEL_ZIP="$KERNELNAME-$BASE-$VARIANT-$(date '+%Y%m%d-%H%M')"
 KERVER=$(make kernelversion)
 export KBUILD_BUILD_TIMESTAMP=$(date)
 export PATH="$KERNELDIR/trb_clang/bin:$PATH"
@@ -151,18 +153,18 @@ cp $KERNELDIR/out/arch/arm64/boot/Image.gz-dtb $ANYKERNEL3_DIR/
 
 echo "**** Time to zip up! ****"
 cd $ANYKERNEL3_DIR/
-
-cp -af $KERNELDIR/changelog META-INF/com/google/android/aroma/changelog.txt
-mv anykernel-real.sh anykernel.sh
+cp -af $KERNEL_DIR/init.$CODENAME.Spectrum.rc spectrum/init.spectrum.rc && sed -i "s/persist.spectrum.kernel.*/persist.spectrum.kernel TheOneMemory/g" spectrum/init.spectrum.rc
+cp -af $KERNEL_DIR/changelog META-INF/com/google/android/aroma/changelog.txt
+cp -af anykernel-real.sh anykernel.sh
 sed -i "s/kernel.string=.*/kernel.string=$KERNELNAME/g" anykernel.sh
-sed -i "s/kernel.type=.*/kernel.type=Stock/g" anykernel.sh
-sed -i "s/kernel.for=.*/kernel.for=$DEVICENAME/g" anykernel.sh
+sed -i "s/kernel.type=.*/kernel.type=$VARIANT/g" anykernel.sh
+sed -i "s/kernel.for=.*/kernel.for=$CODENAME/g" anykernel.sh
 sed -i "s/kernel.compiler=.*/kernel.compiler=$KBUILD_COMPILER_STRING/g" anykernel.sh
-sed -i "s/kernel.made=.*/kernel.made=$KBUILD_BUILD_USER/g" anykernel.sh
+sed -i "s/kernel.made=.*/kernel.made=dotkit @fakedotkit/g" anykernel.sh
 sed -i "s/kernel.version=.*/kernel.version=$KERVER/g" anykernel.sh
-sed -i "s/message.word=.*/message.word=Kernel need some time to settle./g" anykernel.sh
+sed -i "s/message.word=.*/message.word=Appreciate your efforts for choosing TheOneMemory kernel./g" anykernel.sh
 sed -i "s/build.date=.*/build.date=$DATE/g" anykernel.sh
-sed -i "s/build.type=.*/build.type=$VARIANT/g" anykernel.sh
+sed -i "s/build.type=.*/build.type=$BASE/g" anykernel.sh
 sed -i "s/supported.versions=.*/supported.versions=9-13/g" anykernel.sh
 sed -i "s/device.name1=.*/device.name1=X00TD/g" anykernel.sh
 sed -i "s/device.name2=.*/device.name2=X00T/g" anykernel.sh
@@ -173,7 +175,7 @@ sed -i "s/X00TD=.*/X00TD=1/g" anykernel.sh
 cd META-INF/com/google/android
 sed -i "s/KNAME/$KERNELNAME/g" aroma-config
 sed -i "s/KVER/$KERVER/g" aroma-config
-sed -i "s/KAUTHOR/$KBUILD_BUILD_USER/g" aroma-config
+sed -i "s/KAUTHOR/dotkit @fakedotkit/g" aroma-config
 sed -i "s/KDEVICE/Zenfone Max Pro M1/g" aroma-config
 sed -i "s/KBDATE/$DATE/g" aroma-config
 sed -i "s/KVARIANT/$VARIANT/g" aroma-config
@@ -181,11 +183,21 @@ cd ../../../..
 
 zip -r9 "../$FINAL_KERNEL_ZIP" * -x .git README.md placeholder anykernel-real.sh .gitignore zipsigner* "*.zip"
 
+## Prepare a final zip variable
+ZIP_FINAL="$FINAL_KERNEL_ZIP-$DATE"
+
+echo -e "$yellow|| Signing Zip ||"
+tg_post_msg "<code>Signing Zip file with AOSP keys..</code>"
+
+curl -sLo zipsigner-3.0.jar https://github.com/Magisk-Modules-Repo/zipsigner/raw/master/bin/zipsigner-3.0-dexed.jar
+java -jar zipsigner-3.0.jar "$ZIP_FINAL".zip "$ZIP_FINAL"-signed.zip
+ZIP_FINAL="$ZIP_FINAL-signed"
+
 cd ..
 
-echo "**** Uploading your zip now ****"
-tg_post_build "$FINAL_KERNEL_ZIP" "*Build completed in $(($DIFF / 60)) minute(s) and $(($DIFF % 60)) seconds*
+echo -e "$red**** Uploading your zip now ****"
+tg_post_build "$ZIP_FINAL.zip" "*Build completed in $(($DIFF / 60)) minute(s) and $(($DIFF % 60)) second(s)*"
 
-\`\`\`Changelog
+\`\`\`Latest Changelog
 $(git log --oneline -n5 | cut -d" " -f2- | awk '{print "• " $(A)}')
 \`\`\`"
