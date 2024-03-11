@@ -1,6 +1,7 @@
 #!/bin/bash
 
 #set -e
+
 KERNELDIR=$(pwd)
 KERNELNAME=TheOneMemory
 CODENAME=Hayzel
