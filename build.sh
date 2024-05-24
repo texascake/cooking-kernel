@@ -50,11 +50,11 @@ BASEDIR="$(basename "$KERNEL_DIR")"
 # Kernel name
 KERNELNAME=TheOneMemory
 CODENAME=Hayzel
-VARIANT=EAS
+VARIANT=HMP
 BASE=CLO
 
 # Changelogs
-CL_URL="https://github.com/Tiktodz/android_kernel_asus_sdm636/commits/tom/eas"
+CL_URL="https://github.com/Tiktodz/android_kernel_asus_sdm636/commits/"
 
 # The name of the Kernel, to name the ZIP
 ZIPNAME="$KERNELNAME-$BASE-$VARIANT"
@@ -224,7 +224,7 @@ DATE=$(TZ=Asia/Jakarta date +"%Y%m%d-%H%M")
   	fi
 
 	msger -n "|| Cloning Anykernel ||"
-	git clone https://github.com/Tiktodz/AnyKernel3.git -b eas AnyKernel3
+	git clone https://github.com/Tiktodz/AnyKernel3.git -b hmp-old AnyKernel3
 
 	if [ $BUILD_DTBO = 1 ]
 	then
@@ -319,8 +319,8 @@ build_kernel()
 	if [ $COMPILER = "sdclang" ]
 	then
 		MAKE+=(
-                        ARCH=$ARCH
-			SUBARCH=$ARCH
+                        ARCH=$ARCH \
+			SUBARCH=$ARCH \
 			CROSS_COMPILE=aarch64-linux-android- \
 			CROSS_COMPILE_ARM32=arm-linux-androideabi- \
 			CLANG_TRIPLE=aarch64-linux-gnu- \
