@@ -56,7 +56,8 @@ tg_post_build()
 tg_post_msg "$(date '+%d %b %Y, %H:%M %Z')%0A%0ABuilding $KERNELNAME Kernel for $DEVICENAME%0ABuild URL <a href='$CIRCLE_BUILD_URL'>Here</a>"
 
   # if ! git clone https://gitlab.com/varunhardgamer/trb_clang --depth=1 -b 17 --single-branch trb_clang; then
-  if ! git clone --depth=1 https://github.com/Havoc-Devices/gcc-arm64 --single-branch $KERNELDIR/GCC64 && git clone --depth=1 https://github.com/Havoc-Devices/gcc-arm --single-branch $KERNELDIR/GCC32; then
+  if ! git clone --depth=1 https://github.com/Havoc-Devices/gcc-arm64 --single-branch $KERNELDIR/GCC64; then
+  if ! git clone --depth=1 https://github.com/Havoc-Devices/gcc-arm --single-branch $KERNELDIR/GCC32; then
   # mkdir -p trb_clang && cd trb_clang
   # bash <(curl -s "https://raw.githubusercontent.com/Neutron-Toolchains/antman/main/antman") -S=11032023
   # cd ..
