@@ -82,7 +82,7 @@ export KBUILD_BUILD_USER="queen"
 export KBUILD_BUILD_HOST=$(source /etc/os-release && echo "${NAME}" | cut -d" " -f1)
 #export KBUILD_COMPILER_STRING="TheRagingBeast LLVM 17.0.0 #StayRaged™"
 export KBUILD_COMPILER_STRING="$($KERNELDIR/GCC64/bin/aarch64-elf-gcc --version | head -n 1)"
-export PATH="$KERNELDIR/GCC64/bin/:GCC32/bin/:/usr/bin:$PATH"
+export PATH="$KERNELDIR/GCC64/bin/:$KERNELDIR/GCC32/bin/:/usr/bin:$PATH"
 
 # Speed up build process
 MAKE="./makeparallel"
