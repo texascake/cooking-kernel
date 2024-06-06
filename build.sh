@@ -55,7 +55,8 @@ tg_post_build()
 
 tg_post_msg "$(date '+%d %b %Y, %H:%M %Z')%0A%0ABuilding $KERNELNAME Kernel for $DEVICENAME%0ABuild URL <a href='$CIRCLE_BUILD_URL'>Here</a>"
 
-if ! [ -d "$KERNELDIR/trb_clang" ]; then
+if ! [ -d "$KERNELDIR/GCC64" ]; then
+if ! [ -d "$KERNELDIR/GCC32" ]; then
   echo "trb_clang not found! Cloning..."
   # if ! git clone https://gitlab.com/varunhardgamer/trb_clang --depth=1 -b 17 --single-branch trb_clang; then
   if ! git clone --depth=1 https://github.com/Havoc-Devices/gcc-arm64 --single-branch GCC64 && git clone --depth=1 https://github.com/Havoc-Devices/gcc-arm --single-branch GCC32; then
