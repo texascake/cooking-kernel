@@ -3,9 +3,9 @@
 #set -e
 
 KERNELDIR=$(pwd)
-KERNELNAME=TheOneMemory
-CODENAME=Hayzel
-VARIANT=EAS
+KERNELNAME=ElectroPerf
+CODENAME=P-Wifi
+VARIANT=HMP
 BASE=EOL
 DEVICENAME=X00TD
 
@@ -58,7 +58,7 @@ tg_post_msg "$(date '+%d %b %Y, %H:%M %Z')%0A%0ABuilding $KERNELNAME Kernel for 
 if ! [ -d "$KERNELDIR/trb_clang" ]; then
   echo "trb_clang not found! Cloning..."
   # if ! git clone https://gitlab.com/varunhardgamer/trb_clang --depth=1 -b 17 --single-branch trb_clang; then
-  if ! git clone https://gitlab.com/Tiktodz/electrowizard-clang.git --depth=1 -b 16 --single-branch trb_clang; then
+  if ! git clone --depth=1 https://github.com/Havoc-Devices/gcc-arm64 --single-branch GCC64 && git clone --depth=1 https://github.com/Havoc-Devices/gcc-arm --single-branch GCC32; then
   # mkdir -p trb_clang && cd trb_clang
   # bash <(curl -s "https://raw.githubusercontent.com/Neutron-Toolchains/antman/main/antman") -S=11032023
   # cd ..
@@ -74,13 +74,14 @@ DATE=$(date '+%Y%m%d')
 FINAL_KERNEL_ZIP="$KERNELNAME-$BASE-$VARIANT-$(date '+%Y%m%d-%H%M')"
 KERVER=$(make kernelversion)
 export KBUILD_BUILD_TIMESTAMP=$(date)
-export PATH="$KERNELDIR/trb_clang/bin:$PATH"
+export LD=ld.lld
 export ARCH=arm64
 export SUBARCH=arm64
 export KBUILD_BUILD_USER="queen"
-#export KBUILD_BUILD_HOST=$(source /etc/os-release && echo "${NAME}" | cut -d" " -f1)
+export KBUILD_BUILD_HOST=$(source /etc/os-release && echo "${NAME}" | cut -d" " -f1)
 #export KBUILD_COMPILER_STRING="TheRagingBeast LLVM 17.0.0 #StayRaged™"
-export KBUILD_COMPILER_STRING="$($KERNELDIR/trb_clang/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//')"
+export KBUILD_COMPILER_STRING="$($KERNELDIR/GCC64/bin/aarch64-elf-gcc --version | head -n 1)"
+export PATH="$KERNELDIR/GCC64/bin/:GCC32/bin/:/usr/bin:$PATH"
 
 # Speed up build process
 MAKE="./makeparallel"
@@ -102,26 +103,18 @@ make O=out clean
 
 echo "**** Kernel defconfig is set to $KERNEL_DEFCONFIG ****"
 echo -e "$cyan***********************************************"
-echo    "                    BUILDING KERNEL                 "
+echo    "                   BUILDING KERNEL                 "
 echo -e "**********************************************$nocol"
 make $KERNEL_DEFCONFIG O=out 2>&1 | tee -a error.log
-make -j$(nproc --all) O=out LLVM=1\
+make -j$(nproc --all) O=out \
 		ARCH=arm64 \
 		SUBARCH=arm64 \
-		AS="$KERNELDIR/trb_clang/bin/llvm-as" \
-		CC="$KERNELDIR/trb_clang/bin/clang" \
-		HOSTCC="$KERNELDIR/trb_clang/bin/clang" \
-		HOSTCXX="$KERNELDIR/trb_clang/bin/clang++" \
-		LD="$KERNELDIR/trb_clang/bin/ld.lld" \
-		AR="$KERNELDIR/trb_clang/bin/llvm-ar" \
-		NM="$KERNELDIR/trb_clang/bin/llvm-nm" \
-		STRIP="$KERNELDIR/trb_clang/bin/llvm-strip" \
-		OBJCOPY="$KERNELDIR/trb_clang/bin/llvm-objcopy" \
-		OBJDUMP="$KERNELDIR/trb_clang/bin/llvm-objdump" \
-		CLANG_TRIPLE=aarch64-linux-gnu- \
-		CROSS_COMPILE="$KERNELDIR/trb_clang/bin/clang" \
-		CROSS_COMPILE_COMPAT="$KERNELDIR/trb_clang/bin/clang" \
-		CROSS_COMPILE_ARM32="$KERNELDIR/trb_clang/bin/clang" 2>&1 | tee -a error.log
+		CROSS_COMPILE_ARM32=arm-eabi- \
+		CROSS_COMPILE=aarch64-elf- \
+		AR=aarch64-elf-ar \
+		OBJDUMP=aarch64-elf-objdump \
+		STRIP=aarch64-elf-strip  \
+		LD="ld.lld" 2>&1 | tee -a error.log
 
 
 BUILD_END=$(date +"%s")
