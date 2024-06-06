@@ -55,8 +55,7 @@ tg_post_build()
 
 tg_post_msg "$(date '+%d %b %Y, %H:%M %Z')%0A%0ABuilding $KERNELNAME Kernel for $DEVICENAME%0ABuild URL <a href='$CIRCLE_BUILD_URL'>Here</a>"
 
-if ! [ -d "$KERNELDIR/GCC64" ]; then
-if ! [ -d "$KERNELDIR/GCC32" ]; then
+if ! [ -d "$KERNELDIR/GCC64" ] || [ -d "$KERNELDIR/GCC32" ]; then
   echo "trb_clang not found! Cloning..."
   # if ! git clone https://gitlab.com/varunhardgamer/trb_clang --depth=1 -b 17 --single-branch trb_clang; then
   if ! git clone --depth=1 https://github.com/Havoc-Devices/gcc-arm64 --single-branch GCC64 && git clone --depth=1 https://github.com/Havoc-Devices/gcc-arm --single-branch GCC32; then
@@ -75,6 +74,7 @@ DATE=$(date '+%Y%m%d')
 FINAL_KERNEL_ZIP="$KERNELNAME-$BASE-$VARIANT-$(date '+%Y%m%d-%H%M')"
 KERVER=$(make kernelversion)
 export KBUILD_BUILD_TIMESTAMP=$(date)
+export PATH="$KERNELDIR/GCC64/bin/:$KERNELDIR/GCC32/bin/:/usr/bin:$PATH"
 export LD=ld.lld
 export ARCH=arm64
 export SUBARCH=arm64
@@ -82,7 +82,7 @@ export KBUILD_BUILD_USER="queen"
 export KBUILD_BUILD_HOST=$(source /etc/os-release && echo "${NAME}" | cut -d" " -f1)
 #export KBUILD_COMPILER_STRING="TheRagingBeast LLVM 17.0.0 #StayRaged™"
 export KBUILD_COMPILER_STRING="$($KERNELDIR/GCC64/bin/aarch64-elf-gcc --version | head -n 1)"
-export PATH="$KERNELDIR/GCC64/bin/:$KERNELDIR/GCC32/bin/:/usr/bin:$PATH"
+PATH=$KERNELDIR/GCC64/bin/:$KERNELDIR/GCC32/bin/:/usr/bin:$PATH
 
 # Speed up build process
 MAKE="./makeparallel"
@@ -114,9 +114,8 @@ make -j$(nproc --all) O=out \
 		CROSS_COMPILE=aarch64-elf- \
 		AR=aarch64-elf-ar \
 		OBJDUMP=aarch64-elf-objdump \
-		STRIP=aarch64-elf-strip  \
+		STRIP=aarch64-elf-strip \
 		LD="ld.lld" 2>&1 | tee -a error.log
-
 
 BUILD_END=$(date +"%s")
 DIFF=$(($BUILD_END - $BUILD_START))
@@ -134,7 +133,7 @@ fi
 echo -e "$red**** Verifying AnyKernel3 Directory ****$nocol"
 if ! [ -d "$KERNELDIR/AnyKernel3" ]; then
   echo "AnyKernel3 not found! Cloning..."
-  if ! git clone --depth=1 -b zeus https://github.com/Tiktodz/AnyKernel3 -b eas AnyKernel3; then
+  if ! git clone --depth=1 https://github.com/Tiktodz/AnyKernel3 -b eas AnyKernel3; then
     tg_post_build "$KERNELDIR/out/arch/arm64/boot/Image.gz-dtb" "Failed to Clone Anykernel, Sending image file instead"
     echo "Cloning failed! Aborting..."
     exit 1
