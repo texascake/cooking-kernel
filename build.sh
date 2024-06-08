@@ -3,9 +3,9 @@
 #set -e
 
 KERNELDIR=$(pwd)
-KERNELNAME=ElectroPerf
-CODENAME=P-Wifi
-VARIANT=HMP
+KERNELNAME=TheOneMemory
+CODENAME=Hayzel
+VARIANT=EAS
 BASE=EOL
 DEVICENAME=X00TD
 
@@ -55,9 +55,10 @@ tg_post_build()
 
 tg_post_msg "$(date '+%d %b %Y, %H:%M %Z')%0A%0ABuilding $KERNELNAME Kernel for $DEVICENAME%0ABuild URL <a href='$CIRCLE_BUILD_URL'>Here</a>"
 
+if ! [ -d "$KERNELDIR/trb_clang" ]; then
+  echo "trb_clang not found! Cloning..."
   # if ! git clone https://gitlab.com/varunhardgamer/trb_clang --depth=1 -b 17 --single-branch trb_clang; then
-  if ! git clone --depth=1 https://github.com/Havoc-Devices/gcc-arm64 --single-branch $KERNELDIR/GCC64; then
-  if ! git clone --depth=1 https://github.com/Havoc-Devices/gcc-arm --single-branch $KERNELDIR/GCC32; then
+  if ! git clone https://gitlab.com/Tiktodz/electrowizard-clang.git --depth=1 -b 16 --single-branch trb_clang; then
   # mkdir -p trb_clang && cd trb_clang
   # bash <(curl -s "https://raw.githubusercontent.com/Neutron-Toolchains/antman/main/antman") -S=11032023
   # cd ..
@@ -68,20 +69,18 @@ tg_post_msg "$(date '+%d %b %Y, %H:%M %Z')%0A%0ABuilding $KERNELNAME Kernel for 
 fi
 
 ## Copy this script inside the kernel directory
-KERNEL_DEFCONFIG=asus/X00TD_defconfig
+KERNEL_DEFCONFIG=X00TD_defconfig
 DATE=$(date '+%Y%m%d')
 FINAL_KERNEL_ZIP="$KERNELNAME-$BASE-$VARIANT-$(date '+%Y%m%d-%H%M')"
 KERVER=$(make kernelversion)
 export KBUILD_BUILD_TIMESTAMP=$(date)
-export PATH="$KERNELDIR/GCC64/bin/:$KERNELDIR/GCC32/bin/:/usr/bin:$PATH"
-export LD=ld.lld
+export PATH="$KERNELDIR/trb_clang/bin:$PATH"
 export ARCH=arm64
 export SUBARCH=arm64
 export KBUILD_BUILD_USER="queen"
-export KBUILD_BUILD_HOST=$(source /etc/os-release && echo "${NAME}" | cut -d" " -f1)
+#export KBUILD_BUILD_HOST=$(source /etc/os-release && echo "${NAME}" | cut -d" " -f1)
 #export KBUILD_COMPILER_STRING="TheRagingBeast LLVM 17.0.0 #StayRaged™"
-export KBUILD_COMPILER_STRING="$($KERNELDIR/GCC64/bin/aarch64-elf-gcc --version | head -n 1)"
-PATH=$KERNELDIR/GCC64/bin/:$KERNELDIR/GCC32/bin/:/usr/bin:$PATH
+export KBUILD_COMPILER_STRING="$($KERNELDIR/trb_clang/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//')"
 
 # Speed up build process
 MAKE="./makeparallel"
@@ -103,18 +102,27 @@ make O=out clean
 
 echo "**** Kernel defconfig is set to $KERNEL_DEFCONFIG ****"
 echo -e "$cyan***********************************************"
-echo    "                   BUILDING KERNEL                 "
+echo    "                    BUILDING KERNEL                 "
 echo -e "**********************************************$nocol"
 make $KERNEL_DEFCONFIG O=out 2>&1 | tee -a error.log
-make -j$(nproc --all) O=out \
+make -j$(nproc --all) O=out LLVM=1\
 		ARCH=arm64 \
 		SUBARCH=arm64 \
-		CROSS_COMPILE_ARM32=arm-eabi- \
-		CROSS_COMPILE=aarch64-elf- \
-		AR=aarch64-elf-ar \
-		OBJDUMP=aarch64-elf-objdump \
-		STRIP=aarch64-elf-strip \
-		LD="ld.lld" 2>&1 | tee -a error.log
+		AS="$KERNELDIR/trb_clang/bin/llvm-as" \
+		CC="$KERNELDIR/trb_clang/bin/clang" \
+		HOSTCC="$KERNELDIR/trb_clang/bin/clang" \
+		HOSTCXX="$KERNELDIR/trb_clang/bin/clang++" \
+		LD="$KERNELDIR/trb_clang/bin/ld.lld" \
+		AR="$KERNELDIR/trb_clang/bin/llvm-ar" \
+		NM="$KERNELDIR/trb_clang/bin/llvm-nm" \
+		STRIP="$KERNELDIR/trb_clang/bin/llvm-strip" \
+		OBJCOPY="$KERNELDIR/trb_clang/bin/llvm-objcopy" \
+		OBJDUMP="$KERNELDIR/trb_clang/bin/llvm-objdump" \
+		CLANG_TRIPLE=aarch64-linux-gnu- \
+		CROSS_COMPILE="$KERNELDIR/trb_clang/bin/clang" \
+		CROSS_COMPILE_COMPAT="$KERNELDIR/trb_clang/bin/clang" \
+		CROSS_COMPILE_ARM32="$KERNELDIR/trb_clang/bin/clang" 2>&1 | tee -a error.log
+
 
 BUILD_END=$(date +"%s")
 DIFF=$(($BUILD_END - $BUILD_START))
@@ -132,7 +140,7 @@ fi
 echo -e "$red**** Verifying AnyKernel3 Directory ****$nocol"
 if ! [ -d "$KERNELDIR/AnyKernel3" ]; then
   echo "AnyKernel3 not found! Cloning..."
-  if ! git clone --depth=1 https://github.com/Tiktodz/AnyKernel3 -b eas AnyKernel3; then
+  if ! git clone --depth=1 -b zeus https://github.com/Tiktodz/AnyKernel3 -b eas AnyKernel3; then
     tg_post_build "$KERNELDIR/out/arch/arm64/boot/Image.gz-dtb" "Failed to Clone Anykernel, Sending image file instead"
     echo "Cloning failed! Aborting..."
     exit 1
