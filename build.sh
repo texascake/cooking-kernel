@@ -69,7 +69,7 @@ if ! [ -d "$KERNELDIR/trb_clang" ]; then
 fi
 
 ## Copy this script inside the kernel directory
-KERNEL_DEFCONFIG=X00TD_defconfig
+KERNEL_DEFCONFIG=darkonah_defconfig
 DATE=$(date '+%Y%m%d')
 FINAL_KERNEL_ZIP="$KERNELNAME-$BASE-$VARIANT-$(date '+%Y%m%d-%H%M')"
 KERVER=$(make kernelversion)
