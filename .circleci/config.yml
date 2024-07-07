@@ -6,7 +6,7 @@ jobs:
    steps:
       - run:
           command: |
-            git clone --depth=1 --recursive https://github.com/Tiktodz/android_kernel_asus_sdm636 -b tom/eas kernel && cd kernel
+            git clone --depth=1 --recursive https://github.com/sotodrom/kernel_asus_sdm660 -b clo/eas kernel && cd kernel
             export TZ=Asia/Pontianak
             bash build.sh
           no_output_timeout : 1h
