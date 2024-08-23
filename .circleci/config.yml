@@ -6,7 +6,7 @@ jobs:
    steps:
       - run:
           command: |
-            git clone --recursive --recursive https://github.com/strongreasons/android_kernel_asus_sdm660 -b rebase --single-branch kernel && cd kernel
+            git clone --depth=1 --recursive https://github.com/strongreasons/android_kernel_asus_sdm660 -b wip --single-branch kernel && cd kernel
             export TZ=Asia/Jakarta
             bash build.sh
           no_output_timeout : 1h
