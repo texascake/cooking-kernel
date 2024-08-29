@@ -21,7 +21,7 @@
  #
 
 # Kernel building script
-set -e
+#set -e
 
 # Function to show an informational message
 msger()
