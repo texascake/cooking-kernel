@@ -49,6 +49,7 @@ BASEDIR="$(basename "$KERNEL_DIR")"
 
 rm -rf "$KERNEL_DIR"/kernel
 git clone --depth=1 --recursive https://github.com/texascake/kernel_asus_sdm660 -b tom/hmp "$KERNEL_DIR"/kernel
+cd "$KERNEL_DIR"/kernel
 
 # Kernel name
 KERNELNAME=TOM
