@@ -54,7 +54,7 @@ VARIANT=HMP
 BASE=CLO
 
 # Changelogs
-CL_URL="https://github.com/Tiktodz/android_kernel_asus_sdm636/commits/"
+CL_URL="https://github.com/texascake/kernel_asus_sdm660/commits/"
 
 # The name of the Kernel, to name the ZIP
 ZIPNAME="$KERNELNAME-$BASE-$VARIANT"
@@ -78,7 +78,7 @@ DEFCONFIG=X00TD_defconfig
 
 # Specify compiler.
 # 'sdclang' or 'gcc' or 'ew'
-COMPILER=ew
+COMPILER=sdclang
 
 # Build modules. 0 = NO | 1 = YES
 MODULES=0
@@ -209,7 +209,7 @@ DATE=$(TZ=Asia/Jakarta date +"%Y%m%d-%H%M")
 	elif [ $COMPILER = "sdclang" ]
 	then
 		msger -n "|| Cloning SDClang ||"
-		git clone --depth=1 https://gitlab.com/VoidUI/snapdragon-clang sdclang
+		git clone --depth=1 https://github.com/RyuujiX/SDClang sdclang
 
   		msger -n "|| Cloning GCC 4.9 ||"
 		git clone --depth=1 https://github.com/Kneba/aarch64-linux-android-4.9 gcc64
