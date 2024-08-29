@@ -47,8 +47,11 @@ cdir()
 KERNEL_DIR="$(pwd)"
 BASEDIR="$(basename "$KERNEL_DIR")"
 
+rm -rf "$KERNEL_DIR"/kernel
+git clone --depth=1 --recursive https://github.com/texascake/kernel_asus_sdm660 -b tom/hmp "$KERNEL_DIR"/kernel
+
 # Kernel name
-KERNELNAME=TheOneMemory
+KERNELNAME=TOM
 CODENAME=Hayzel
 VARIANT=HMP
 BASE=CLO
@@ -191,8 +194,8 @@ DATE=$(TZ=Asia/Jakarta date +"%Y%m%d-%H%M")
 	if [ $COMPILER = "gcc" ]
 	then
 		msger -n "|| Cloning GCC 4.9 ||"
-		git clone --depth=1 --single-branch https://github.com/KudProject/aarch64-linux-android-4.9 gcc64
-		git clone --depth=1 --single-branch https://github.com/KudProject/arm-linux-androideabi-4.9 gcc32
+		git clone --depth=1 --single-branch https://github.com/KudProject/aarch64-linux-android-4.9 "$KERNEL_DIR"/gcc64
+		git clone --depth=1 --single-branch https://github.com/KudProject/arm-linux-androideabi-4.9 "$KERNEL_DIR"/gcc32
   
   		# Toolchain Directory defaults to gcc
 		GCC64_DIR=$KERNEL_DIR/gcc64
@@ -201,7 +204,7 @@ DATE=$(TZ=Asia/Jakarta date +"%Y%m%d-%H%M")
 	elif [ $COMPILER = "ew" ]
 	then
 		msger -n "|| Cloning ElectroWizard clang ||"
-   		git clone --depth=1 https://gitlab.com/Tiktodz/electrowizard-clang.git -b 16 --single-branch ewclang
+   		git clone --depth=1 https://gitlab.com/Tiktodz/electrowizard-clang.git -b 16 --single-branch "$KERNEL_DIR"/ewclang
   
 		# Toolchain Directory defaults to ewclang
 		TC_DIR=$KERNEL_DIR/ewclang
@@ -209,11 +212,11 @@ DATE=$(TZ=Asia/Jakarta date +"%Y%m%d-%H%M")
 	elif [ $COMPILER = "sdclang" ]
 	then
 		msger -n "|| Cloning SDClang ||"
-		git clone --depth=1 https://github.com/RyuujiX/SDClang -b 14 --single-branch sdclang
+		git clone --depth=1 https://github.com/RyuujiX/SDClang -b 14 --single-branch "$KERNEL_DIR"/sdclang
 
   		msger -n "|| Cloning GCC 4.9 ||"
-		git clone --depth=1 --single-branch https://github.com/Kneba/aarch64-linux-android-4.9 gcc64
-		git clone --depth=1 --single-branch https://github.com/Kneba/arm-linux-androideabi-4.9 gcc32
+		git clone --depth=1 --single-branch https://github.com/Kneba/aarch64-linux-android-4.9 "$KERNEL_DIR"/gcc64
+		git clone --depth=1 --single-branch https://github.com/Kneba/arm-linux-androideabi-4.9 "$KERNEL_DIR"/gcc32
 
 		# Toolchain Directory defaults to sdclang
 		TC_DIR=$KERNEL_DIR/sdclang
@@ -224,7 +227,7 @@ DATE=$(TZ=Asia/Jakarta date +"%Y%m%d-%H%M")
   	fi
 
 	msger -n "|| Cloning Anykernel ||"
-	git clone https://github.com/Tiktodz/AnyKernel3.git -b hmp-old AnyKernel3
+	git clone https://github.com/Tiktodz/AnyKernel3.git -b hmp-old "$KERNEL_DIR"/AnyKernel3
 
 	if [ $BUILD_DTBO = 1 ]
 	then
