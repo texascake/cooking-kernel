@@ -1,1 +1,1 @@
-# Cooking our kernel with CircleCI
+# 🍪  Cooking our kernel with CircleCI
