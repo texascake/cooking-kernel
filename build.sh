@@ -16,12 +16,14 @@ fi
 #set -e
 # Set the Variables
 KERNELDIR=$(pwd)
-KERNELNAME="TOM"
+
+# Set kernel name
 CODENAME="Hayzel"
 DEVICENAME="X00TD"
+KERNELNAME="TOM"
 VARIANT="HMP"
-KERVER=$(make kernelversion)
 VERSION="EOL"
+KERVER=$(make kernelversion)
 BONUS_MSG="*Note:* KernelSU-Next Supported! enjoy your legacy rooting method! 🤫"
 
 # set compiler
@@ -43,7 +45,7 @@ TG_SUPER=0
 # Additional Variables
 KERNEL_DEFCONFIG=X00TD_defconfig
 DATE=$(date '+%d%m%Y')
-FINAL_ZIP="$KERVER-$KERNELNAME-$(date '+%y%m%d%H%M')"
+FINAL_ZIP="$KERNELNAME-$VARIANT-$VERSION-$KERVER-$DATE"
 export KBUILD_BUILD_TIMESTAMP=$(date)
 export KBUILD_BUILD_USER="queen"
 #export KBUILD_BUILD_HOST=""
@@ -110,19 +112,25 @@ if ! [ -d "$KERNELDIR/clang" ]; then
   if [ $COMP = "2" ]; then
     git clone https://gitlab.com/varunhardgamer/trb_clang --depth=1 -b 17 --single-branch clang || (echo "Cloning failed! Aborting..."; exit 1)
     export PATH="$KERNELDIR/clang/bin:$PATH"
+    export KBUILD_COMPILER_STRING=$($KERNELDIR/clang/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//')
   elif [ $COMP = "5" ]; then
+if ! [ -d "$KERNELDIR/sdclang" ]; then
+  echo "SDClang not found! Cloning..."
     apt-get install wget libncurses5 -y
     git clone --depth=1 https://github.com/RyuujiX/SDClang -b 14 sdclang
     git clone --depth=1 https://github.com/Kneba/aarch64-linux-android-4.9 gcc64
     git clone --depth=1 https://github.com/Kneba/arm-linux-androideabi-4.9 gcc32 && cd $KERNELDIR
     export PATH="$KERNELDIR/sdclang/bin:$KERNELDIR/gcc64/bin:$KERNELDIR/gcc32/bin:$PATH"
     export LD_LIBRARY_PATH="$KERNELDIR/sdclang/lib:$LD_LIBRARY_PATH"
+    CLANG_VER="Qualcomm® Snapdragon™ clang version 14.1.5"
+    export KBUILD_COMPILER_STRING="$CLANG_VER"
     if ! [ -f "$KERNELDIR/sdclang/bin/clang" ]; then
       echo "Cloning failed! Aborting..."; exit 1
     fi
   elif [ $COMP = "4" ]; then
     git clone https://gitlab.com/LeCmnGend/clang --depth=1 -b clang-13 --single-branch clang || (echo "Cloning failed! Aborting..."; exit 1)
     export PATH="$KERNELDIR/clang/bin:$PATH"
+    export KBUILD_COMPILER_STRING=$($KERNELDIR/clang/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//')
   elif [ $COMP = "3" ]; then
     # git clone https://gitlab.com/Tiktodz/electrowizard-clang.git --depth=1 -b 16 --single-branch clang || (echo "Cloning failed! Aborting..."; exit 1)
     mkdir "$KERNELDIR/clang" && cd "$KERNELDIR/clang"
@@ -139,6 +147,7 @@ if ! [ -d "$KERNELDIR/clang" ]; then
     bash antman --patch=glibc
     cd $KERNELDIR
     export PATH="$KERNELDIR/clang/bin:$PATH"
+    export KBUILD_COMPILER_STRING=$($KERNELDIR/clang/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//')
     if ! [ -f "$KERNELDIR/clang/bin/clang" ]; then
       echo "Cloning failed! Aborting..."; exit 1
     fi
@@ -149,7 +158,6 @@ fi
 
 export ARCH=arm64
 export SUBARCH=arm64
-export KBUILD_COMPILER_STRING=$($KERNELDIR/clang/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//')
 
 # Speed up build process
 MAKE="./makeparallel"
@@ -288,7 +296,7 @@ if [ $SIGN = 1 ]; then
   mv $FINAL_ZIP* krenul.zip
   curl -sLo zipsigner-3.0.jar https://github.com/Magisk-Modules-Repo/zipsigner/raw/master/bin/zipsigner-3.0-dexed.jar
   java -jar zipsigner-3.0.jar krenul.zip krenul-signed.zip
-  FINAL_ZIP="$FINAL_ZIP-sign"
+  FINAL_ZIP="$FINAL_ZIP-signed"
   mv krenul-signed.zip $FINAL_ZIP.zip
 fi
 
