@@ -14,6 +14,7 @@ fi
 #sed -i 's/CONFIG_KSU=.*/CONFIG_KSU=n/g' arch/arm64/configs/X00TD_defconfig
 
 #set -e
+
 # Set the Variables
 KERNELDIR=$(pwd)
 
@@ -31,7 +32,7 @@ BONUS_MSG="*Note:* KernelSU-Next Supported! enjoy your legacy rooting method! �
 # 2 = TheRagingBeast Clang
 # 3 = ElectroWizard Clang
 # 4 = Proton Clang
-# 5 = Snapdragon Clang x GCC
+# 5 = Snapdragon Clang
 COMP=5
 
 # You want to sign your build?
@@ -48,9 +49,10 @@ DATE=$(date '+%d%m%Y')
 FINAL_ZIP="$KERNELNAME-$VARIANT-$VERSION-$KERVER-$DATE"
 export KBUILD_BUILD_TIMESTAMP=$(date)
 export KBUILD_BUILD_USER="queen"
-#export KBUILD_BUILD_HOST=""
+export KBUILD_BUILD_HOST="electrowizard"
 
 ############################################################
+
 tg_post_msg(){
         if [ $TG_SUPER = 1 ]
         then
@@ -83,12 +85,13 @@ tg_post_build()
 	    -F caption="$2" \
 	    | cut -d ":" -f 4 | cut -d "," -f 1)
 	else
+	    MD5CHECK=$(md5sum "$1" | cut -d' ' -f1)
 	    MSGID=$(curl -s -F document=@"$1" \
 	    "https://api.telegram.org/bot$TG_TOKEN/sendDocument" \
 	    -F chat_id="$TG_CHAT_ID"  \
 	    -F "disable_web_page_preview=true" \
 	    -F "parse_mode=Markdown" \
-	    -F caption="$2" \
+	    -F caption="$2 | <b>MD5 Checksum: </b><code>$MD5CHECK</code>" \
 	    | cut -d ":" -f 4 | cut -d "," -f 1)
 	fi
 }
@@ -99,6 +102,7 @@ tg_pin_msg()
     -d message_id=$MSGID \
     -d disable_notification="true"
 }
+
 ############################################################
 
 tg_post_msg "<b>`date '+%d %b %Y, %H:%M %Z'`</b>
@@ -196,29 +200,29 @@ if [ "$COMP" = 4 ]; then
 elif [ $COMP = 5 ]; then
     ClangMoreStrings="AR=llvm-ar NM=llvm-nm AS=llvm-as STRIP=llvm-strip HOST_PREFIX=llvm-objcopy OBJDUMP=llvm-objdump READELF=llvm-readelf HOSTAR=llvm-ar HOSTAS=llvm-as"
     make -j$(nproc --all) O=out LLVM=1 \
-        ARCH=arm64 \
-	SUBARCH=arm64 \
-        CC=clang \
-        CROSS_COMPILE=aarch64-linux-android- \
-        CROSS_COMPILE_ARM32=arm-linux-androideabi- \
-        CLANG_TRIPLE=aarch64-linux-gnu- \
-        HOSTCC=gcc \
-        HOSTCXX=g++ ${ClangMoreStrings} 2>&1 | tee -a error.log
+    ARCH=arm64 \
+    SUBARCH=arm64 \
+    CC=clang \
+    CROSS_COMPILE=aarch64-linux-android- \
+    CROSS_COMPILE_ARM32=arm-linux-androideabi- \
+    CLANG_TRIPLE=aarch64-linux-gnu- \
+    HOSTCC=gcc \
+    HOSTCXX=g++ ${ClangMoreStrings} 2>&1 | tee -a error.log
 else
     make -j$(nproc --all) O=out LLVM=1 \
     LD="$KERNELDIR/clang/bin/ld.lld" \
-	CC="$KERNELDIR/clang/bin/clang" \
-	HOSTCC="$KERNELDIR/clang/bin/clang" \
-	HOSTCXX="$KERNELDIR/clang/bin/clang++" \
-	AR="$KERNELDIR/clang/bin/llvm-ar" \
-	NM="$KERNELDIR/clang/bin/llvm-nm" \
-	STRIP="$KERNELDIR/clang/bin/llvm-strip" \
-	OBJCOPY="$KERNELDIR/clang/bin/llvm-objcopy" \
-	OBJDUMP="$KERNELDIR/clang/bin/llvm-objdump" \
-	CLANG_TRIPLE="aarch64-linux-gnu-" \
-	CROSS_COMPILE="$KERNELDIR/clang/bin/clang" \
-        CROSS_COMPILE_COMPAT="$KERNELDIR/clang/bin/clang" \
-        CROSS_COMPILE_ARM32="$KERNELDIR/clang/bin/clang" 2>&1 | tee -a error.log
+    CC="$KERNELDIR/clang/bin/clang" \
+    HOSTCC="$KERNELDIR/clang/bin/clang" \
+    HOSTCXX="$KERNELDIR/clang/bin/clang++" \
+    AR="$KERNELDIR/clang/bin/llvm-ar" \
+    NM="$KERNELDIR/clang/bin/llvm-nm" \
+    STRIP="$KERNELDIR/clang/bin/llvm-strip" \
+    OBJCOPY="$KERNELDIR/clang/bin/llvm-objcopy" \
+    OBJDUMP="$KERNELDIR/clang/bin/llvm-objdump" \
+    CLANG_TRIPLE="aarch64-linux-gnu-" \
+    CROSS_COMPILE="$KERNELDIR/clang/bin/clang" \
+    CROSS_COMPILE_COMPAT="$KERNELDIR/clang/bin/clang" \
+    CROSS_COMPILE_ARM32="$KERNELDIR/clang/bin/clang" 2>&1 | tee -a error.log
 fi
 
 BUILD_END=$(date +"%s")
@@ -229,7 +233,7 @@ echo "**** Verify Image.gz-dtb ****"
 
 if ! [ -f $KERNELDIR/out/arch/arm64/boot/Image.gz-dtb ];then
     tg_post_build "error.log" "Compile Error!!"
-    echo "$red Compile Failed!!!$nocol"
+    echo -e "$red Compile Failed!!!$nocol"
     exit 1
 fi
 
@@ -247,18 +251,18 @@ fi
 AK3DIR=$KERNELDIR/AnyKernel3
 
 # Generating Changelog
-echo "<b><#selectbg_g>$(date)</#></b>" > changelog
-git log --oneline -n15 | cut -d " " -f 2- | awk '{print "<*> " $(A) "</*>"}' >> changelog
-echo "" >> changelog
-echo "<b><#selectbg_g>Aroma Installer config by: @ItsRyuujiX</#></b>" >> changelog
+#echo "<b><#selectbg_g>$(date)</#></b>" > changelog
+#git log --oneline -n15 | cut -d " " -f 2- | awk '{print "<*> " $(A) "</*>"}' >> changelog
+#echo "" >> changelog
+#echo "<b><#selectbg_g>Aroma Installer config by: @ItsRyuujiX</#></b>" >> changelog
 
 echo "**** Copying Image.gz-dtb ****"
 cp -af $KERNELDIR/out/arch/arm64/boot/Image.gz-dtb $AK3DIR
 
 echo "**** Time to zip up! ****"
 cd $AK3DIR
-cp -af $KERNEL_ROOTDIR/init.$CODENAME.Spectrum.rc spectrum/init.spectrum.rc && sed -i "s/persist.spectrum.kernel.*/persist.spectrum.kernel TheOneMemory/g" spectrum/init.spectrum.rc
-cp -af $KERNEL_ROOTDIR/changelog META-INF/com/google/android/aroma/changelog.txt
+cp -af $KERNELDIR/init.$CODENAME.Spectrum.rc spectrum/init.spectrum.rc && sed -i "s/persist.spectrum.kernel.*/persist.spectrum.kernel TheOneMemory/g" spectrum/init.spectrum.rc
+cp -af $KERNELDIR/changelog META-INF/com/google/android/aroma/changelog.txt
 mv anykernel-real.sh anykernel.sh
 sed -i "s/kernel.string=.*/kernel.string=$KERNELNAME/g" anykernel.sh
 sed -i "s/kernel.type=.*/kernel.type=$VARIANT/g" anykernel.sh
@@ -311,6 +315,8 @@ tg_post_build "$FINAL_ZIP.zip" "⏳ *Compile Time*
 🐧 *Kernel Version*
  ${KERVER}
 🛠 *Compiler*
+ ${KBUILD_COMPILER_STRING}
+Ⓜ *MD5 Checksum*
  ${KBUILD_COMPILER_STRING}
 🆕 *Changelogs*
 \`\`\`
