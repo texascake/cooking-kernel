@@ -122,7 +122,8 @@ fi
     apt-get install wget libncurses5 -y
     git clone --depth=1 https://github.com/RyuujiX/SDClang -b 14 sdclang
     git clone --depth=1 https://github.com/Kneba/aarch64-linux-android-4.9 gcc64
-    git clone --depth=1 https://github.com/Kneba/arm-linux-androideabi-4.9 gcc32 && cd $KERNELDIR
+    git clone --depth=1 https://github.com/Kneba/arm-linux-androideabi-4.9 gcc32
+    cd $KERNELDIR
     export PATH="$KERNELDIR/sdclang/bin:$KERNELDIR/gcc64/bin:$KERNELDIR/gcc32/bin:$PATH"
     export LD_LIBRARY_PATH="$KERNELDIR/sdclang/lib:$LD_LIBRARY_PATH"
     CLANG_VER="Qualcomm® Snapdragon™ clang version 14.1.5"
@@ -156,7 +157,6 @@ fi
     fi
   else
     echo "Clang unavailable! Aborting..."; exit 1
-  fi
 fi
 
 export ARCH=arm64
