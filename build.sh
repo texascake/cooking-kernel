@@ -125,6 +125,8 @@ fi
     git clone --depth=1 https://github.com/Kneba/arm-linux-androideabi-4.9 gcc32 && cd $KERNELDIR
     export PATH="$KERNELDIR/sdclang/bin:$KERNELDIR/gcc64/bin:$KERNELDIR/gcc32/bin:$PATH"
     export LD_LIBRARY_PATH="$KERNELDIR/sdclang/lib:$LD_LIBRARY_PATH"
+    CLANG_VER="Qualcomm® Snapdragon™ clang version 14.1.5"
+    export KBUILD_COMPILER_STRING="$CLANG_VER"
     if ! [ -f "$KERNELDIR/sdclang/bin/clang" ]; then
       echo "Cloning failed! Aborting..."; exit 1
     fi
@@ -159,11 +161,6 @@ fi
 
 export ARCH=arm64
 export SUBARCH=arm64
-
-if [ $COMP = "5" ]; then
-    CLANG_VER="Qualcomm® Snapdragon™ clang version 14.1.5"
-    export KBUILD_COMPILER_STRING="$CLANG_VER"
-fi
 
 # Speed up build process
 MAKE="./makeparallel"
