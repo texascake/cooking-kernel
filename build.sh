@@ -109,13 +109,13 @@ Log URL <a href='$CIRCLE_BUILD_URL'>Click Here</a>."
 
 if ! [ -d "$KERNELDIR/clang" ]; then
   echo "Clang not found! Cloning..."
+if ! [ -d "$KERNELDIR/sdclang" ]; then
+  echo "SDClang not found! Cloning..."
   if [ $COMP = "2" ]; then
     git clone https://gitlab.com/varunhardgamer/trb_clang --depth=1 -b 17 --single-branch clang || (echo "Cloning failed! Aborting..."; exit 1)
     export PATH="$KERNELDIR/clang/bin:$PATH"
     export KBUILD_COMPILER_STRING=$($KERNELDIR/clang/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//')
   elif [ $COMP = "5" ]; then
-if ! [ -d "$KERNELDIR/sdclang" ]; then
-  echo "SDClang not found! Cloning..."
     apt-get install wget libncurses5 -y
     git clone --depth=1 https://github.com/RyuujiX/SDClang -b 14 sdclang
     git clone --depth=1 https://github.com/Kneba/aarch64-linux-android-4.9 gcc64
