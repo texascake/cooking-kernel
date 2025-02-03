@@ -25,7 +25,9 @@ KERNELNAME="TOM"
 VARIANT="HMP"
 VERSION="EOL"
 KERVER=$(make kernelversion)
-BONUS_MSG="*Note:* KernelSU-Next Supported! enjoy your legacy rooting method! 🤫"
+
+BONUS_MSG="*Note:* KernelSU-Next and APatch Supported! enjoy your dynamic rooting method! 🤫"
+MD5CHECK=$(md5sum "$KernelFiles" | cut -d' ' -f1)
 
 # set compiler
 # 1 = Neutron Clang
@@ -85,7 +87,6 @@ tg_post_build()
 	    -F caption="$2" \
 	    | cut -d ":" -f 4 | cut -d "," -f 1)
 	else
-	    MD5CHECK=$(md5sum "$1" | cut -d' ' -f1)
 	    MSGID=$(curl -s -F document=@"$1" \
 	    "https://api.telegram.org/bot$TG_TOKEN/sendDocument" \
 	    -F chat_id="$TG_CHAT_ID"  \
@@ -316,7 +317,7 @@ tg_post_build "$FINAL_ZIP.zip" "⏳ *Compile Time*
  ${KERVER}
 🛠 *Compiler*
  ${KBUILD_COMPILER_STRING}
-Ⓜ *MD5 Checksum*
+Ⓜ *MD5*
  ${MD5CHECK}
 🆕 *Changelogs*
 \`\`\`
