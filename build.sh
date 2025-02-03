@@ -317,7 +317,7 @@ tg_post_build "$FINAL_ZIP.zip" "⏳ *Compile Time*
 🛠 *Compiler*
  ${KBUILD_COMPILER_STRING}
 Ⓜ *MD5 Checksum*
- ${KBUILD_COMPILER_STRING}
+ ${MD5CHECK}
 🆕 *Changelogs*
 \`\`\`
 `git log --oneline -n3 | cut -d" " -f2- | awk '{print "• " $(A)}'`\`\`\`
