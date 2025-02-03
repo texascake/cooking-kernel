@@ -16,10 +16,12 @@ fi
 #set -e
 # Set the Variables
 KERNELDIR=$(pwd)
-KERNELNAME="X00TD"
+KERNELNAME="TOM"
+CODENAME="Hayzel"
 DEVICENAME="X00TD"
+VARIANT="HMP"
 KERVER=$(make kernelversion)
-VARIANT="End Of Life"
+VERSION="EOL"
 BONUS_MSG="*Note:* KernelSU-Next Supported! enjoy your legacy rooting method! 🤫"
 
 # set compiler
@@ -44,7 +46,7 @@ DATE=$(date '+%d%m%Y')
 FINAL_ZIP="$KERVER-$KERNELNAME-$(date '+%y%m%d%H%M')"
 export KBUILD_BUILD_TIMESTAMP=$(date)
 export KBUILD_BUILD_USER="queen"
-export KBUILD_BUILD_HOST="ElectroWizard"
+#export KBUILD_BUILD_HOST=""
 
 ############################################################
 tg_post_msg(){
@@ -99,7 +101,7 @@ tg_pin_msg()
 
 tg_post_msg "<b>`date '+%d %b %Y, %H:%M %Z'`</b>
 Masterpiece creation starts!
-Version <b>$KERVER</b> for <b>$DEVICENAME</b>.
+kernel Version <b>$KERVER</b> for <b>$DEVICENAME</b>.
 Crafted with <b>`source /etc/os-release && echo "$NAME"`</b>.
 Log URL <a href='$CIRCLE_BUILD_URL'>Click Here</a>."
 
@@ -110,7 +112,9 @@ if ! [ -d "$KERNELDIR/clang" ]; then
     export PATH="$KERNELDIR/clang/bin:$PATH"
   elif [ $COMP = "5" ]; then
     apt-get install wget libncurses5 -y
-    wget -O sdc.tar.gz https://github.com/sandatjepil/SDClang/releases/download/v14.1.5/sdclangxgcc.tar.gz && tar -xzf sdc.tar.gz && rm -f sdc.tar.gz && cd $KERNELDIR
+    git clone --depth=1 https://github.com/RyuujiX/SDClang -b 14 sdclang
+    git clone --depth=1 https://github.com/Kneba/aarch64-linux-android-4.9 gcc64
+    git clone --depth=1 https://github.com/Kneba/arm-linux-androideabi-4.9 gcc32 && cd $KERNELDIR
     export PATH="$KERNELDIR/sdclang/bin:$KERNELDIR/gcc64/bin:$KERNELDIR/gcc32/bin:$PATH"
     export LD_LIBRARY_PATH="$KERNELDIR/sdclang/lib:$LD_LIBRARY_PATH"
     if ! [ -f "$KERNELDIR/sdclang/bin/clang" ]; then
@@ -179,17 +183,16 @@ if [ "$COMP" = 4 ]; then
     OBJDUMP="$KERNELDIR/clang/bin/llvm-objdump" \
     STRIP="$KERNELDIR/clang/bin/llvm-strip" 2>&1 | tee -a error.log
 elif [ $COMP = 5 ]; then
-    export LD=ld.lld
-    export HOSTLD=ld.lld
     ClangMoreStrings="AR=llvm-ar NM=llvm-nm AS=llvm-as STRIP=llvm-strip HOST_PREFIX=llvm-objcopy OBJDUMP=llvm-objdump READELF=llvm-readelf HOSTAR=llvm-ar HOSTAS=llvm-as"
     make -j$(nproc --all) O=out LLVM=1 \
+        ARCH=arm64 \
+	SUBARCH=arm64 \
         CC=clang \
-        HOSTCXX=clang++ \
-        HOSTCC=clang \
-        CLANG_TRIPLE=aarch64-linux-gnu- \
         CROSS_COMPILE=aarch64-linux-android- \
         CROSS_COMPILE_ARM32=arm-linux-androideabi- \
-        CROSS_COMPILE_COMPAT=aarch64-linux-gnu- ${ClangMoreStrings} 2>&1 | tee -a error.log
+        CLANG_TRIPLE=aarch64-linux-gnu- \
+        HOSTCC=gcc \
+        HOSTCXX=g++ ${ClangMoreStrings} 2>&1 | tee -a error.log
 else
     make -j$(nproc --all) O=out LLVM=1 \
     LD="$KERNELDIR/clang/bin/ld.lld" \
@@ -203,8 +206,8 @@ else
 	OBJDUMP="$KERNELDIR/clang/bin/llvm-objdump" \
 	CLANG_TRIPLE="aarch64-linux-gnu-" \
 	CROSS_COMPILE="$KERNELDIR/clang/bin/clang" \
-    CROSS_COMPILE_COMPAT="$KERNELDIR/clang/bin/clang" \
-    CROSS_COMPILE_ARM32="$KERNELDIR/clang/bin/clang" 2>&1 | tee -a error.log
+        CROSS_COMPILE_COMPAT="$KERNELDIR/clang/bin/clang" \
+        CROSS_COMPILE_ARM32="$KERNELDIR/clang/bin/clang" 2>&1 | tee -a error.log
 fi
 
 BUILD_END=$(date +"%s")
@@ -251,7 +254,7 @@ sed -i "s/kernel.type=.*/kernel.type=$VARIANT/g" anykernel.sh
 sed -i "s/kernel.for=.*/kernel.for=$CODENAME/g" anykernel.sh
 sed -i "s/kernel.compiler=.*/kernel.compiler=$KBUILD_COMPILER_STRING/g" anykernel.sh
 sed -i "s/kernel.made=.*/kernel.made=dotkit @queenserenade/g" anykernel.sh
-sed -i "s/kernel.version=.*/kernel.version=$KVERSION/g" anykernel.sh
+sed -i "s/kernel.version=.*/kernel.version=$KERVER/g" anykernel.sh
 sed -i "s/message.word=.*/message.word=Appreciate your efforts for choosing TheOneMemory kernel./g" anykernel.sh
 sed -i "s/build.date=.*/build.date=$DATE/g" anykernel.sh
 sed -i "s/build.type=.*/build.type=$VERSION/g" anykernel.sh
@@ -264,7 +267,7 @@ sed -i "s/device.name5=.*/device.name5=ASUS_X00T/g" anykernel.sh
 sed -i "s/X00TD=.*/X00TD=1/g" anykernel.sh
 cd META-INF/com/google/android
 sed -i "s/KNAME/$KERNELNAME/g" aroma-config
-sed -i "s/KVER/$KVERSION/g" aroma-config
+sed -i "s/KVER/$KERVER/g" aroma-config
 sed -i "s/KAUTHOR/dotkit @quuenserenade/g" aroma-config
 sed -i "s/KDEVICE/Zenfone Max Pro M1/g" aroma-config
 sed -i "s/KBDATE/$DATE/g" aroma-config
