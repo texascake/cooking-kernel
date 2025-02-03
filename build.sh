@@ -27,7 +27,6 @@ VERSION="EOL"
 KERVER=$(make kernelversion)
 
 BONUS_MSG="*Note:* KernelSU-Next and APatch Supported! enjoy your dynamic rooting method! 🤫"
-MD5CHECK=$(md5sum "$KernelFiles" | cut -d' ' -f1)
 
 # set compiler
 # 1 = Neutron Clang
@@ -307,6 +306,8 @@ if [ $SIGN = 1 ]; then
   FINAL_ZIP="$FINAL_ZIP-signed"
   mv krenul-signed.zip $FINAL_ZIP.zip
 fi
+
+MD5CHECK=$(md5sum "$FINAL_ZIP.zip" | cut -d' ' -f1)
 
 echo "**** Uploading your zip now ****"
 tg_post_build "$FINAL_ZIP.zip" "⏳ *Compile Time*
