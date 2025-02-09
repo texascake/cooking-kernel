@@ -132,14 +132,12 @@ export KBUILD_BUILD_HOST CI_BRANCH TERM
 ## Check for CI
 	if [ $CI = "CIRCLECI" ]
 	then
-		export KBUILD_BUILD_VERSION=$CIRCLE_BUILD_NUM
 		export KBUILD_BUILD_HOST=$HOST
 		export CI_BRANCH=$CIRCLE_BRANCH
 		export SERVER_URL="$CIRCLE_BUILD_URL"
 
 	elif [ $CI = "DRONE" ]
 	then
-		export KBUILD_BUILD_VERSION=$DRONE_BUILD_NUMBER
 		export KBUILD_BUILD_HOST=$DRONE_SYSTEM_HOST
 		export CI_BRANCH=$DRONE_BRANCH
 		export BASEDIR=$DRONE_REPO_NAME # overriding
@@ -481,10 +479,10 @@ gen_zip() {
 	fi
 
 	cd $AK_DIR
-	zip -r9 $ZIPNAME-"$DATE" * -x .git README.md ./*placeholder .gitignore  zipsigner* *.zip
+	zip -r9 $ZIPNAME-"$DATE2" * -x .git README.md ./*placeholder .gitignore  zipsigner* *.zip
 
 	## Prepare a final zip variable
-	ZIP_FINAL="$ZIPNAME-$DATE"
+	ZIP_FINAL="$ZIPNAME-$DATE2"
 
 	if [ $SIGN = 1 ]
 	then
