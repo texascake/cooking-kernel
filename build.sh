@@ -166,7 +166,8 @@ DATE2=$(TZ=Asia/Jakarta date +"%d%m%Y-%H")
 	elif [ $COMPILER = "clangxgcc" ]
 	then
 		msg "|| Cloning AOSP clang x GCC ||"
-		git clone --depth=1 https://gitlab.com/ImSurajxD/clang-r450784d -b master $KERNEL_DIR/clang
+#		git clone --depth=1 https://gitlab.com/ImSurajxD/clang-r450784d -b master $KERNEL_DIR/clang
+		git clone --depth=1 https://gitlab.com/kei-space/clang/r522817 -b master $KERNEL_DIR/clang
 		git clone --depth=1 https://github.com/Kneba/aarch64-linux-android-4.9 $KERNEL_DIR/gcc64
 		git clone --depth=1 https://github.com/Kneba/arm-linux-androideabi-4.9 $KERNEL_DIR/gcc32
 
@@ -312,6 +313,9 @@ tg_send_files(){
 <b>MD5 Checksum</b>
 - <code>$MD5CHECK</code>
 
+<b>Compiler</b>
+- <code>$KBUILD_COMPILER_STRING</code>
+
 <b>Zip Name</b>
 - <code>$ZIP_FINAL.zip</code>"
 
@@ -365,7 +369,7 @@ build_kernel() {
 
 <code>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</code>
 
-#ElectroWizard #$VARIANT  #$DEVICE"
+#TheOneMemory #$VARIANT  #$DEVICE"
 
 	tg_send_sticker "CAACAgQAAxkBAAIl2WDE8lfVkXDOvNEHqCStooREGW6rAAKZAAMWWwwz7gX6bxuxC-ofBA"
 
@@ -490,7 +494,7 @@ gen_zip() {
 		if [ "$PTTG" = 1 ]
  		then
  			msg "|| Signing Zip ||"
-			tg_post_msg "<code>Signing Zip file with AOSP keys..</code>"
+			tg_post_msg "<code>🔐 Signing Zip file with AOSP keys..</code>"
  		fi
 
 		cd $AK_DIR
