@@ -91,7 +91,7 @@ tg_post_build()
 	    -F chat_id="$TG_CHAT_ID"  \
 	    -F "disable_web_page_preview=true" \
 	    -F "parse_mode=Markdown" \
-	    -F caption="$2 | <b>MD5 Checksum: </b><code>$MD5CHECK</code>" \
+	    -F caption="$2" \
 	    | cut -d ":" -f 4 | cut -d "," -f 1)
 	fi
 }
