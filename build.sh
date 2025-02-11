@@ -22,7 +22,7 @@ KERNELDIR=$(pwd)
 CODENAME="Hayzel"
 DEVICENAME="X00TD"
 KERNELNAME="TOM"
-VARIANT="HMP"
+VARIANT="EAS"
 VERSION="EOL"
 KERVER=$(make kernelversion)
 
@@ -241,7 +241,7 @@ fi
 echo "**** Verifying AnyKernel3 Directory ****"
 if ! [ -d "$KERNELDIR/AnyKernel3" ]; then
   echo "AnyKernel3 not found! Cloning..."
-  if ! git clone --depth=1 -b hmp-old https://github.com/Tiktodz/AnyKernel3 AnyKernel3; then
+  if ! git clone --depth=1 -b eas https://github.com/Tiktodz/AnyKernel3 AnyKernel3; then
     tg_post_build "$KERNELDIR/out/arch/arm64/boot/Image.gz-dtb" "Failed to Clone Anykernel, Sending image file instead"
     echo "Cloning failed! Aborting..."
     exit 1
