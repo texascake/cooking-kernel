@@ -47,7 +47,8 @@ TG_SUPER=0
 # Additional Variables
 KERNEL_DEFCONFIG=X00TD_defconfig
 DATE=$(date '+%d%m%Y')
-FINAL_ZIP="$KERNELNAME-$VARIANT-$VERSION-$KERVER-$DATE"
+DATE2=$(date '+%d%m%Y-%H%M')
+FINAL_ZIP="$KERNELNAME-$VARIANT-$VERSION-$KERVER-$DATE2"
 export KBUILD_BUILD_TIMESTAMP=$(date)
 export KBUILD_BUILD_USER="queen"
 export KBUILD_BUILD_HOST="electrowizard"
@@ -241,7 +242,7 @@ fi
 echo "**** Verifying AnyKernel3 Directory ****"
 if ! [ -d "$KERNELDIR/AnyKernel3" ]; then
   echo "AnyKernel3 not found! Cloning..."
-  if ! git clone --depth=1 -b eas https://github.com/Tiktodz/AnyKernel3 AnyKernel3; then
+  if ! git clone --depth=1 -b eas-old https://github.com/texascake/AnyKernel3 AnyKernel3; then
     tg_post_build "$KERNELDIR/out/arch/arm64/boot/Image.gz-dtb" "Failed to Clone Anykernel, Sending image file instead"
     echo "Cloning failed! Aborting..."
     exit 1
