@@ -22,11 +22,16 @@ KERNELDIR=$(pwd)
 CODENAME="Hayzel"
 DEVICENAME="X00TD"
 KERNELNAME="TOM"
-VARIANT="EAS"
+VARIANT="HMP"
 VERSION="EOL"
 KERVER=$(make kernelversion)
 
 BONUS_MSG="*Note:* KernelSU-Next and APatch Supported! enjoy your dynamic rooting method! 🤫"
+
+## Set defaults first
+HOST=$(uname -a | awk '{print $2}')
+CI_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+TERM=xterm
 
 # set compiler
 # 1 = Neutron Clang
@@ -51,7 +56,7 @@ DATE2=$(date '+%d%m%Y-%H%M')
 FINAL_ZIP="$KERNELNAME-$VARIANT-$VERSION-$KERVER-$DATE2"
 export KBUILD_BUILD_TIMESTAMP=$(date)
 export KBUILD_BUILD_USER="queen"
-export KBUILD_BUILD_HOST="electrowizard"
+export KBUILD_BUILD_HOST="$HOST"
 
 ############################################################
 
@@ -242,7 +247,7 @@ fi
 echo "**** Verifying AnyKernel3 Directory ****"
 if ! [ -d "$KERNELDIR/AnyKernel3" ]; then
   echo "AnyKernel3 not found! Cloning..."
-  if ! git clone --depth=1 -b eas-old https://github.com/texascake/AnyKernel3 AnyKernel3; then
+  if ! git clone --depth=1 -b hmp-old https://github.com/Tiktodz/AnyKernel3 AnyKernel3; then
     tg_post_build "$KERNELDIR/out/arch/arm64/boot/Image.gz-dtb" "Failed to Clone Anykernel, Sending image file instead"
     echo "Cloning failed! Aborting..."
     exit 1
@@ -321,7 +326,7 @@ tg_post_build "$FINAL_ZIP.zip" "⏳ *Compile Time*
  ${KBUILD_COMPILER_STRING}
 Ⓜ *MD5*
  ${MD5CHECK}
-🆕 *Changelogs*
+🆕 *Last Changelogs*
 \`\`\`
 `git log --oneline -n3 | cut -d" " -f2- | awk '{print "• " $(A)}'`\`\`\`
 ${BONUS_MSG}"
