@@ -4,6 +4,7 @@
  # Script For Building Android arm64 Kernel
  #
  # Copyright (c) 2018-2021 Panchajanya1999 <rsk52959@gmail.com>
+ # Copyright (c) 2018-2025 Tiktodz <dotkit@electrowizard.me>
  #
  # Licensed under the Apache License, Version 2.0 (the "License");
  # you may not use this file except in compliance with the License.
@@ -57,10 +58,10 @@ DEFCONFIG=asus/X00TD_defconfig
 MANUFACTURERINFO="ASUSTek Computer Inc."
 
 # Kernel Variant
-VARIANT=Nightly
+VARIANT="May be unstable so use at your own risk"
 
 # Build Type
-BUILD_TYPE="NIGHTLY: Might be unstable so use at your own risk"
+BUILD_TYPE=Nightly
 
 # Specify compiler.
 # 'clang' or 'clangxgcc' or 'gcc'
@@ -152,7 +153,7 @@ COMMIT_HEAD=$(git log --oneline -1)
 
 # Set Date
 DATE=$(TZ=Asia/Jakarta date +"%d%m%Y")
-DATE2=$(TZ=Asia/Jakarta date +"%d%m%Y-%H")
+DATE2=$(TZ=Asia/Jakarta date +"%d%m%Y-%H%M")
 
 #Now Its time for other stuffs like cloning, exporting, etc
 
@@ -205,7 +206,7 @@ DATE2=$(TZ=Asia/Jakarta date +"%d%m%Y-%H")
 # Function to replace defconfig versioning
 setversioning() {
     # For staging branch
-    KERNELNAME="TOM-$VARIANT-$LINUXVER"
+    KERNELNAME="TOM-$BUILD_TYPE-$LINUXVER"
     # Export our new localversion and zipnames
     ZIPNAME="$KERNELNAME"
 }
@@ -309,11 +310,11 @@ tg_send_files(){
 <b>Build Type</b>
 -<code>$BUILD_TYPE</code>
 
-<b>MD5 Checksum</b>
-- <code>$MD5CHECK</code>
-
 <b>Compiler</b>
 - <code>$KBUILD_COMPILER_STRING</code>
+
+<b>MD5 Checksum</b>
+- <code>$MD5CHECK</code>
 
 <b>Zip Name</b>
 - <code>$ZIP_FINAL.zip</code>"
@@ -324,7 +325,7 @@ tg_send_files(){
         -F "parse_mode=html" \
         -F caption="$MSG"
 
-			tg_send_sticker "$SID"
+            tg_send_sticker "$SID"
 }
 
 ##----------------------------------------------------------##
@@ -340,6 +341,8 @@ build_kernel() {
  	then
             tg_post_msg "<b>🔨 EletroWizard Kernel Build Triggered</b>
 
+<b>Build Date: </b><code>$DATE</code>
+
 <b>Docker OS: </b><code>$DISTRO</code>
 
 <b>Build Host: </b><code>$KBUILD_BUILD_HOST</code>
@@ -349,8 +352,6 @@ build_kernel() {
 <b>Device: </b><code>$MODEL</code>
 
 <b>Codename: </b><code>$DEVICE</code>
-
-<b>Build Date: </b><code>$DATE</code>
 
 <b>Kernel Name: </b><code>$ZIPNAME</code>
 
@@ -368,7 +369,7 @@ build_kernel() {
 
 <code>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</code>
 
-#TheOneMemory #$VARIANT  #$DEVICE"
+#TheOneMemory #$BUILD_TYPE #$DEVICE #$CODENAME"
 
 	tg_send_sticker "CAACAgQAAxkBAAIl2WDE8lfVkXDOvNEHqCStooREGW6rAAKZAAMWWwwz7gX6bxuxC-ofBA"
 
@@ -482,10 +483,10 @@ gen_zip() {
 	fi
 
 	cd $AK_DIR
-	zip -r9 $ZIPNAME-"$DATE2" * -x .git README.md ./*placeholder .gitignore  zipsigner* *.zip
+	zip -r9 $ZIPNAME-"$DATE" * -x .git README.md ./*placeholder .gitignore  zipsigner* *.zip
 
 	## Prepare a final zip variable
-	ZIP_FINAL="$ZIPNAME-$DATE2"
+	ZIP_FINAL="$ZIPNAME-$DATE"
 
 	if [ $SIGN = 1 ]
 	then
