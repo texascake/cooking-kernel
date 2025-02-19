@@ -22,7 +22,7 @@ KERNELDIR=$(pwd)
 CODENAME="Hayzel"
 DEVICENAME="X00TD"
 KERNELNAME="TOM"
-VARIANT="HMP-SUSFS"
+VARIANT="EAS"
 VERSION="EOL"
 KERVER=$(make kernelversion)
 
@@ -247,7 +247,7 @@ fi
 echo "**** Verifying AnyKernel3 Directory ****"
 if ! [ -d "$KERNELDIR/AnyKernel3" ]; then
   echo "AnyKernel3 not found! Cloning..."
-  if ! git clone --depth=1 -b hmp-old https://github.com/Tiktodz/AnyKernel3 AnyKernel3; then
+  if ! git clone --depth=1 https://github.com/texascake/AnyKernel3 AnyKernel3; then
     tg_post_build "$KERNELDIR/out/arch/arm64/boot/Image.gz-dtb" "Failed to Clone Anykernel, Sending image file instead"
     echo "Cloning failed! Aborting..."
     exit 1
@@ -255,12 +255,6 @@ if ! [ -d "$KERNELDIR/AnyKernel3" ]; then
 fi
 
 AK3DIR=$KERNELDIR/AnyKernel3
-
-# Generating Changelog
-#echo "<b><#selectbg_g>$(date)</#></b>" > changelog
-#git log --oneline -n15 | cut -d " " -f 2- | awk '{print "<*> " $(A) "</*>"}' >> changelog
-#echo "" >> changelog
-#echo "<b><#selectbg_g>Aroma Installer config by: @ItsRyuujiX</#></b>" >> changelog
 
 echo "**** Copying Image.gz-dtb ****"
 cp -af $KERNELDIR/out/arch/arm64/boot/Image.gz-dtb $AK3DIR
