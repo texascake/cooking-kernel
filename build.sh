@@ -167,7 +167,7 @@ DATE2=$(TZ=Asia/Jakarta date +"%d%m%Y-%H%M")
 	elif [ $COMPILER = "clangxgcc" ]
 	then
 		msg "|| Cloning AOSP clang x GCC ||"
-		git clone --depth=1 https://gitlab.com/inferno0230/clang-r487747c $KERNEL_DIR/clang
+		git clone --depth=1 https://gitlab.com/magchuzPM/clang-r498229b -b master $KERNEL_DIR/clang
 		git clone --depth=1 https://github.com/Kneba/aarch64-linux-android-4.9 $KERNEL_DIR/gcc64
 		git clone --depth=1 https://github.com/Kneba/arm-linux-androideabi-4.9 $KERNEL_DIR/gcc32
 
@@ -308,7 +308,7 @@ tg_send_files(){
 - <code>$((DIFF / 60)) minute(s) $((DIFF % 60)) second(s) </code>
 
 <b>Build Type</b>
--<code>$BUILD_TYPE</code>
+- <code>$BUILD_TYPE</code>
 
 <b>Compiler</b>
 - <code>$KBUILD_COMPILER_STRING</code>
@@ -341,6 +341,8 @@ build_kernel() {
  	then
             tg_post_msg "<b>🔨 EletroWizard Kernel Build Triggered</b>
 
+<code>xxxxxxxxxxxxxxx=xxxxxxxxxxxxxxx</code>
+
 <b>Build Date: </b><code>$DATE</code>
 
 <b>Docker OS: </b><code>$DISTRO</code>
@@ -361,13 +363,7 @@ build_kernel() {
 
 <b>Builder Info: </b>
 
-<code>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</code>
-
-<code>- $gcc64Type </code>
-
-<code>- $gcc32Type </code>
-
-<code>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</code>
+<code>xxxxxxxxxxxxxxx=xxxxxxxxxxxxxxx</code>
 
 #TheOneMemory #$BUILD_TYPE #$DEVICE"
 
