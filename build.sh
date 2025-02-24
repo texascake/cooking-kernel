@@ -167,7 +167,7 @@ DATE2=$(TZ=Asia/Jakarta date +"%d%m%Y-%H%M")
 	elif [ $COMPILER = "clangxgcc" ]
 	then
 		msg "|| Cloning AOSP clang x GCC ||"
-		git clone --depth=1 https://gitlab.com/magchuzPM/clang-r498229b -b master $KERNEL_DIR/clang
+		git clone --depth=1 https://gitlab.com/inferno0230/clang-r487747c $KERNEL_DIR/clang
 		git clone --depth=1 https://github.com/Kneba/aarch64-linux-android-4.9 $KERNEL_DIR/gcc64
 		git clone --depth=1 https://github.com/Kneba/arm-linux-androideabi-4.9 $KERNEL_DIR/gcc32
 
@@ -339,31 +339,29 @@ build_kernel() {
 
 	if [ "$PTTG" = 1 ]
  	then
-            tg_post_msg "<b>🔨 EletroWizard Kernel Build Triggered</b>
+            tg_post_msg "<b>🛠️ EletroWizard Kernel Build Triggered</b>
 
-<code>xxxxxxxxxxxxxxx=xxxxxxxxxxxxxxx</code>
+<code>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</code>
 
-<b>Build Date: </b><code>$DATE</code>
+<b>📆 Build Date: </b><code>$DATE</code>
 
-<b>Docker OS: </b><code>$DISTRO</code>
+<b>🔬 Docker OS: </b><code>$DISTRO</code>
 
-<b>Build Host: </b><code>$KBUILD_BUILD_HOST</code>
+<b>📡 Build Host: </b><code>$KBUILD_BUILD_HOST</code>
 
-<b>Host Core Count : </b><code>$PROCS</code>
+<b>💾 Host Core Count : </b><code>$PROCS</code>
 
-<b>Device: </b><code>$MODEL</code>
+<b>📱 Device: </b><code>$MODEL</code>
 
-<b>Codename: </b><code>$DEVICE</code>
+<b>🪪 Codename: </b><code>$DEVICE</code>
 
-<b>Kernel Name: </b><code>$ZIPNAME</code>
+<b>🪧 Kernel Name: </b><code>$ZIPNAME</code>
 
-<b>Linux Tag Version: </b><code>$LINUXVER</code>
+<b>🐧 Linux Tag Version: </b><code>$LINUXVER</code>
 
-<b>Build Progress: </b><a href='$SERVER_URL'> Check Here </a>
+<b>🔁 Build Progress: </b><a href='$SERVER_URL'> Check Here </a>
 
-<b>Builder Info: </b>
-
-<code>xxxxxxxxxxxxxxx=xxxxxxxxxxxxxxx</code>
+<code>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</code>
 
 #TheOneMemory #$BUILD_TYPE #$DEVICE"
 
