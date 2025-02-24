@@ -167,7 +167,7 @@ DATE2=$(TZ=Asia/Jakarta date +"%d%m%Y-%H%M")
 	elif [ $COMPILER = "clangxgcc" ]
 	then
 		msg "|| Cloning AOSP clang x GCC ||"
-		git clone --depth=1 https://gitlab.com/ImSurajxD/clang-r450784d -b master $KERNEL_DIR/clang
+		git clone --depth=1 https://gitlab.com/inferno0230/clang-r487747c $KERNEL_DIR/clang
 		git clone --depth=1 https://github.com/Kneba/aarch64-linux-android-4.9 $KERNEL_DIR/gcc64
 		git clone --depth=1 https://github.com/Kneba/arm-linux-androideabi-4.9 $KERNEL_DIR/gcc32
 
