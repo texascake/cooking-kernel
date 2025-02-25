@@ -341,7 +341,7 @@ build_kernel() {
  	then
             tg_post_msg "<b>🛠️ EletroWizard Kernel Build Triggered</b>
 
-<code>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</code>
+<code>✴︎✴︎✴︎✴︎✴︎✴︎✴︎✴︎✴︎✴︎✴︎✴︎✴︎✴︎✴︎✴︎✴︎✴︎✴︎</code>
 
 <b>📆 Build Date: </b><code>$DATE</code>
 
@@ -361,7 +361,9 @@ build_kernel() {
 
 <b>🔁 Build Progress: </b><a href='$SERVER_URL'> Check Here </a>
 
-<code>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</code>
+<b>🆑 Last commit: </b><code>$COMMIT_HEAD</code>
+
+<code>✴︎✴︎✴︎✴︎✴︎✴︎✴︎✴︎✴︎✴︎✴︎✴︎✴︎✴︎✴︎✴︎✴︎✴︎✴︎</code>
 
 #TheOneMemory #$BUILD_TYPE #$DEVICE"
 
