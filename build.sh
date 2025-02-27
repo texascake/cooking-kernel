@@ -52,7 +52,7 @@ DEVICE="X00TD"
 
 # The defconfig which should be used. Get it from config.gz from
 # your device or check source
-DEFCONFIG=asus/X00TD_defconfig
+DEFCONFIG=vendor/X00TD_defconfig
 
 # Show manufacturer info
 MANUFACTURERINFO="ASUSTek Computer Inc."
@@ -61,7 +61,7 @@ MANUFACTURERINFO="ASUSTek Computer Inc."
 VARIANT="May be unstable so use at your own risk"
 
 # Build Type
-BUILD_TYPE=Nightly
+BUILD_TYPE=INCREMENTAL
 
 # Specify compiler.
 # 'clang' or 'clangxgcc' or 'gcc'
