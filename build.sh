@@ -206,7 +206,7 @@ DATE2=$(TZ=Asia/Jakarta date +"%d%m%Y-%H%M")
 # Function to replace defconfig versioning
 setversioning() {
     # For staging branch
-    KERNELNAME="TOM-$BUILD_TYPE-SUSFS-$LINUXVER"
+    KERNELNAME="TOM-$BUILD_TYPE-$LINUXVER"
     # Export our new localversion and zipnames
     ZIPNAME="$KERNELNAME"
 }
@@ -475,10 +475,10 @@ gen_zip() {
 	fi
 
 	cd $AK_DIR
-	zip -r9 $ZIPNAME-"$DATE" * -x .git README.md ./*placeholder .gitignore  zipsigner* *.zip
+	zip -r9 $ZIPNAME-"$DATE2" * -x .git README.md ./*placeholder .gitignore  zipsigner* *.zip
 
 	## Prepare a final zip variable
-	ZIP_FINAL="$ZIPNAME-$DATE"
+	ZIP_FINAL="$ZIPNAME-$DATE2"
 
 	if [ $SIGN = 1 ]
 	then
