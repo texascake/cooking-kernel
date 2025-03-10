@@ -406,7 +406,7 @@ build_kernel() {
 
 	elif [ $COMPILER = "clangxgcc" ]
 	then
-		make -j"$PROCS"  O=out vendor/debugfs.config LLVM=1 LLVM_IAS=1 \
+		make -j"$PROCS"  O=out LLVM=1 LLVM_IAS=1 \
 				CC=clang \
 				CXX=clang++ \
 				CROSS_COMPILE=aarch64-linux-gnu- \
