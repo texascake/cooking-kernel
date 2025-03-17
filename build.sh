@@ -206,7 +206,7 @@ DATE2=$(TZ=Asia/Jakarta date +"%d%m%Y-%H%M")
 # Function to replace defconfig versioning
 setversioning() {
     # For staging branch
-    KERNELNAME="TOM-$BUILD_TYPE-SUSFS-TEST-$LINUXVER"
+    KERNELNAME="TOM-$BUILD_TYPE-OC-$LINUXVER"
     # Export our new localversion and zipnames
     ZIPNAME="$KERNELNAME"
 }
