@@ -169,8 +169,7 @@ DATE2=$(TZ=Asia/Jakarta date +"%d%m%Y-%H%M")
 	elif [ $COMPILER = "clangxgcc" ]
 	then
 		msg "|| Cloning AOSP clang x GCC ||"
-                git clone --depth=1 https://github.com/7felix7/android_prebuilts_clang_host_linux-x86_clang-r522817 $KERNEL_DIR/clang
-#######		git clone --depth=1 https://gitlab.com/inferno0230/clang-r487747c $KERNEL_DIR/clang
+		git clone --depth=1 https://gitlab.com/inferno0230/clang-r487747c $KERNEL_DIR/clang
 		git clone --depth=1 https://github.com/Kneba/aarch64-linux-android-4.9 $KERNEL_DIR/gcc64
 		git clone --depth=1 https://github.com/Kneba/arm-linux-androideabi-4.9 $KERNEL_DIR/gcc32
 
@@ -209,7 +208,7 @@ DATE2=$(TZ=Asia/Jakarta date +"%d%m%Y-%H%M")
 # Function to replace defconfig versioning
 setversioning() {
     # For staging branch
-    KERNELNAME="TOM-$BUILD_TYPE-OC-$LINUXVER"
+    KERNELNAME="TOM-$BUILD_TYPE-SUSFS-cip118-$LINUXVER"
     # Export our new localversion and zipnames
     ZIPNAME="$KERNELNAME"
 }
