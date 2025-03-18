@@ -44,6 +44,8 @@ export TZ="Asia/Jakarta"
 KERNEL_DIR=$(pwd)/kernel
 cd $KERNEL_DIR
 
+sed -i 's/CONFIG_DEBUG_INFO=.*/CONFIG_DEBUG_INFO=n/g' arch/arm64/configs/asus/X00TD_defconfig
+
 # The name of the device for which the kernel is built
 MODEL="Asus Zenfone Max Pro M1"
 
