@@ -26,7 +26,7 @@ VARIANT="EAS"
 VERSION="SLTS" # The Civil Infrastructure Platform project (CIP) provides Super-Long-Term Stable (SLTS) kernels with a maintenance period of ten years.
 KERVER=$(make kernelversion)
 
-BONUS_MSG="*Note:* KernelSU-Next and APatch Supported! enjoy your dynamic rooting method! 🤫"
+BONUS_MSG="*Note:* KernelSU-Next Supported! enjoy your legacy rooting method! 🤫"
 
 ## Set defaults first
 HOST=$(uname -a | awk '{print $2}')
@@ -53,7 +53,7 @@ TG_SUPER=0
 KERNEL_DEFCONFIG=X00TD_defconfig
 DATE=$(date '+%d%m%Y')
 DATE2=$(date '+%d%m%Y-%H%M')
-FINAL_ZIP="$KERNELNAME-$VARIANT-$VERSION-$KERVER-$DATE2"
+FINAL_ZIP="$KERNELNAME-$VARIANT-$VERSION-$KERVER-$DATE"
 export KBUILD_BUILD_TIMESTAMP=$(date)
 export KBUILD_BUILD_USER="queen"
 export KBUILD_BUILD_HOST="$HOST"
