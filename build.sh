@@ -168,10 +168,13 @@ DATE2=$(TZ=Asia/Jakarta date +"%d%m%Y-%H%M")
 
 	elif [ $COMPILER = "clangxgcc" ]
 	then
-		msg "|| Cloning AOSP clang x GCC ||"
-		git clone --depth=1 https://gitlab.com/inferno0230/clang-r487747c $KERNEL_DIR/clang
-		git clone --depth=1 https://github.com/Kneba/aarch64-linux-android-4.9 $KERNEL_DIR/gcc64
-		git clone --depth=1 https://github.com/Kneba/arm-linux-androideabi-4.9 $KERNEL_DIR/gcc32
+		msg "|| Cloning clang-r522817 for Android V release ||"
+		wget -q https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/refs/heads/main/clang-r522817.tar.gz -O "clang-r522817.tar.gz"
+		tar -xf clang-r522817.tar.gz -C $KERNEL_DIR/clang
+		wget -q https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/+archive/refs/tags/android-12.1.0_r27.tar.gz -O "gcc64.tar.gz"
+		tar -xf gcc64.tar.gz -C $KERNEL_DIR/gcc64
+		wget -q https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9/+archive/refs/tags/android-12.1.0_r27.tar.gz -O "gcc32.tar.gz"
+		tar -xf gcc32.tar.gz -C $KERNEL_DIR/gcc32
 
 	elif [ $COMPILER = "gcc" ]
 	then
