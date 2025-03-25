@@ -169,12 +169,17 @@ DATE2=$(TZ=Asia/Jakarta date +"%d%m%Y-%H%M")
 	elif [ $COMPILER = "clangxgcc" ]
 	then
 		msg "|| Cloning clang-r522817 for Android V release ||"
-		wget -q https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/refs/heads/main/clang-r522817.tar.gz -O "clang-r522817.tar.gz"
-		tar -xf clang-r522817.tar.gz -C $KERNEL_DIR/clang
-		wget -q https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/+archive/refs/tags/android-12.1.0_r27.tar.gz -O "gcc64.tar.gz"
-		tar -xf gcc64.tar.gz -C $KERNEL_DIR/gcc64
-		wget -q https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9/+archive/refs/tags/android-12.1.0_r27.tar.gz -O "gcc32.tar.gz"
-		tar -xf gcc32.tar.gz -C $KERNEL_DIR/gcc32
+		mkdir -p "$KERNEL_DIR/clang" && cd "$KERNEL_DIR/clang"
+		wget -q https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/refs/heads/main/clang-r522817.tar.gz -O "clang.tar.gz" && tar -xzf clang.tar.gz && rm -f clang.tar.gz
+  		cd $KERNEL_DIR
+
+    		mkdir -p "$KERNEL_DIR/gcc64" && cd "$KERNEL_DIR/gcc64"
+    		wget -q https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/+archive/refs/tags/android-12.1.0_r27.tar.gz -O "gcc64.tar.gz" && rm -f gcc64.tar.gz
+  		cd $KERNEL_DIR
+
+    		mkdir -p "$KERNEL_DIR/gcc32" && cd "$KERNEL_DIR/gcc32"
+		wget -q https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9/+archive/refs/tags/android-12.1.0_r27.tar.gz -O "gcc32.tar.gz" && rm -f gcc32.tar.gz
+  		cd $KERNEL_DIR
 
 	elif [ $COMPILER = "gcc" ]
 	then
