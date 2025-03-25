@@ -422,20 +422,20 @@ build_kernel() {
 	elif [ $COMPILER = "clangxgcc" ]
 	then
 		make -j"$PROCS"  O=out LLVM=1 LLVM_IAS=1 \
-				CC="$KERNEL_DIR/clang" \
-				CXX="$KERNEL_DIR/clang/bin/clang++" \
-				AR="$KERNEL_DIR/clang/bin/llvm-ar" \
-				AS="$KERNEL_DIR/clang/bin/llvm-as" \
-				NM="$KERNEL_DIR/clang/bin/llvm-nm" \
-				STRIP="$KERNEL_DIR/clang/bin/llvm-strip" \
-				OBJCOPY="$KERNEL_DIR/clang/bin/llvm-objcopy" \
-				OBJDUMP="$KERNEL_DIR/clang/bin/llvm-objdump" \
-				OBJSIZE="$KERNEL_DIR/clang/bin/llvm-size" \
-				READELF="$KERNEL_DIR/clang/bin/llvm-readelf" \
-				HOSTCC="$KERNEL_DIR/clang/bin/clang" \
-				HOSTCXX="$KERNEL_DIR/clang/bin/clang++" \
-				HOSTAR="$KERNEL_DIR/clang/bin/llvm-ar" \
-				LD="$KERNEL_DIR/clang/bin/ld.lld" \
+				CC=clang \
+				CXX=clang++ \
+				AR=llvm-ar \
+				AS=llvm-as \
+				NM=llvm-nm \
+				STRIP=llvm-strip \
+				OBJCOPY=llvm-objcopy \
+				OBJDUMP=llvm-objdump \
+				OBJSIZE=llvm-size \
+				READELF=llvm-readelf \
+				HOSTCC=clang \
+				HOSTCXX=clang++ \
+				HOSTAR=llvm-ar \
+				LD=$LINKER \
 				CLANG_TRIPLE=aarch64-linux-gnu- \
 				CROSS_COMPILE=aarch64-linux-gnu- \
 				CROSS_COMPILE_ARM32=arm-linux-gnueabi- "${MAKE[@]}" 2>&1 | tee build.log
