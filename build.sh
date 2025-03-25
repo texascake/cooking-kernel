@@ -62,6 +62,9 @@ MANUFACTURERINFO="ASUSTek Computer Inc."
 # Kernel Variant
 VARIANT="May be unstable so use at your own risk"
 
+# Kernel Name
+KERNAME=TOM
+
 # Build Type
 BUILD_TYPE=Nightly
 
@@ -173,10 +176,12 @@ DATE2=$(TZ=Asia/Jakarta date +"%d%m%Y-%H%M")
 		wget -q https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/refs/heads/main/clang-r522817.tar.gz -O "clang.tar.gz" && tar -xzf clang.tar.gz && rm -f clang.tar.gz
   		cd $KERNEL_DIR
 
+		msg "|| Cloning GCC aarch64-linux-android-4.9 ||"
     		mkdir -p "$KERNEL_DIR/gcc64" && cd "$KERNEL_DIR/gcc64"
     		wget -q https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/+archive/refs/tags/android-12.1.0_r27.tar.gz -O "gcc64.tar.gz" && rm -f gcc64.tar.gz
   		cd $KERNEL_DIR
 
+		msg "|| Cloning GCC arm-linux-androideabi-4.9 ||"
     		mkdir -p "$KERNEL_DIR/gcc32" && cd "$KERNEL_DIR/gcc32"
 		wget -q https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9/+archive/refs/tags/android-12.1.0_r27.tar.gz -O "gcc32.tar.gz" && rm -f gcc32.tar.gz
   		cd $KERNEL_DIR
@@ -216,7 +221,7 @@ DATE2=$(TZ=Asia/Jakarta date +"%d%m%Y-%H%M")
 # Function to replace defconfig versioning
 setversioning() {
     # For staging branch
-    KERNELNAME="TOM-$BUILD_TYPE-SUSFS-cip118-$LINUXVER"
+    KERNELNAME="$KERNAME-$BUILD_TYPE-SUSFS-$LINUXVER"
     # Export our new localversion and zipnames
     ZIPNAME="$KERNELNAME"
 }
@@ -417,22 +422,23 @@ build_kernel() {
 	elif [ $COMPILER = "clangxgcc" ]
 	then
 		make -j"$PROCS"  O=out LLVM=1 LLVM_IAS=1 \
-				CC=clang \
-				CXX=clang++ \
+				CC="$KERNEL_DIR/clang" \
+				CXX="$KERNEL_DIR/clang/bin/clang++" \
+				AR="$KERNEL_DIR/clang/bin/llvm-ar" \
+				AS="$KERNEL_DIR/clang/bin/llvm-as" \
+				NM="$KERNEL_DIR/clang/bin/llvm-nm" \
+				STRIP="$KERNEL_DIR/clang/bin/llvm-strip" \
+				OBJCOPY="$KERNEL_DIR/clang/bin/llvm-objcopy" \
+				OBJDUMP="$KERNEL_DIR/clang/bin/llvm-objdump" \
+				OBJSIZE="$KERNEL_DIR/clang/bin/llvm-size" \
+				READELF="$KERNEL_DIR/clang/bin/llvm-readelf" \
+				HOSTCC="$KERNEL_DIR/clang/bin/clang" \
+				HOSTCXX="$KERNEL_DIR/clang/bin/clang++" \
+				HOSTAR="$KERNEL_DIR/clang/bin/llvm-ar" \
+				LD="$KERNEL_DIR/clang/bin/ld.lld" \
+				CLANG_TRIPLE=aarch64-linux-gnu- \
 				CROSS_COMPILE=aarch64-linux-gnu- \
-				CROSS_COMPILE_ARM32=arm-linux-gnueabi- \
-				AR=llvm-ar \
-				AS=llvm-as \
-				NM=llvm-nm \
-				STRIP=llvm-strip \
-				OBJCOPY=llvm-objcopy \
-				OBJDUMP=llvm-objdump \
-				OBJSIZE=llvm-size \
-				READELF=llvm-readelf \
-				HOSTCC=clang \
-				HOSTCXX=clang++ \
-				HOSTAR=llvm-ar \
-				CLANG_TRIPLE=aarch64-linux-gnu- "${MAKE[@]}" 2>&1 | tee build.log
+				CROSS_COMPILE_ARM32=arm-linux-gnueabi- "${MAKE[@]}" 2>&1 | tee build.log
 	fi
 
 		BUILD_END=$(date +"%s")
@@ -485,10 +491,10 @@ gen_zip() {
 	fi
 
 	cd $AK_DIR
-	zip -r9 $ZIPNAME-"$DATE2" * -x .git README.md ./*placeholder .gitignore  zipsigner* *.zip
+	zip -r9 $ZIPNAME-"$DATE" * -x .git README.md ./*placeholder .gitignore  zipsigner* *.zip
 
 	## Prepare a final zip variable
-	ZIP_FINAL="$ZIPNAME-$DATE2"
+	ZIP_FINAL="$ZIPNAME-$DATE"
 
 	if [ $SIGN = 1 ]
 	then
