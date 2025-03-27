@@ -521,7 +521,7 @@ gen_zip() {
 	sed -i "s/KDEVICE/Zenfone Max Pro M1/g" aroma-config
 	sed -i "s/KBDATE/$DATE/g" aroma-config
 	sed -i "s/KVARIANT/$BUILD_TYPE/g" aroma-config
-	cd "$KERNEL_DIR"
+	cd "$AK_DIR"
 
 	zip -r9 $ZIPNAME-"$DATE" * -x .git README.md ./*placeholder .gitignore  zipsigner* *.zip
 
