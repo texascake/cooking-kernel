@@ -44,7 +44,7 @@ export TZ="Asia/Jakarta"
 KERNEL_DIR=$(pwd)/kernel
 cd $KERNEL_DIR
 
-sed -i 's/CONFIG_DEBUG_INFO=.*/CONFIG_DEBUG_INFO=n/g' arch/arm64/configs/asus/X00TD_defconfig
+#sed -i 's/CONFIG_DEBUG_INFO=.*/CONFIG_DEBUG_INFO=n/g' arch/arm64/configs/asus/X00TD_defconfig
 
 # The name of the device for which the kernel is built
 MODEL="Asus Zenfone Max Pro M1"
@@ -58,12 +58,14 @@ DEFCONFIG=asus/X00TD_defconfig
 
 # Show manufacturer info
 MANUFACTURERINFO="ASUSTek Computer Inc."
+ANDRVER=11-15
 
 # Kernel Variant
 VARIANT="May be unstable so use at your own risk"
 
 # Kernel Name
 KERNAME=TOM
+KBUILD_BUILD_USER=zkneb
 
 # Build Type
 BUILD_TYPE=Nightly
@@ -207,7 +209,7 @@ DATE2=$(TZ=Asia/Jakarta date +"%d%m%Y-%H%M")
 		AK_DIR=$KERNEL_DIR/Anykernel3
 
 	msg "|| Cloning Anykernel ||"
-	git clone https://github.com/Tiktodz/AnyKernel3.git -b 419 $KERNEL_DIR/Anykernel3
+	git clone --depth=1 https://github.com/sandatjepil/AnyKernel3 -b four19 $KERNEL_DIR/Anykernel3
 
 	if [ $BUILD_DTBO = 1 ]
 	then
@@ -221,7 +223,7 @@ DATE2=$(TZ=Asia/Jakarta date +"%d%m%Y-%H%M")
 # Function to replace defconfig versioning
 setversioning() {
     # For staging branch
-    KERNELNAME="$KERNAME-$BUILD_TYPE-SUSFS-$LINUXVER"
+    KERNELNAME="$KERNAME-$BUILD_TYPE-SuSFS-$LINUXVER"
     # Export our new localversion and zipnames
     ZIPNAME="$KERNELNAME"
 }
@@ -491,6 +493,36 @@ gen_zip() {
 	fi
 
 	cd $AK_DIR
+	cp -af "$KERNEL_DIR"/changelog "$AK_DIR"/META-INF/com/google/android/aroma/changelog.txt
+	mv -f anykernel-real.sh anykernel.sh
+	sed -i "s/kernel.string=.*/kernel.string=$KERNAME/g" anykernel.sh
+	sed -i "s/kernel.type=.*/kernel.type=Stock-OverClock/g" anykernel.sh
+	sed -i "s/kernel.for=.*/kernel.for=$DEVICE/g" anykernel.sh
+	sed -i "s/kernel.compiler=.*/kernel.compiler=$KBUILD_COMPILER_STRING/g" anykernel.sh
+	sed -i "s/kernel.made=.*/kernel.made=$KBUILD_BUILD_USER/g" anykernel.sh
+	sed -i "s/kernel.version=.*/kernel.version=$LINUXVER/g" anykernel.sh
+	sed -i "s/message.word=.*/message.word=Appreciate your efforts for choosing TheOneMemory kernel./g" anykernel.sh
+	sed -i "s/build.date=.*/build.date=$DATE/g" anykernel.sh
+	sed -i "s/build.type=.*/build.type=$BUILD_TYPE/g" anykernel.sh
+	sed -i "s/supported.versions=.*/supported.versions=$ANDRVER/g" anykernel.sh
+	sed -i "s/device.name1=.*/device.name1=X00TD/g" anykernel.sh
+	sed -i "s/device.name2=.*/device.name2=X00T/g" anykernel.sh
+	sed -i "s/device.name3=.*/device.name3=Zenfone Max Pro M1 (X00TD)/g" anykernel.sh
+	sed -i "s/device.name4=.*/device.name4=ASUS_X00TD/g" anykernel.sh
+	sed -i "s/device.name5=.*/device.name5=ASUS_X00T/g" anykernel.sh
+	sed -i "s/X00TD=.*/X00TD=1/g" anykernel.sh
+
+	cd $AK_DIR/META-INF/com/google/android
+	mv -f update-binary update-binary-installer
+	mv -f aroma-binary update-binary
+	sed -i "s/KNAME/$KERNAME/g" aroma-config
+	sed -i "s/KVER/$LINUXVER/g" aroma-config
+	sed -i "s/KAUTHOR/$KBUILD_BUILD_USER/g" aroma-config
+	sed -i "s/KDEVICE/Zenfone Max Pro M1/g" aroma-config
+	sed -i "s/KBDATE/$DATE/g" aroma-config
+	sed -i "s/KVARIANT/$BUILD_TYPE/g" aroma-config
+	cd "$KERNEL_DIR"
+
 	zip -r9 $ZIPNAME-"$DATE" * -x .git README.md ./*placeholder .gitignore  zipsigner* *.zip
 
 	## Prepare a final zip variable
