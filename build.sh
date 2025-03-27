@@ -549,6 +549,7 @@ gen_zip() {
  	then
 		tg_send_files "$1"
 	fi
+		rm -rf *.zip
 }
 
 setversioning
