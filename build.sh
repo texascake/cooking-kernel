@@ -209,7 +209,7 @@ DATE2=$(TZ=Asia/Jakarta date +"%d%m%Y-%H%M")
 		AK_DIR=$KERNEL_DIR/Anykernel3
 
 	msg "|| Cloning Anykernel ||"
-	git clone --depth=1 https://github.com/sandatjepil/AnyKernel3 -b four19 $KERNEL_DIR/Anykernel3
+	git clone --depth=1 https://github.com/sandatjepil/AnyKernel3 -b kesu $KERNEL_DIR/Anykernel3
 
 	if [ $BUILD_DTBO = 1 ]
 	then
@@ -423,7 +423,10 @@ build_kernel() {
 
 	elif [ $COMPILER = "clangxgcc" ]
 	then
-		make -j"$PROCS"  O=out LLVM=1 LLVM_IAS=1 \
+		make CC=clang \
+		LD="$LINKER" \
+		$DEFCONFIG O=out 2>&1 | tee -a build.log
+		make -j"$PROCS" O=out LLVM=1 LLVM_IAS=1 \
 				CC=clang \
 				CXX=clang++ \
 				AR=llvm-ar \
