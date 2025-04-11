@@ -26,7 +26,7 @@ VARIANT="HMP"
 VERSION="EOL" # The Civil Infrastructure Platform project (CIP) provides Super-Long-Term Stable (SLTS) kernels with a maintenance period of ten years.
 KERVER=$(make kernelversion)
 
-BONUS_MSG="*Note:* KernelSU-Next Supported! enjoy your legacy rooting method! 🤫"
+BONUS_MSG="*Note:* KernelSU-Next and APatch Supported!! 🤫"
 
 ## Set defaults first
 HOST=$(uname -a | awk '{print $2}')
@@ -268,7 +268,7 @@ sed -i "s/kernel.string=.*/kernel.string=$KERNELNAME/g" anykernel.sh
 sed -i "s/kernel.type=.*/kernel.type=$VARIANT/g" anykernel.sh
 sed -i "s/kernel.for=.*/kernel.for=$CODENAME/g" anykernel.sh
 sed -i "s/kernel.compiler=.*/kernel.compiler=$KBUILD_COMPILER_STRING/g" anykernel.sh
-sed -i "s/kernel.made=.*/kernel.made=dotkit @queenserenade/g" anykernel.sh
+sed -i "s/kernel.made=.*/kernel.made=zkneb @queenserenade/g" anykernel.sh
 sed -i "s/kernel.version=.*/kernel.version=$KERVER/g" anykernel.sh
 sed -i "s/message.word=.*/message.word=Appreciate your efforts for choosing TheOneMemory kernel./g" anykernel.sh
 sed -i "s/build.date=.*/build.date=$DATE/g" anykernel.sh
