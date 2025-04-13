@@ -321,7 +321,7 @@ tg_send_files(){
 	MD5CHECK=$(md5sum "$KernelFiles" | cut -d' ' -f1)
 	SID="CAACAgUAAxkBAAECIRxnpQ-LMetktgXJIB-ZCykpN8oShgACdg4AAmF-4VeT5uphqQn3bjYE"
 	STICK="CAACAgUAAxkBAAIlwGDEzB_igWdjj3WLj1IPro2ONbYUAAIrAgACHcUZVo23oC09VtdaHwQ"
-    MSG="✅ <b>Build Done</b>
+	MSG="✅ <b>Build Done</b>
 - <code>$((DIFF / 60)) minute(s) $((DIFF % 60)) second(s) </code>
 
 <b>Build Type</b>
@@ -457,7 +457,7 @@ build_kernel() {
 				msg "|| Building DTBO ||"
 				tg_post_msg "<code>Building DTBO..</code>"
 				python2 "$KERNEL_DIR/scripts/ufdt/libufdt/utils/src/mkdtboimg.py" \
-					create "$KERNEL_DIR/out/arch/arm64/boot/dtbo.img" --page_size=4096 "$KERNEL_DIR/out/arch/arm64/boot/dts/$DTBO_PATH"
+				create "$KERNEL_DIR/out/arch/arm64/boot/dtbo.img" --page_size=4096 "$KERNEL_DIR/out/arch/arm64/boot/dts/$DTBO_PATH"
 			fi
 				gen_zip
 			else
