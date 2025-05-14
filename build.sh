@@ -65,7 +65,8 @@ VARIANT="May be unstable so use at your own risk"
 
 # Kernel Name
 KERNAME=TOM
-KBUILD_BUILD_USER=zkneb
+## main Account ##
+KBUILD_BUILD_USER=Kneba
 
 # Build Type
 BUILD_TYPE=Nightly
