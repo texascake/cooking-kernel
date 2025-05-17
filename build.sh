@@ -44,7 +44,9 @@ export TZ="Asia/Jakarta"
 KERNEL_DIR=$(pwd)/kernel
 cd $KERNEL_DIR
 
-#sed -i 's/CONFIG_DEBUG_INFO=.*/CONFIG_DEBUG_INFO=n/g' arch/arm64/configs/asus/X00TD_defconfig
+sed -i 's/CONFIG_DEBUG_INFO=.*/CONFIG_DEBUG_INFO=n/g' arch/arm64/configs/asus/X00TD_defconfig
+sed -i 's/CONFIG_LOCALVERSION=.*/CONFIG_LOCALVERSION="-TOM-Nightly"/g' arch/arm64/configs/asus/X00TD_defconfig
+sed -i 's/CONFIG_HAVE_KPROBES=.*/CONFIG_HAVE_KPROBES=n/g' arch/arm64/configs/asus/X00TD_defconfig
 
 # The name of the device for which the kernel is built
 MODEL="Asus Zenfone Max Pro M1"
@@ -75,17 +77,17 @@ BUILD_TYPE=Nightly
 # 'clang' or 'clangxgcc' or 'gcc'
 COMPILER=clangxgcc
 
-# Kernel is LTO
+# Kernel is LTO. 1 is YES (default) | 0 is NO
 LTO=1
 
 # Specify linker.
 # 'ld.lld'(default)
 LINKER=ld.lld
 
-# Clean source prior building. 1 is NO(default) | 0 is YES
+# Clean source prior building. 1 is NO (default) | 0 is YES
 INCREMENTAL=1
 
-# Push ZIP to Telegram. 1 is YES | 0 is NO(default)
+# Push ZIP to Telegram. 1 is YES | 0 is NO (default)
 PTTG=1
 	if [ $PTTG = 1 ]
 	then
@@ -93,7 +95,7 @@ PTTG=1
 		CHATID="$TG_CHAT_ID"
 	fi
 
-# Generate a full DEFCONFIG prior building. 1 is YES | 0 is NO(default)
+# Generate a full DEFCONFIG prior building. 1 is YES | 0 is NO (default)
 DEF_REG=0
 
 # Files/artifacts
@@ -117,11 +119,11 @@ SIGN=1
 	fi
 
 # Silence the compilation
-# 1 is YES(default) | 0 is NO
+# 1 is YES (default) | 0 is NO
 SILENCE=0
 
 # Debug purpose. Send logs on every successfull builds
-# 1 is YES | 0 is NO(default)
+# 1 is YES | 0 is NO (default)
 LOG_DEBUG=0
 
 ##------------------------------------------------------##
@@ -464,7 +466,7 @@ build_kernel() {
 			else
 			if [ "$PTTG" = 1 ]
  			then
-				tg_post_msg "<b>❌Error! Compilaton failed: Kernel Image missing</b>
+				tg_post_msg "<b>"build.log" ❌Error! Compilaton failed: Kernel Image missing</b>
 
 <b>Build Date: </b><code>$DATE</code>
 
