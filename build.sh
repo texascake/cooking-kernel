@@ -176,9 +176,9 @@ DATE2=$(TZ=Asia/Jakarta date +"%d%m%Y-%H%M")
 
 	elif [ $COMPILER = "clangxgcc" ]
 	then
-		msg "|| Cloning clang-r522817 for Android V release ||"
+		msg "|| Cloning clang-r536225 for Android V release ||"
 		mkdir -p "$KERNEL_DIR/clang" && cd "$KERNEL_DIR/clang"
-		wget -q https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/refs/heads/main/clang-r522817.tar.gz -O "clang.tar.gz" && tar -xzf clang.tar.gz && rm -f clang.tar.gz
+		wget -q https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/refs/heads/main/clang-r536225.tar.gz -O "clang.tar.gz" && tar -xzf clang.tar.gz && rm -f clang.tar.gz
   		cd $KERNEL_DIR
 
 		msg "|| Cloning GCC aarch64-linux-android-4.9 ||"
