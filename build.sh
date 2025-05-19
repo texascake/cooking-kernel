@@ -395,7 +395,11 @@ build_kernel() {
 	fi
 
 	msg "|| Started Compilation ||"
-	make O=out $DEFCONFIG
+	make CC="$TC_DIR/bin/clang" \
+	LD="$TC_DIR/bin/ld.lld" \
+	"$DEFCONFIG" O=out \
+	2>&1 | tee -a build.log
+
 	if [ $DEF_REG = 1 ]
 	then
 		cp .config arch/arm64/configs/$DEFCONFIG
@@ -541,10 +545,10 @@ gen_zip() {
 	sed -i "s/KVARIANT/$BUILD_TYPE/g" aroma-config
 	cd "$AK_DIR"
 
-	zip -r9 $ZIPNAME-"$DATE" * -x .git README.md ./*placeholder .gitignore  zipsigner* *.zip
+	zip -r9 $ZIPNAME-"$DATE2" * -x .git README.md ./*placeholder .gitignore  zipsigner* *.zip
 
 	## Prepare a final zip variable
-	ZIP_FINAL="$ZIPNAME-$DATE"
+	ZIP_FINAL="$ZIPNAME-$DATE2"
 
 	if [ $SIGN = 1 ]
 	then
