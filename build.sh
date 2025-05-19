@@ -75,7 +75,7 @@ BUILD_TYPE=Nightly
 
 # Specify compiler.
 # 'clang' or 'clangxgcc' or 'gcc'
-COMPILER=clangxgcc
+COMPILER=clang
 
 # Kernel is LTO. 1 is YES (default) | 0 is NO
 LTO=1
@@ -172,7 +172,9 @@ DATE2=$(TZ=Asia/Jakarta date +"%d%m%Y-%H%M")
 	if [ $COMPILER = "clang" ]
 	then
 		msg "|| Cloning toolchain ||"
-		git clone --depth=1 https://github.com/kdrag0n/proton-clang -b master $KERNEL_DIR/clang
+		mkdir -p "$KERNEL_DIR/clang" && cd "$KERNEL_DIR/clang"
+		wget -q "$(curl -sL "https://raw.githubusercontent.com/PurrrsLitterbox/LLVM-stable/refs/heads/main/latestlink.txt")" -O "clang.tar.zst" && tar -xf clang.tar.zst && rm -f clang.tar.zst
+  		cd $KERNEL_DIR
 
 	elif [ $COMPILER = "clangxgcc" ]
 	then
@@ -406,13 +408,21 @@ build_kernel() {
 
 	if [ $COMPILER = "clang" ]
 	then
-		make -j"$PROCS" O=out \
-				CROSS_COMPILE=aarch64-linux-gnu- \
-				CROSS_COMPILE_ARM32=arm-linux-gnueabi- \
+		make -j"$PROCS" O=out LLVM=1 LLVM_IAS=1 \
+				LD=$LINKER \
 				CC=clang \
+				HOSTCC=clang \
+				HOSTCXX=clang++ \
 				AR=llvm-ar \
+				NM=llvm-nm \
+				STRIP=llvm-strip \
+				OBJCOPY=llvm-objcopy \
 				OBJDUMP=llvm-objdump \
-				STRIP=llvm-strip "${MAKE[@]}" 2>&1 | tee build.log
+				CLANG_TRIPLE=aarch64-linux-gnu- \
+				CROSS_COMPILE=aarch64-linux-gnu- \
+				CROSS_COMPILE_COMPAT=arm-linux-gnueabi- \
+				CROSS_COMPILE_ARM32=arm-linux-gnueabi- \
+				2>&1 | tee -a build.log
 
 	elif [ $COMPILER = "gcc" ]
 	then
@@ -421,8 +431,9 @@ build_kernel() {
 				CROSS_COMPILE=aarch64-elf- \
 				AR=aarch64-elf-ar \
 				OBJDUMP=aarch64-elf-objdump \
-				STRIP=aarch64-elf-strip  \
-				LD="ld.lld"
+				STRIP=aarch64-elf-strip \
+				LD=$LINKER \
+				2>&1 | tee -a build.log
 
 	elif [ $COMPILER = "clangxgcc" ]
 	then
@@ -446,7 +457,8 @@ build_kernel() {
 				LD=$LINKER \
 				CLANG_TRIPLE=aarch64-linux-gnu- \
 				CROSS_COMPILE=aarch64-linux-gnu- \
-				CROSS_COMPILE_ARM32=arm-linux-gnueabi- "${MAKE[@]}" 2>&1 | tee build.log
+				CROSS_COMPILE_ARM32=arm-linux-gnueabi- \
+				2>&1 | tee -a build.log
 	fi
 
 		BUILD_END=$(date +"%s")
