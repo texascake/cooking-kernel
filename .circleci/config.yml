@@ -2,7 +2,7 @@ version: 2.1
 jobs:
   compile:
     docker:
-      - image: sandatjepil/build:toolchain
+      - image: wizardprjkt/build:kernel
     steps:
       - run:
           shell: /bin/bash
