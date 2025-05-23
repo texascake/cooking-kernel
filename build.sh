@@ -23,7 +23,7 @@ CODENAME="Hayzel"
 DEVICENAME="X00TD"
 KERNELNAME="TOM"
 VARIANT="HMP"
-VERSION="EOL" # The Civil Infrastructure Platform project (CIP) provides Super-Long-Term Stable (SLTS) kernels with a maintenance period of ten years.
+VERSION="CLO" # The Civil Infrastructure Platform project (CIP) provides Super-Long-Term Stable (SLTS) kernels with a maintenance period of ten years.
 KERVER=$(make kernelversion)
 
 BONUS_MSG="*Note:* KernelSU-Next and APatch Supported!! 🤫"
