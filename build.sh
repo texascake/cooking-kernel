@@ -10,7 +10,7 @@ else
 fi
 
 # Additional command (if you're lazy to commit :v)
-#sed -i 's/CONFIG_LOCALVERSION=.*/CONFIG_LOCALVERSION="-EoL.Revived"/g' arch/arm64/configs/X00TD_defconfig
+sed -i 's/CONFIG_LOCALVERSION=.*/CONFIG_LOCALVERSION="-tom-codelinaro"/g' arch/arm64/configs/X00TD_defconfig
 #sed -i 's/CONFIG_KSU=.*/CONFIG_KSU=n/g' arch/arm64/configs/X00TD_defconfig
 
 #set -e
@@ -39,10 +39,10 @@ TERM=xterm
 # 3 = ElectroWizard Clang
 # 4 = Proton Clang
 # 5 = Snapdragon Clang
-COMP=1
+COMP=5
 
 # Kernel is LTO. 1 is YES (default) | 0 is NO
-LTO=1
+LTO=0
 
 # You want to sign your build?
 # 1 = yes || 0 = no
