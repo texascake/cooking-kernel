@@ -39,7 +39,10 @@ TERM=xterm
 # 3 = ElectroWizard Clang
 # 4 = Proton Clang
 # 5 = Snapdragon Clang
-COMP=5
+COMP=1
+
+# Kernel is LTO. 1 is YES (default) | 0 is NO
+LTO=1
 
 # You want to sign your build?
 # 1 = yes || 0 = no
@@ -167,6 +170,11 @@ fi
     fi
   else
     echo "Clang unavailable! Aborting..."; exit 1
+fi
+
+if [ $LTO = "1" ];then
+export LD=ld.lld
+export LD_LIBRARY_PATH=$TC_DIR/lib
 fi
 
 export ARCH=arm64
