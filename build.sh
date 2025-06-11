@@ -71,7 +71,7 @@ KERNAME=TOM
 KBUILD_BUILD_USER=Kneba
 
 # Build Type
-BUILD_TYPE=WIP
+BUILD_TYPE=Nightly
 
 # Specify compiler.
 # 'clang' or 'clangxgcc' or 'gcc'
