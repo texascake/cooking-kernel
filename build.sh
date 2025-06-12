@@ -10,7 +10,7 @@ else
 fi
 
 # Additional command (if you're lazy to commit :v)
-sed -i 's/CONFIG_LOCALVERSION=.*/CONFIG_LOCALVERSION="-TOM-UClamp"/g' arch/arm64/configs/X00TD_defconfig
+sed -i 's/CONFIG_LOCALVERSION=.*/CONFIG_LOCALVERSION="-TheOneMemory-EAS-CIP"/g' arch/arm64/configs/X00TD_defconfig
 #sed -i 's/CONFIG_KSU=.*/CONFIG_KSU=n/g' arch/arm64/configs/X00TD_defconfig
 
 #set -e
@@ -23,7 +23,7 @@ CODENAME="Hayzel"
 DEVICENAME="X00TD"
 KERNELNAME="TOM"
 VARIANT="EAS"
-VERSION="EOL" # The Civil Infrastructure Platform project (CIP) provides Super-Long-Term Stable (SLTS) kernels with a maintenance period of ten years.
+VERSION="CIP" # The Civil Infrastructure Platform project (CIP) provides Super-Long-Term Stable (SLTS) kernels with a maintenance period of ten years.
 KERVER=$(make kernelversion)
 
 BONUS_MSG="*Note:* KernelSU-Next and APatch Supported!! 🤫"
@@ -53,7 +53,7 @@ TG_SUPER=0
 KERNEL_DEFCONFIG=X00TD_defconfig
 DATE=$(date '+%d%m%Y')
 DATE2=$(date '+%d%m%Y-%H%M')
-FINAL_ZIP="$KERNELNAME-$VARIANT-$VERSION-$KERVER-$DATE2"
+FINAL_ZIP="$KERNELNAME-$VARIANT-$VERSION-$KERVER-$DATE"
 export KBUILD_BUILD_TIMESTAMP=$(date)
 export KBUILD_BUILD_USER="queen"
 export KBUILD_BUILD_HOST="$HOST"
