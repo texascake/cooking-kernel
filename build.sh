@@ -10,7 +10,7 @@ else
 fi
 
 # Additional command (if you're lazy to commit :v)
-#sed -i 's/CONFIG_LOCALVERSION=.*/CONFIG_LOCALVERSION="-EoL.Revived"/g' arch/arm64/configs/X00TD_defconfig
+sed -i 's/CONFIG_LOCALVERSION=.*/CONFIG_LOCALVERSION="-TOM-UClamp"/g' arch/arm64/configs/X00TD_defconfig
 #sed -i 's/CONFIG_KSU=.*/CONFIG_KSU=n/g' arch/arm64/configs/X00TD_defconfig
 
 #set -e
@@ -136,7 +136,7 @@ fi
     cd $KERNELDIR
     export PATH="$KERNELDIR/sdclang/bin:$KERNELDIR/gcc64/bin:$KERNELDIR/gcc32/bin:$PATH"
     export LD_LIBRARY_PATH="$KERNELDIR/sdclang/lib:$LD_LIBRARY_PATH"
-    CLANG_VER="Qualcomm® Snapdragon™ clang version 14.1.5"
+    CLANG_VER="Snapdragon™ clang version 14.1.5"
     export KBUILD_COMPILER_STRING="$CLANG_VER"
     if ! [ -f "$KERNELDIR/sdclang/bin/clang" ]; then
       echo "Cloning failed! Aborting..."; exit 1
