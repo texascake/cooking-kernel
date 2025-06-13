@@ -12,7 +12,7 @@ fi
 # Additional command (if you're lazy to commit :v)
 sed -i 's/CONFIG_LOCALVERSION=.*/CONFIG_LOCALVERSION="-TheOneMemory-EAS-CIP"/g' arch/arm64/configs/X00TD_defconfig
 #sed -i 's/CONFIG_KSU=.*/CONFIG_KSU=n/g' arch/arm64/configs/X00TD_defconfig
-sed -i 's/CONFIG_SCHED_WALT=.*/CONFIG_SCHED_WALT=n/g' arch/arm64/configs/X00TD_defconfig
+#sed -i 's/CONFIG_SCHED_WALT=.*/CONFIG_SCHED_WALT=n/g' arch/arm64/configs/X00TD_defconfig
 
 #set -e
 
