@@ -45,7 +45,7 @@ KERNEL_DIR=$(pwd)/kernel
 cd $KERNEL_DIR
 
 sed -i 's/CONFIG_DEBUG_INFO=.*/CONFIG_DEBUG_INFO=n/g' arch/arm64/configs/asus/X00TD_defconfig
-sed -i 's/CONFIG_LOCALVERSION=.*/CONFIG_LOCALVERSION="-TOM-STBL"/g' arch/arm64/configs/asus/X00TD_defconfig
+sed -i 's/CONFIG_LOCALVERSION=.*/CONFIG_LOCALVERSION="-TOMtzy"/g' arch/arm64/configs/asus/X00TD_defconfig
 sed -i 's/CONFIG_HAVE_KPROBES=.*/CONFIG_HAVE_KPROBES=n/g' arch/arm64/configs/asus/X00TD_defconfig
 
 # The name of the device for which the kernel is built
