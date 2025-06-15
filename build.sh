@@ -45,7 +45,7 @@ KERNEL_DIR=$(pwd)/kernel
 cd $KERNEL_DIR
 
 sed -i 's/CONFIG_DEBUG_INFO=.*/CONFIG_DEBUG_INFO=n/g' arch/arm64/configs/asus/X00TD_defconfig
-sed -i 's/CONFIG_LOCALVERSION=.*/CONFIG_LOCALVERSION="-TOM-WIP-UClamp"/g' arch/arm64/configs/asus/X00TD_defconfig
+sed -i 's/CONFIG_LOCALVERSION=.*/CONFIG_LOCALVERSION="-TOM-STBL"/g' arch/arm64/configs/asus/X00TD_defconfig
 sed -i 's/CONFIG_HAVE_KPROBES=.*/CONFIG_HAVE_KPROBES=n/g' arch/arm64/configs/asus/X00TD_defconfig
 
 # The name of the device for which the kernel is built
@@ -71,11 +71,11 @@ KERNAME=TOM
 KBUILD_BUILD_USER=Kneba
 
 # Build Type
-BUILD_TYPE=WIP
+BUILD_TYPE=STBL
 
 # Specify compiler.
 # 'clang' or 'clangxgcc' or 'gcc'
-COMPILER=clang
+COMPILER=clangxgcc
 
 # Kernel is LTO. 1 is YES (default) | 0 is NO
 LTO=1
@@ -518,7 +518,7 @@ gen_zip() {
 	cp -af "$KERNEL_DIR"/changelog "$AK_DIR"/META-INF/com/google/android/aroma/changelog.txt
 	mv -f anykernel-real.sh anykernel.sh
 	sed -i "s/kernel.string=.*/kernel.string=$KERNAME/g" anykernel.sh
-	sed -i "s/kernel.type=.*/kernel.type=Stock-OverClock/g" anykernel.sh
+	sed -i "s/kernel.type=.*/kernel.type=SCNOC/g" anykernel.sh
 	sed -i "s/kernel.for=.*/kernel.for=$DEVICE/g" anykernel.sh
 	sed -i "s/kernel.compiler=.*/kernel.compiler=$KBUILD_COMPILER_STRING/g" anykernel.sh
 	sed -i "s/kernel.made=.*/kernel.made=$KBUILD_BUILD_USER/g" anykernel.sh
@@ -545,10 +545,10 @@ gen_zip() {
 	sed -i "s/KVARIANT/$BUILD_TYPE/g" aroma-config
 	cd "$AK_DIR"
 
-	zip -r9 $ZIPNAME-"$DATE2" * -x .git README.md ./*placeholder .gitignore  zipsigner* *.zip
+	zip -r9 $ZIPNAME-"$DATE" * -x .git README.md ./*placeholder .gitignore  zipsigner* *.zip
 
 	## Prepare a final zip variable
-	ZIP_FINAL="$ZIPNAME-$DATE2"
+	ZIP_FINAL="$ZIPNAME-$DATE"
 
 	if [ $SIGN = 1 ]
 	then
