@@ -71,7 +71,7 @@ KERNAME=TOM
 KBUILD_BUILD_USER=Kneba
 
 # Build Type
-BUILD_TYPE=NEWPART
+BUILD_TYPE=REPART
 
 # Specify compiler.
 # 'clang' or 'clangxgcc' or 'gcc'
