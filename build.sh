@@ -44,9 +44,9 @@ export TZ="Asia/Jakarta"
 KERNEL_DIR=$(pwd)/kernel
 cd $KERNEL_DIR
 
-sed -i 's/CONFIG_DEBUG_INFO=.*/CONFIG_DEBUG_INFO=n/g' arch/arm64/configs/asus/X00TD_defconfig
-sed -i 's/CONFIG_LOCALVERSION=.*/CONFIG_LOCALVERSION="-TOMtzy"/g' arch/arm64/configs/asus/X00TD_defconfig
-sed -i 's/CONFIG_HAVE_KPROBES=.*/CONFIG_HAVE_KPROBES=n/g' arch/arm64/configs/asus/X00TD_defconfig
+sed -i 's/CONFIG_DEBUG_INFO=.*/CONFIG_DEBUG_INFO=n/g' arch/arm64/configs/vendor/X00TD_defconfig
+sed -i 's/CONFIG_LOCALVERSION=.*/CONFIG_LOCALVERSION="-TOMtzy"/g' arch/arm64/configs/vendor/X00TD_defconfig
+sed -i 's/CONFIG_HAVE_KPROBES=.*/CONFIG_HAVE_KPROBES=n/g' arch/arm64/configs/vendor/X00TD_defconfig
 
 # The name of the device for which the kernel is built
 MODEL="Asus Zenfone Max Pro M1"
@@ -56,7 +56,7 @@ DEVICE="X00TD"
 
 # The defconfig which should be used. Get it from config.gz from
 # your device or check source
-DEFCONFIG=asus/X00TD_defconfig
+DEFCONFIG=vendor/X00TD_defconfig
 
 # Show manufacturer info
 MANUFACTURERINFO="ASUSTek Computer Inc."
@@ -71,7 +71,7 @@ KERNAME=TOM
 KBUILD_BUILD_USER=Kneba
 
 # Build Type
-BUILD_TYPE=Newpart
+BUILD_TYPE=LOS
 
 # Specify compiler.
 # 'clang' or 'clangxgcc' or 'gcc'
