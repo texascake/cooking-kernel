@@ -60,7 +60,7 @@ DEFCONFIG=asus/X00TD_defconfig
 
 # Show manufacturer info
 MANUFACTURERINFO="ASUSTek Computer Inc."
-ANDRVER=11-15
+ANDRVER=11-16
 
 # Kernel Variant
 VARIANT="May be unstable so use at your own risk"
