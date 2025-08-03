@@ -23,7 +23,7 @@ CODENAME="Hayzel"
 DEVICENAME="X00TD"
 KERNELNAME="TOM"
 VARIANT="EAS"
-VERSION="CIP"
+VERSION="CIP-st20"
 KERVER=$(make kernelversion)
 
 BONUS_MSG="*Note:* KernelSU-Next and APatch Supported!! 🤫"
@@ -58,7 +58,7 @@ DATE=$(date '+%d%m%Y')
 DATE2=$(date '+%d%m%Y-%H%M')
 FINAL_ZIP="$KERNELNAME-$VARIANT-$VERSION-$KERVER-$DATE2"
 export KBUILD_BUILD_TIMESTAMP=$(date)
-export KBUILD_BUILD_USER="queen"
+export KBUILD_BUILD_USER="tokodepia"
 export KBUILD_BUILD_HOST="$HOST"
 
 ############################################################
