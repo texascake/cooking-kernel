@@ -42,7 +42,7 @@ export TZ="Asia/Jakarta"
 
 # The defult directory where the kernel should be placed
 KERNEL_DIR=$(pwd)/kernel
-cd $KERNEL_DIR
+cd $KERNEL_DIR && git revert e01254d3c96ae54629e539eb1b13e9ca17ec82b6 --no-edit
 
 sed -i 's/CONFIG_DEBUG_INFO=.*/CONFIG_DEBUG_INFO=n/g' arch/arm64/configs/asus/X00TD_defconfig
 sed -i 's/CONFIG_LOCALVERSION=.*/CONFIG_LOCALVERSION="-TOMTzy"/g' arch/arm64/configs/asus/X00TD_defconfig
