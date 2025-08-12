@@ -7,7 +7,7 @@ jobs:
       - run:
           shell: /bin/bash
           command: |
-            git clone --depth=1 --recursive https://github.com/sotodrom/kernel_asus_sdm660-4.19 -b master kernel
+            git clone --depth=1 --recursive https://github.com/Tiktodz/android_kernel_asus_sdm660 -b wip kernel
             curl -s -L https://raw.githubusercontent.com/texascake/cooking-kernel/rel/build.sh | bash
           no_output_timeout : 30m
 workflows:
