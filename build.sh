@@ -22,8 +22,8 @@ KERNELDIR=$(pwd)
 CODENAME="Hayzel"
 DEVICENAME="X00TD"
 KERNELNAME="TOM"
-VARIANT="EAS"
-VERSION="CIP-st20"
+VARIANT="HMP"
+VERSION="EOL"
 KERVER=$(make kernelversion)
 
 BONUS_MSG="*Note:* KernelSU-Next and APatch Supported!! 🤫"
