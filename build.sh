@@ -10,7 +10,7 @@ else
 fi
 
 # Additional command (if you're lazy to commit :v)
-sed -i 's/CONFIG_LOCALVERSION=.*/CONFIG_LOCALVERSION="-TOMTzy"/g' arch/arm64/configs/X00TD_defconfig
+sed -i 's/CONFIG_LOCALVERSION=.*/CONFIG_LOCALVERSION="-TOMTzy-EAS"/g' arch/arm64/configs/X00TD_defconfig
 #sed -i 's/CONFIG_KSU=.*/CONFIG_KSU=n/g' arch/arm64/configs/X00TD_defconfig
 #sed -i 's/CONFIG_SCHED_WALT=.*/CONFIG_SCHED_WALT=n/g' arch/arm64/configs/X00TD_defconfig
 
@@ -248,7 +248,7 @@ fi
 echo "**** Verifying AnyKernel3 Directory ****"
 if ! [ -d "$KERNELDIR/AnyKernel3" ]; then
   echo "AnyKernel3 not found! Cloning..."
-  if ! git clone --depth=1 https://github.com/texascake/AnyKernel3 AnyKernel3; then
+  if ! git clone --depth=1 https://github.com/texascake/AnyKernel3 -b eas-oc AnyKernel3; then
     tg_post_build "$KERNELDIR/out/arch/arm64/boot/Image.gz-dtb" "Failed to Clone Anykernel, Sending image file instead"
     echo "Cloning failed! Aborting..."
     exit 1
