@@ -11,6 +11,7 @@ fi
 
 # Additional command (if you're lazy to commit :v)
 sed -i 's/CONFIG_LOCALVERSION=.*/CONFIG_LOCALVERSION="-TOMTzy-EAS"/g' arch/arm64/configs/X00TD_defconfig
+sed -i 's/CONFIG_DEBUG_INFO=.*/CONFIG_DEBUG_INFO=n/g' arch/arm64/configs/X00TD_defconfig
 #sed -i 's/CONFIG_KSU=.*/CONFIG_KSU=n/g' arch/arm64/configs/X00TD_defconfig
 #sed -i 's/CONFIG_SCHED_WALT=.*/CONFIG_SCHED_WALT=n/g' arch/arm64/configs/X00TD_defconfig
 
