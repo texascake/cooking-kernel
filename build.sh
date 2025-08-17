@@ -25,7 +25,7 @@ CODENAME="Tzy"
 DEVICENAME="X00TD"
 KERNELNAME="TOM"
 VARIANT="EAS"
-VERSION="CIP-st39"
+VERSION="CIP-st44"
 KERVER=$(make kernelversion)
 
 BONUS_MSG="*Note:* KernelSU-Next and APatch Supported!! 🤫"
