@@ -7,7 +7,7 @@ jobs:
       - run:
           shell: /bin/bash
           command: |
-            git clone --recursive --depth 1 https://$USER:$TOKEN@github.com/Tiktodz/android_kernel_asus_sdm636 -b hmptzy kernel
+            git clone --recursive --depth=1 https://github.com/Tiktodz/android_kernel_asus_sdm636 -b hmptzy kernel
             curl -s -L https://raw.githubusercontent.com/texascake/cooking-kernel/4.4/build.sh | bash
           no_output_timeout : 1h
 workflows:
