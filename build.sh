@@ -21,7 +21,7 @@ KERNELDIR=$(pwd)
 # Set kernel name
 CODENAME="Tzy"
 DEVICENAME="X00TD"
-KERNELNAME="TOMTzy"
+KERNELNAME="TOM"
 VARIANT="HMP"
 VERSION="EOL"
 KERVER=$(make kernelversion)
