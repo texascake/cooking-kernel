@@ -19,9 +19,9 @@ sed -i 's/CONFIG_LOCALVERSION=.*/CONFIG_LOCALVERSION="-TOMTzy"/g' arch/arm64/con
 KERNELDIR=$(pwd)
 
 # Set kernel name
-CODENAME="Hayzel"
+CODENAME="Tzy"
 DEVICENAME="X00TD"
-KERNELNAME="TOM"
+KERNELNAME="TOMTzy"
 VARIANT="HMP"
 VERSION="EOL"
 KERVER=$(make kernelversion)
