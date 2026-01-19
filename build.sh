@@ -72,10 +72,10 @@ VARIANT="May be unstable so use at your own risk"
 # Kernel Name
 KERNAME=TOM
 ## main Account ##
-KBUILD_BUILD_USER=Kneba
+KBUILD_BUILD_USER=Tokodepia
 
 # Build Type
-BUILD_TYPE=Test
+BUILD_TYPE=Nightly
 
 # Specify compiler.
 # 'clang' or 'clangxgcc' or 'gcc'
