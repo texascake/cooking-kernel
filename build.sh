@@ -75,14 +75,14 @@ KERNAME=TOM
 KBUILD_BUILD_USER=Tokodepia
 
 # Build Type
-BUILD_TYPE=Nightly
+BUILD_TYPE=Rebase
 
 # Specify compiler.
 # 'clang' or 'clangxgcc' or 'gcc'
 COMPILER=clangxgcc
 
 # Kernel is LTO. 1 is YES (default) | 0 is NO
-LTO=1
+LTO=0
 
 # Specify linker.
 # 'ld.lld'(default)
