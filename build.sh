@@ -45,7 +45,7 @@ KERNEL_DIR=$(pwd)/kernel
 cd $KERNEL_DIR
 
 #sed -i 's/CONFIG_DEBUG_INFO=.*/CONFIG_DEBUG_INFO=n/g' arch/arm64/configs/asus/X00TD_defconfig
-sed -i 's/CONFIG_LOCALVERSION=.*/CONFIG_LOCALVERSION="-TOMTzy"/g' arch/arm64/configs/asus/X00TD_defconfig
+sed -i 's/CONFIG_LOCALVERSION=.*/CONFIG_LOCALVERSION="-TOMTzy-969"/g' arch/arm64/configs/asus/X00TD_defconfig
 #sed -i 's/CONFIG_HAVE_KPROBES=.*/CONFIG_HAVE_KPROBES=n/g' arch/arm64/configs/asus/X00TD_defconfig
 #sed -i 's/CONFIG_ARCH_HAS_REFCOUNT_FULL=.*/CONFIG_ARCH_HAS_REFCOUNT_FULL=n/g' arch/arm64/configs/asus/X00TD_defconfig
 #sed -i 's/CONFIG_ARCH_HAS_REFCOUNT=.*/CONFIG_ARCH_HAS_REFCOUNT=n/g' arch/arm64/configs/asus/X00TD_defconfig
@@ -75,7 +75,7 @@ KERNAME=TOM
 KBUILD_BUILD_USER=Tokodepia
 
 # Build Type
-BUILD_TYPE=Rebase
+BUILD_TYPE=LFN
 
 # Specify compiler.
 # 'clang' or 'clangxgcc' or 'gcc'
@@ -232,7 +232,7 @@ DATE2=$(TZ=Asia/Jakarta date +"%d%m%Y-%H%M")
 # Function to replace defconfig versioning
 setversioning() {
     # For staging branch
-    KERNELNAME="$KERNAME-$BUILD_TYPE-SuSFS-$LINUXVER"
+    KERNELNAME="$KERNAME-$BUILD_TYPE-$LINUXVER"
     # Export our new localversion and zipnames
     ZIPNAME="$KERNELNAME"
 }
@@ -549,10 +549,10 @@ gen_zip() {
 	sed -i "s/KVARIANT/$BUILD_TYPE/g" aroma-config
 	cd "$AK_DIR"
 
-	zip -r9 $ZIPNAME-"$DATE2" * -x .git README.md ./*placeholder .gitignore  zipsigner* *.zip
+	zip -r9 $ZIPNAME-"$DATE" * -x .git README.md ./*placeholder .gitignore  zipsigner* *.zip
 
 	## Prepare a final zip variable
-	ZIP_FINAL="$ZIPNAME-$DATE2"
+	ZIP_FINAL="$ZIPNAME-$DATE"
 
 	if [ $SIGN = 1 ]
 	then
