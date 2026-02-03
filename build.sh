@@ -78,8 +78,8 @@ KBUILD_BUILD_USER=Tokodepia
 BUILD_TYPE=LFN
 
 # Specify compiler.
-# 'clang' or 'clangxgcc' or 'gcc'
-COMPILER=clangxgcc
+# 'clang' or 'clangxgcc' or 'gcc' or 'kale'
+COMPILER=kale
 
 # Kernel is LTO. 1 is YES (default) | 0 is NO
 LTO=0
@@ -173,15 +173,14 @@ DATE2=$(TZ=Asia/Jakarta date +"%d%m%Y-%H%M")
 
  clone() {
 	echo " "
-	if [ $COMPILER = "clang" ]
-	then
+	case "$COMPILER" in
+	clang)
 		msg "|| Cloning toolchain ||"
 		mkdir -p "$KERNEL_DIR/clang" && cd "$KERNEL_DIR/clang"
 		wget -q "$(curl -sL "https://raw.githubusercontent.com/PurrrsLitterbox/LLVM-stable/refs/heads/main/latestlink.txt")" -O "clang.tar.zst" && tar -xf clang.tar.zst && rm -f clang.tar.zst
   		cd $KERNEL_DIR
-
-	elif [ $COMPILER = "clangxgcc" ]
-	then
+  		;;
+	clangxgcc)
 		msg "|| Cloning clang-r536225 for Android V release ||"
 		mkdir -p "$KERNEL_DIR/clang" && cd "$KERNEL_DIR/clang"
 		wget -q https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/refs/heads/main/clang-r536225.tar.gz -O "clang.tar.gz" && tar -xzf clang.tar.gz && rm -f clang.tar.gz
@@ -196,16 +195,25 @@ DATE2=$(TZ=Asia/Jakarta date +"%d%m%Y-%H%M")
     		mkdir -p "$KERNEL_DIR/gcc32" && cd "$KERNEL_DIR/gcc32"
 		wget -q https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9/+archive/refs/tags/android-12.1.0_r27.tar.gz -O "gcc32.tar.gz" && rm -f gcc32.tar.gz
   		cd $KERNEL_DIR
-
-	elif [ $COMPILER = "gcc" ]
-	then
+  		;;
+	gcc)
 		msg "|| Cloning toolchain ||"
 		git clone --depth=1 https://gitlab.com/ElectroPerf/atom-x-clang.git $KERNEL_DIR/clang
 
 		msg "|| Cloning GCC Bare Metal ||"
 		git clone https://github.com/mvaisakh/gcc-arm64.git -b gcc-new $KERNEL_DIR/gcc64 --depth=1
 		git clone https://github.com/mvaisakh/gcc-arm.git -b gcc-new $KERNEL_DIR/gcc32 --depth=1
-	fi
+		;;
+	kale)
+		msg "|| Cloning toolchain ||"
+		TC_EXT="$KERNEL_DIR/clang"
+		mkdir -p "$TC_EXT" && pushd "$TC_EXT"
+		wget -qO clang.tar.zst "https://github.com/PurrrsLitterbox/LLVM-stable/releases/download/llvmorg-21.1.8/clang.tar.zst" && tar -xf clang.tar.zst && rm -f clang.tar.zst
+		popd
+		[[ -f "$TC_EXT/bin/clang" ]] || exit 1
+		unset TC_EXT
+		;;
+	esac
 
 	# Toolchain Directory defaults to clang-llvm
 		TC_DIR=$KERNEL_DIR/clang
@@ -244,19 +252,20 @@ exports() {
 	export ARCH=arm64
 	export SUBARCH=arm64
 
-	if [ $COMPILER = "clang" ]
-	then
+	case $COMPILER in
+	clang|kale)
 		KBUILD_COMPILER_STRING=$("$TC_DIR"/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//')
 		PATH=$TC_DIR/bin/:$PATH
-	elif [ $COMPILER = "clangxgcc" ]
-	then
+		;;
+	clangxgcc)
 		KBUILD_COMPILER_STRING=$("$TC_DIR"/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//')
 		PATH=$TC_DIR/bin:$GCC64_DIR/bin:$GCC32_DIR/bin:/usr/bin:$PATH
-	elif [ $COMPILER = "gcc" ]
-	then
+		;;
+	gcc)
 		KBUILD_COMPILER_STRING=$("$GCC64_DIR"/bin/aarch64-elf-gcc --version | head -n 1)
 		PATH=$GCC64_DIR/bin/:$GCC32_DIR/bin/:/usr/bin:$PATH
-	fi
+		;;
+	esac
 
 	if [ $LTO = "1" ];then
         export LD=ld.lld
@@ -414,8 +423,8 @@ build_kernel() {
 
 	BUILD_START=$(date +"%s")
 
-	if [ $COMPILER = "clang" ]
-	then
+	case "$COMPILER" in
+	clang)
 		make -j"$PROCS" O=out LLVM=1 LLVM_IAS=1 \
 				LD=$LINKER \
 				CC=clang \
@@ -431,9 +440,8 @@ build_kernel() {
 				CROSS_COMPILE_COMPAT=arm-linux-gnueabi- \
 				CROSS_COMPILE_ARM32=arm-linux-gnueabi- \
 				2>&1 | tee -a build.log
-
-	elif [ $COMPILER = "gcc" ]
-	then
+				;;
+	gcc)
 		make -j"$PROCS" O=out \
 				CROSS_COMPILE_ARM32=arm-eabi- \
 				CROSS_COMPILE=aarch64-elf- \
@@ -442,9 +450,8 @@ build_kernel() {
 				STRIP=aarch64-elf-strip \
 				LD=$LINKER \
 				2>&1 | tee -a build.log
-
-	elif [ $COMPILER = "clangxgcc" ]
-	then
+				;;
+	clangxgcc)
 		make CC=clang \
 		LD="$LINKER" \
 		$DEFCONFIG O=out 2>&1 | tee -a build.log
@@ -467,7 +474,22 @@ build_kernel() {
 				CROSS_COMPILE=aarch64-linux-gnu- \
 				CROSS_COMPILE_ARM32=arm-linux-gnueabi- \
 				2>&1 | tee -a build.log
-	fi
+				;;
+	kale)
+		make -j4 O=out LLVM=1 LLVM_IAS=1 \
+    	LD="ld.lld" \
+		CC="clang" \
+		HOSTCC="clang" \
+		HOSTCXX="clang++" \
+		AR="llvm-ar" \
+		NM="llvm-nm" \
+		STRIP="llvm-strip" \
+		OBJCOPY="llvm-objcopy" \
+		OBJDUMP="llvm-objdump" \
+		CROSS_COMPILE="aarch64-linux-gnu-" \
+    	CROSS_COMPILE_ARM32="arm-linux-gnueabi-" 2>&1 | tee -a build.log
+		;;
+	esac
 
 		BUILD_END=$(date +"%s")
 		DIFF=$((BUILD_END - BUILD_START))
