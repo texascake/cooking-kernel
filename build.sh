@@ -75,7 +75,7 @@ KERNAME=TOM
 KBUILD_BUILD_USER=Kneba
 
 # Build Type
-BUILD_TYPE=DownRev
+BUILD_TYPE=st9
 
 # Specify compiler.
 # 'clang' or 'clangxgcc' or 'gcc'
