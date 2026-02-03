@@ -75,7 +75,7 @@ KERNAME=TOM
 KBUILD_BUILD_USER=Tokodepia
 
 # Build Type
-BUILD_TYPE=LFN
+BUILD_TYPE=st9
 
 # Specify compiler.
 # 'clang' or 'clangxgcc' or 'gcc' or 'kale'
