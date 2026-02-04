@@ -75,14 +75,14 @@ KERNAME=TOM
 KBUILD_BUILD_USER=Tokodepia
 
 # Build Type
-BUILD_TYPE=st9
+BUILD_TYPE=st6
 
 # Specify compiler.
 # 'clang' or 'clangxgcc' or 'gcc' or 'kale'
 COMPILER=kale
 
 # Kernel is LTO. 1 is YES (default) | 0 is NO
-LTO=0
+LTO=1
 
 # Specify linker.
 # 'ld.lld'(default)
@@ -571,10 +571,10 @@ gen_zip() {
 	sed -i "s/KVARIANT/$BUILD_TYPE/g" aroma-config
 	cd "$AK_DIR"
 
-	zip -r9 $ZIPNAME-"$DATE2" * -x .git README.md ./*placeholder .gitignore  zipsigner* *.zip
+	zip -r9 $ZIPNAME-"$DATE" * -x .git README.md ./*placeholder .gitignore  zipsigner* *.zip
 
 	## Prepare a final zip variable
-	ZIP_FINAL="$ZIPNAME-$DATE2"
+	ZIP_FINAL="$ZIPNAME-$DATE"
 
 	if [ $SIGN = 1 ]
 	then
