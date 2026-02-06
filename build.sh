@@ -51,7 +51,7 @@ sed -i 's/CONFIG_LOCALVERSION=.*/CONFIG_LOCALVERSION="-TOMTzy-969"/g' arch/arm64
 #sed -i 's/CONFIG_ARCH_HAS_REFCOUNT=.*/CONFIG_ARCH_HAS_REFCOUNT=n/g' arch/arm64/configs/asus/X00TD_defconfig
 #sed -i 's/CONFIG_BLK_MQ_RDMA=.*/CONFIG_BLK_MQ_RDMA=n/g' arch/arm64/configs/asus/X00TD_defconfig
 #sed -i 's/CONFIG_BLK_PM=.*/CONFIG_BLK_PM=n/g' arch/arm64/configs/asus/X00TD_defconfig
-sed -i 's/CONFIG_CNSS2=.*/CONFIG_CNSS2=n/g' arch/arm64/configs/asus/X00TD_defconfig
+#sed -i 's/CONFIG_CNSS2=.*/CONFIG_CNSS2=n/g' arch/arm64/configs/asus/X00TD_defconfig
 
 # The name of the device for which the kernel is built
 MODEL="Asus Zenfone Max Pro M1"
@@ -241,7 +241,7 @@ DATE2=$(TZ=Asia/Jakarta date +"%d%m%Y-%H%M")
 # Function to replace defconfig versioning
 setversioning() {
     # For staging branch
-    KERNELNAME="$KERNAME-$BUILD_TYPE-$LINUXVER"
+    KERNELNAME="$KERNAME-$BUILD_TYPE-RKSU-$LINUXVER"
     # Export our new localversion and zipnames
     ZIPNAME="$KERNELNAME"
 }
@@ -572,10 +572,10 @@ gen_zip() {
 	sed -i "s/KVARIANT/$BUILD_TYPE/g" aroma-config
 	cd "$AK_DIR"
 
-	zip -r9 $ZIPNAME-"$DATE2" * -x .git README.md ./*placeholder .gitignore  zipsigner* *.zip
+	zip -r9 $ZIPNAME-"$DATE" * -x .git README.md ./*placeholder .gitignore  zipsigner* *.zip
 
 	## Prepare a final zip variable
-	ZIP_FINAL="$ZIPNAME-$DATE2"
+	ZIP_FINAL="$ZIPNAME-$DATE"
 
 	if [ $SIGN = 1 ]
 	then
