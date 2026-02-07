@@ -44,6 +44,8 @@ export TZ="Asia/Jakarta"
 KERNEL_DIR=$(pwd)/kernel
 cd $KERNEL_DIR
 
+curl -LSs "https://raw.githubusercontent.com/rsuntk/KernelSU/main/kernel/setup.sh" | bash -s main
+
 #sed -i 's/CONFIG_DEBUG_INFO=.*/CONFIG_DEBUG_INFO=n/g' arch/arm64/configs/asus/X00TD_defconfig
 sed -i 's/CONFIG_LOCALVERSION=.*/CONFIG_LOCALVERSION="-TOMTzy-969"/g' arch/arm64/configs/asus/X00TD_defconfig
 #sed -i 's/CONFIG_HAVE_KPROBES=.*/CONFIG_HAVE_KPROBES=n/g' arch/arm64/configs/asus/X00TD_defconfig
