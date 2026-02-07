@@ -61,7 +61,7 @@ DEVICE="X00TD"
 
 # The defconfig which should be used. Get it from config.gz from
 # your device or check source
-DEFCONFIG=asus/X00TD_defconfig
+DEFCONFIG=vendor/X00TD_defconfig
 
 # Show manufacturer info
 MANUFACTURERINFO="ASUSTek Computer Inc."
@@ -76,14 +76,14 @@ KERNAME=TOM
 KBUILD_BUILD_USER=Tokodepia
 
 # Build Type
-BUILD_TYPE=st10
+BUILD_TYPE=st11
 
 # Specify compiler.
 # 'clang' or 'clangxgcc' or 'gcc' or 'kale'
 COMPILER=kale
 
 # Kernel is LTO. 1 is YES (default) | 0 is NO
-LTO=1
+LTO=0
 
 # Specify linker.
 # 'ld.lld'(default)
@@ -227,7 +227,7 @@ DATE2=$(TZ=Asia/Jakarta date +"%d%m%Y-%H%M")
 		AK_DIR=$KERNEL_DIR/Anykernel3
 
 	msg "|| Cloning Anykernel ||"
-	git clone --depth=1 https://github.com/sandatjepil/AnyKernel3 -b kesu $KERNEL_DIR/Anykernel3
+	git clone --depth=1 https://github.com/Kneba/AnyKernel3 -b 419 $KERNEL_DIR/Anykernel3
 
 	if [ $BUILD_DTBO = 1 ]
 	then
@@ -541,41 +541,41 @@ gen_zip() {
 		mv "$KERNEL_DIR"/out/arch/arm64/boot/dtbo.img $AK_DIR/dtbo.img
 	fi
 
-	cd $AK_DIR
-	cp -af "$KERNEL_DIR"/changelog "$AK_DIR"/META-INF/com/google/android/aroma/changelog.txt
-	mv -f anykernel-real.sh anykernel.sh
-	sed -i "s/kernel.string=.*/kernel.string=$KERNAME/g" anykernel.sh
-	sed -i "s/kernel.type=.*/kernel.type=SCNOC/g" anykernel.sh
-	sed -i "s/kernel.for=.*/kernel.for=$DEVICE/g" anykernel.sh
-	sed -i "s/kernel.compiler=.*/kernel.compiler=$KBUILD_COMPILER_STRING/g" anykernel.sh
-	sed -i "s/kernel.made=.*/kernel.made=$KBUILD_BUILD_USER/g" anykernel.sh
-	sed -i "s/kernel.version=.*/kernel.version=$LINUXVER/g" anykernel.sh
-	sed -i "s/message.word=.*/message.word=Appreciate your efforts for choosing TheOneMemory kernel./g" anykernel.sh
-	sed -i "s/build.date=.*/build.date=$DATE/g" anykernel.sh
-	sed -i "s/build.type=.*/build.type=$BUILD_TYPE/g" anykernel.sh
-	sed -i "s/supported.versions=.*/supported.versions=$ANDRVER/g" anykernel.sh
-	sed -i "s/device.name1=.*/device.name1=X00TD/g" anykernel.sh
-	sed -i "s/device.name2=.*/device.name2=X00T/g" anykernel.sh
-	sed -i "s/device.name3=.*/device.name3=Zenfone Max Pro M1 (X00TD)/g" anykernel.sh
-	sed -i "s/device.name4=.*/device.name4=ASUS_X00TD/g" anykernel.sh
-	sed -i "s/device.name5=.*/device.name5=ASUS_X00T/g" anykernel.sh
-	sed -i "s/X00TD=.*/X00TD=1/g" anykernel.sh
+	cd $AK_DIR || exit 1
+	#cp -af "$KERNEL_DIR"/changelog "$AK_DIR"/META-INF/com/google/android/aroma/changelog.txt
+	#mv -f anykernel-real.sh anykernel.sh
+	#sed -i "s/kernel.string=.*/kernel.string=$KERNAME/g" anykernel.sh
+	#sed -i "s/kernel.type=.*/kernel.type=SCNOC/g" anykernel.sh
+	#sed -i "s/kernel.for=.*/kernel.for=$DEVICE/g" anykernel.sh
+	#sed -i "s/kernel.compiler=.*/kernel.compiler=$KBUILD_COMPILER_STRING/g" anykernel.sh
+	#sed -i "s/kernel.made=.*/kernel.made=$KBUILD_BUILD_USER/g" anykernel.sh
+	#sed -i "s/kernel.version=.*/kernel.version=$LINUXVER/g" anykernel.sh
+	#sed -i "s/message.word=.*/message.word=Appreciate your efforts for choosing TheOneMemory kernel./g" anykernel.sh
+	#sed -i "s/build.date=.*/build.date=$DATE/g" anykernel.sh
+	#sed -i "s/build.type=.*/build.type=$BUILD_TYPE/g" anykernel.sh
+	#sed -i "s/supported.versions=.*/supported.versions=$ANDRVER/g" anykernel.sh
+	#sed -i "s/device.name1=.*/device.name1=X00TD/g" anykernel.sh
+	#sed -i "s/device.name2=.*/device.name2=X00T/g" anykernel.sh
+	#sed -i "s/device.name3=.*/device.name3=Zenfone Max Pro M1 (X00TD)/g" anykernel.sh
+	#sed -i "s/device.name4=.*/device.name4=ASUS_X00TD/g" anykernel.sh
+	#sed -i "s/device.name5=.*/device.name5=ASUS_X00T/g" anykernel.sh
+	#sed -i "s/X00TD=.*/X00TD=1/g" anykernel.sh
 
-	cd $AK_DIR/META-INF/com/google/android
-	mv -f update-binary update-binary-installer
-	mv -f aroma-binary update-binary
-	sed -i "s/KNAME/$KERNAME/g" aroma-config
-	sed -i "s/KVER/$LINUXVER/g" aroma-config
-	sed -i "s/KAUTHOR/$KBUILD_BUILD_USER/g" aroma-config
-	sed -i "s/KDEVICE/Zenfone Max Pro M1/g" aroma-config
-	sed -i "s/KBDATE/$DATE/g" aroma-config
-	sed -i "s/KVARIANT/$BUILD_TYPE/g" aroma-config
-	cd "$AK_DIR"
+	#cd $AK_DIR/META-INF/com/google/android
+	#mv -f update-binary update-binary-installer
+	#mv -f aroma-binary update-binary
+	#sed -i "s/KNAME/$KERNAME/g" aroma-config
+	#sed -i "s/KVER/$LINUXVER/g" aroma-config
+	#sed -i "s/KAUTHOR/$KBUILD_BUILD_USER/g" aroma-config
+	#sed -i "s/KDEVICE/Zenfone Max Pro M1/g" aroma-config
+	#sed -i "s/KBDATE/$DATE/g" aroma-config
+	#sed -i "s/KVARIANT/$BUILD_TYPE/g" aroma-config
+	#cd "$AK_DIR"
 
-	zip -r9 $ZIPNAME-"$DATE" * -x .git README.md ./*placeholder .gitignore  zipsigner* *.zip
+	zip -r9 $ZIPNAME-"$DATE2" * -x .git README.md ./*placeholder .gitignore  zipsigner* *.zip
 
 	## Prepare a final zip variable
-	ZIP_FINAL="$ZIPNAME-$DATE"
+	ZIP_FINAL="$ZIPNAME-$DATE2"
 
 	if [ $SIGN = 1 ]
 	then
