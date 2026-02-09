@@ -86,7 +86,7 @@ BUILD_TYPE=TZY
 COMPILER=kale
 
 # Kernel is LTO. 1 is YES (default) | 0 is NO
-LTO=0
+LTO=1
 
 # Specify linker.
 # 'ld.lld'(default)
