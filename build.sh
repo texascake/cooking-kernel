@@ -230,7 +230,7 @@ DATE2=$(TZ=Asia/Jakarta date +"%d%m%Y-%H%M")
 		AK_DIR=$KERNEL_DIR/Anykernel3
 
 	msg "|| Cloning Anykernel ||"
-	git clone --depth=1 https://github.com/texascake/AnyKernel3 -b 4.19 $KERNEL_DIR/Anykernel3
+	git clone --depth=1 https://github.com/sandatjepil/AnyKernel3 -b kesu $KERNEL_DIR/Anykernel3
 
 	if [ $BUILD_DTBO = 1 ]
 	then
