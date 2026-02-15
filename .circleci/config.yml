@@ -7,7 +7,7 @@ jobs:
       - run:
           shell: /bin/bash
           command: |
-            git clone --depth=1 --recurse-submodules https://github.com/tiktodz/android_kernel_asus_sdm660 -b wip kernel
+            git clone --depth=1 --recurse-submodules https://github.com/tiktodz/android_kernel_asus_sdm660 -b tom-st6 kernel
             curl -s -L https://raw.githubusercontent.com/texascake/cooking-kernel/rel-2/build.sh | bash
           no_output_timeout : 30m
 workflows:
