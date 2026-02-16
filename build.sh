@@ -253,7 +253,7 @@ setversioning() {
 
 exports() {
 	export KBUILD_BUILD_USER="queen"
-	export KBUILD_BUILD_HOST=$DISTRO
+#	export KBUILD_BUILD_HOST=$DISTRO
 	export ARCH=arm64
 	export SUBARCH=arm64
 
