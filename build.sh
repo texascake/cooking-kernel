@@ -76,7 +76,7 @@ VARIANT="May be unstable so use at your own risk"
 KERNAME=TOM
 
 ## main Account ##
-KBUILD_BUILD_USER=Tokodepia
+KBUILD_BUILD_USER=queen
 
 # Build Type
 BUILD_TYPE=TZY
