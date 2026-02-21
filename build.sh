@@ -253,7 +253,7 @@ setversioning() {
 
 exports() {
 	export KBUILD_BUILD_USER="queen"
-#	export KBUILD_BUILD_HOST=$DISTRO
+	export KBUILD_BUILD_HOST=$(cat /etc/hostname)
 	export ARCH=arm64
 	export SUBARCH=arm64
 
@@ -513,7 +513,7 @@ build_kernel() {
 			else
 			if [ "$PTTG" = 1 ]
  			then
-				tg_post_msg "<b>"build.log" ❌Error! Compilaton failed: Kernel Image missing</b>
+				tg_post_msg "<b>❌ Compilaton failed: Kernel Image missing</b>"
 
 <b>Build Date: </b><code>$DATE</code>
 
@@ -576,10 +576,10 @@ gen_zip() {
 	sed -i "s/KVARIANT/$BUILD_TYPE/g" aroma-config
 	cd "$AK_DIR"
 
-	zip -r9 $ZIPNAME-"$DATE" * -x .git README.md ./*placeholder .gitignore  zipsigner* *.zip
+	zip -r9 $ZIPNAME-"$DATE2" * -x .git README.md ./*placeholder .gitignore  zipsigner* *.zip
 
 	## Prepare a final zip variable
-	ZIP_FINAL="$ZIPNAME-$DATE"
+	ZIP_FINAL="$ZIPNAME-$DATE2"
 
 	if [ $SIGN = 1 ]
 	then
