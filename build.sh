@@ -79,7 +79,7 @@ KERNAME=TOM
 KBUILD_BUILD_USER=queen
 
 # Build Type
-BUILD_TYPE=TZY
+BUILD_TYPE=Nightly
 
 # Specify compiler.
 # 'clang' or 'clangxgcc' or 'gcc' or 'kale'
@@ -576,10 +576,10 @@ gen_zip() {
 	sed -i "s/KVARIANT/$BUILD_TYPE/g" aroma-config
 	cd "$AK_DIR"
 
-	zip -r9 $ZIPNAME-"$DATE2" * -x .git README.md ./*placeholder .gitignore  zipsigner* *.zip
+	zip -r9 $ZIPNAME-"$DATE" * -x .git README.md ./*placeholder .gitignore  zipsigner* *.zip
 
 	## Prepare a final zip variable
-	ZIP_FINAL="$ZIPNAME-$DATE2"
+	ZIP_FINAL="$ZIPNAME-$DATE"
 
 	if [ $SIGN = 1 ]
 	then
@@ -610,4 +610,4 @@ clone
 exports
 build_kernel
 
-##----------------*****-----------------------------##
+##-----------------*****---------------------------##
