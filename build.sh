@@ -513,7 +513,7 @@ build_kernel() {
 			else
 			if [ "$PTTG" = 1 ]
  			then
-				tg_post_msg "<b>❌ Compilaton failed: Kernel Image missing</b>"
+				tg_post_msg "<b>❌ Compilaton failed: Kernel Image missing</b>
 
 <b>Build Date: </b><code>$DATE</code>
 
