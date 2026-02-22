@@ -79,7 +79,7 @@ KERNAME=TOM
 KBUILD_BUILD_USER=queen
 
 # Build Type
-BUILD_TYPE=Nightly
+BUILD_TYPE=PreNightly
 
 # Specify compiler.
 # 'clang' or 'clangxgcc' or 'gcc' or 'kale'
@@ -244,7 +244,7 @@ DATE2=$(TZ=Asia/Jakarta date +"%d%m%Y-%H%M")
 # Function to replace defconfig versioning
 setversioning() {
     # For staging branch
-    KERNELNAME="$KERNAME-$BUILD_TYPE-SuSFSv2-$LINUXVER"
+    KERNELNAME="$KERNAME-$BUILD_TYPE-$LINUXVER"
     # Export our new localversion and zipnames
     ZIPNAME="$KERNELNAME"
 }
