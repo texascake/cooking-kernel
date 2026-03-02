@@ -2,7 +2,7 @@
 
 export TZ="Asia/Jakarta"
 
-if [ -f kernel/arch/arm64/configs/X00TD_defconfig ]; then
+if [ -f kernel/arch/arm64/configs/sdm636-perf_defconfig ]; then
     cd kernel
 else
     echo "Kernel Cloning Failed! aborting..."
@@ -10,8 +10,9 @@ else
 fi
 
 # Additional command (if you're lazy to commit :v)
-sed -i 's/CONFIG_LOCALVERSION=.*/CONFIG_LOCALVERSION="-TOMTzy-HMP"/g' arch/arm64/configs/X00TD_defconfig
+sed -i 's/CONFIG_LOCALVERSION=.*/CONFIG_LOCALVERSION="-TOMTzy-EAS"/g' arch/arm64/configs/sdm636-perf_defconfig
 #sed -i 's/CONFIG_KSU=.*/CONFIG_KSU=n/g' arch/arm64/configs/X00TD_defconfig
+curl -LSs "https://raw.githubusercontent.com/Sorayukii/KernelSU-Next/stable/kernel/setup.sh" | bash -s hookless
 
 #set -e
 
@@ -19,10 +20,10 @@ sed -i 's/CONFIG_LOCALVERSION=.*/CONFIG_LOCALVERSION="-TOMTzy-HMP"/g' arch/arm64
 KERNELDIR=$(pwd)
 
 # Set kernel name
-CODENAME="Tzy"
+CODENAME="TZY"
 DEVICENAME="X00TD"
 KERNELNAME="TOM"
-VARIANT="HMP"
+VARIANT="EAS"
 VERSION="EOL"
 KERVER=$(make kernelversion)
 
@@ -53,7 +54,7 @@ SIGN=1
 TG_SUPER=0
 
 # Additional Variables
-KERNEL_DEFCONFIG=X00TD_defconfig
+KERNEL_DEFCONFIG=sdm636-perf_defconfig
 DATE=$(date '+%d%m%Y')
 DATE2=$(date '+%d%m%Y-%H%M')
 FINAL_ZIP="$KERNELNAME-$VARIANT-$VERSION-$KERVER-$DATE"
@@ -255,7 +256,7 @@ fi
 echo "**** Verifying AnyKernel3 Directory ****"
 if ! [ -d "$KERNELDIR/AnyKernel3" ]; then
   echo "AnyKernel3 not found! Cloning..."
-  if ! git clone --depth=1 https://github.com/texascake/AnyKernel3 -b hmp-oc AnyKernel3; then
+  if ! git clone --depth=1 https://github.com/Kneba/AnyKernel3 -b polos AnyKernel3; then
     tg_post_build "$KERNELDIR/out/arch/arm64/boot/Image.gz-dtb" "Failed to Clone Anykernel, Sending image file instead"
     echo "Cloning failed! Aborting..."
     exit 1
@@ -269,35 +270,36 @@ cp -af $KERNELDIR/out/arch/arm64/boot/Image.gz-dtb $AK3DIR
 
 echo "**** Time to zip up! ****"
 cd $AK3DIR
-cp -af $KERNELDIR/init.$CODENAME.Spectrum.rc spectrum/init.spectrum.rc && sed -i "s/persist.spectrum.kernel.*/persist.spectrum.kernel TheOneMemory/g" spectrum/init.spectrum.rc
-cp -af $KERNELDIR/changelog META-INF/com/google/android/aroma/changelog.txt
-mv anykernel-real.sh anykernel.sh
-sed -i "s/kernel.string=.*/kernel.string=$KERNELNAME/g" anykernel.sh
-sed -i "s/kernel.type=.*/kernel.type=$VARIANT/g" anykernel.sh
-sed -i "s/kernel.for=.*/kernel.for=$CODENAME/g" anykernel.sh
-sed -i "s/kernel.compiler=.*/kernel.compiler=$KBUILD_COMPILER_STRING/g" anykernel.sh
-sed -i "s/kernel.made=.*/kernel.made=zkneb @queenserenade/g" anykernel.sh
-sed -i "s/kernel.version=.*/kernel.version=$KERVER/g" anykernel.sh
-sed -i "s/message.word=.*/message.word=Appreciate your efforts for choosing TheOneMemory kernel./g" anykernel.sh
-sed -i "s/build.date=.*/build.date=$DATE/g" anykernel.sh
-sed -i "s/build.type=.*/build.type=$VERSION/g" anykernel.sh
-sed -i "s/supported.versions=.*/supported.versions=9-13/g" anykernel.sh
-sed -i "s/device.name1=.*/device.name1=X00TD/g" anykernel.sh
-sed -i "s/device.name2=.*/device.name2=X00T/g" anykernel.sh
-sed -i "s/device.name3=.*/device.name3=Zenfone Max Pro M1 (X00TD)/g" anykernel.sh
-sed -i "s/device.name4=.*/device.name4=ASUS_X00TD/g" anykernel.sh
-sed -i "s/device.name5=.*/device.name5=ASUS_X00T/g" anykernel.sh
-sed -i "s/X00TD=.*/X00TD=1/g" anykernel.sh
-cd META-INF/com/google/android
-sed -i "s/KNAME/$KERNELNAME/g" aroma-config
-sed -i "s/KVER/$KERVER/g" aroma-config
-sed -i "s/KAUTHOR/dotkit @quuenserenade/g" aroma-config
-sed -i "s/KDEVICE/Zenfone Max Pro M1/g" aroma-config
-sed -i "s/KBDATE/$DATE/g" aroma-config
-sed -i "s/KVARIANT/$VARIANT/g" aroma-config
-cd $AK3DIR
+#cp -af $KERNELDIR/init.$CODENAME.Spectrum.rc spectrum/init.spectrum.rc && sed -i "s/persist.spectrum.kernel.*/persist.spectrum.kernel TheOneMemory/g" spectrum/init.spectrum.rc
+#cp -af $KERNELDIR/changelog META-INF/com/google/android/aroma/changelog.txt
+#mv anykernel-real.sh anykernel.sh
+#sed -i "s/kernel.string=.*/kernel.string=$KERNELNAME/g" anykernel.sh
+#sed -i "s/kernel.type=.*/kernel.type=$VARIANT/g" anykernel.sh
+#sed -i "s/kernel.for=.*/kernel.for=$CODENAME/g" anykernel.sh
+#sed -i "s/kernel.compiler=.*/kernel.compiler=$KBUILD_COMPILER_STRING/g" anykernel.sh
+#sed -i "s/kernel.made=.*/kernel.made=zkneb @queenserenade/g" anykernel.sh
+#sed -i "s/kernel.version=.*/kernel.version=$KERVER/g" anykernel.sh
+#sed -i "s/message.word=.*/message.word=Appreciate your efforts for choosing TheOneMemory kernel./g" anykernel.sh
+#sed -i "s/build.date=.*/build.date=$DATE/g" anykernel.sh
+#sed -i "s/build.type=.*/build.type=$VERSION/g" anykernel.sh
+#sed -i "s/supported.versions=.*/supported.versions=9-13/g" anykernel.sh
+#sed -i "s/device.name1=.*/device.name1=X00TD/g" anykernel.sh
+#sed -i "s/device.name2=.*/device.name2=X00T/g" anykernel.sh
+#sed -i "s/device.name3=.*/device.name3=Zenfone Max Pro M1 (X00TD)/g" anykernel.sh
+#sed -i "s/device.name4=.*/device.name4=ASUS_X00TD/g" anykernel.sh
+#sed -i "s/device.name5=.*/device.name5=ASUS_X00T/g" anykernel.sh
+#sed -i "s/X00TD=.*/X00TD=1/g" anykernel.sh
+#cd META-INF/com/google/android
+#sed -i "s/KNAME/$KERNELNAME/g" aroma-config
+#sed -i "s/KVER/$KERVER/g" aroma-config
+#sed -i "s/KAUTHOR/dotkit @quuenserenade/g" aroma-config
+#sed -i "s/KDEVICE/Zenfone Max Pro M1/g" aroma-config
+#sed -i "s/KBDATE/$DATE/g" aroma-config
+#sed -i "s/KVARIANT/$VARIANT/g" aroma-config
+#cd $AK3DIR
 
-zip -r9 $FINAL_ZIP.zip * -x .git README.md anykernel-real.sh .gitignore zipsigner* *.zip
+#zip -r9 $FINAL_ZIP.zip * -x .git README.md anykernel-real.sh .gitignore zipsigner* *.zip
+zip -r9 $FINAL_ZIP.zip * -x .git README.md ./*placeholder anykernel-real.sh .gitignore  zipsigner* *.zip
 
 if ! [ -f $FINAL_ZIP* ]; then
     tg_post_build "$KERNELDIR/out/arch/arm64/boot/Image.gz-dtb" "Failed to zipping the kernel, Sending image file instead."
