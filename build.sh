@@ -47,7 +47,7 @@ cd $KERNEL_DIR
 #curl -LSs "https://raw.githubusercontent.com/rsuntk/KernelSU/main/kernel/setup.sh" | bash -s main
 
 #sed -i 's/CONFIG_DEBUG_INFO=.*/CONFIG_DEBUG_INFO=n/g' arch/arm64/configs/asus/X00TD_defconfig
-sed -i 's/CONFIG_LOCALVERSION=.*/CONFIG_LOCALVERSION="-TOMTzy-969"/g' arch/arm64/configs/asus/X00TD_defconfig
+sed -i 's/CONFIG_LOCALVERSION=.*/CONFIG_LOCALVERSION="-TOM-PreNightly-969"/g' arch/arm64/configs/asus/X00TD_defconfig
 #sed -i 's/CONFIG_HAVE_KPROBES=.*/CONFIG_HAVE_KPROBES=n/g' arch/arm64/configs/asus/X00TD_defconfig
 #sed -i 's/CONFIG_ARCH_HAS_REFCOUNT_FULL=.*/CONFIG_ARCH_HAS_REFCOUNT_FULL=n/g' arch/arm64/configs/asus/X00TD_defconfig
 #sed -i 's/CONFIG_ARCH_HAS_REFCOUNT=.*/CONFIG_ARCH_HAS_REFCOUNT=n/g' arch/arm64/configs/asus/X00TD_defconfig
@@ -79,7 +79,7 @@ KERNAME=TOM
 KBUILD_BUILD_USER=queen
 
 # Build Type
-BUILD_TYPE=Nightly
+BUILD_TYPE=PreNightly
 
 # Specify compiler.
 # 'clang' or 'clangxgcc' or 'gcc' or 'kale'
@@ -576,10 +576,10 @@ gen_zip() {
 	sed -i "s/KVARIANT/$BUILD_TYPE/g" aroma-config
 	cd "$AK_DIR"
 
-	zip -r9 $ZIPNAME-"$DATE" * -x .git README.md ./*placeholder .gitignore  zipsigner* *.zip
+	zip -r9 $ZIPNAME-"$DATE2" * -x .git README.md ./*placeholder .gitignore  zipsigner* *.zip
 
 	## Prepare a final zip variable
-	ZIP_FINAL="$ZIPNAME-$DATE"
+	ZIP_FINAL="$ZIPNAME-$DATE2"
 
 	if [ $SIGN = 1 ]
 	then
