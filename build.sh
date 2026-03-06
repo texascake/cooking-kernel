@@ -47,7 +47,7 @@ cd $KERNEL_DIR
 #curl -LSs "https://raw.githubusercontent.com/rsuntk/KernelSU/main/kernel/setup.sh" | bash -s main
 
 #sed -i 's/CONFIG_DEBUG_INFO=.*/CONFIG_DEBUG_INFO=n/g' arch/arm64/configs/asus/X00TD_defconfig
-sed -i 's/CONFIG_LOCALVERSION=.*/CONFIG_LOCALVERSION="-TOM-PreNightly-969"/g' arch/arm64/configs/asus/X00TD_defconfig
+sed -i 's/CONFIG_LOCALVERSION=.*/CONFIG_LOCALVERSION="-TOM-969"/g' arch/arm64/configs/asus/X00TD_defconfig
 #sed -i 's/CONFIG_HAVE_KPROBES=.*/CONFIG_HAVE_KPROBES=n/g' arch/arm64/configs/asus/X00TD_defconfig
 #sed -i 's/CONFIG_ARCH_HAS_REFCOUNT_FULL=.*/CONFIG_ARCH_HAS_REFCOUNT_FULL=n/g' arch/arm64/configs/asus/X00TD_defconfig
 #sed -i 's/CONFIG_ARCH_HAS_REFCOUNT=.*/CONFIG_ARCH_HAS_REFCOUNT=n/g' arch/arm64/configs/asus/X00TD_defconfig
@@ -56,14 +56,14 @@ sed -i 's/CONFIG_LOCALVERSION=.*/CONFIG_LOCALVERSION="-TOM-PreNightly-969"/g' ar
 #sed -i 's/CONFIG_CNSS2=.*/CONFIG_CNSS2=n/g' arch/arm64/configs/asus/X00TD_defconfig
 
 # The name of the device for which the kernel is built
-MODEL="Asus Zenfone Max Pro M1"
+MODEL="Asus Zenfone Max Pro M2"
 
 # The codename of the device
-DEVICE="X00TD"
+DEVICE="X001BD"
 
 # The defconfig which should be used. Get it from config.gz from
 # your device or check source
-DEFCONFIG=asus/X00TD_defconfig
+DEFCONFIG=asus/X01BD_defconfig
 
 # Show manufacturer info
 MANUFACTURERINFO="ASUSTek Computer Inc."
@@ -79,7 +79,7 @@ KERNAME=TOM
 KBUILD_BUILD_USER=queen
 
 # Build Type
-BUILD_TYPE=PreNightly
+BUILD_TYPE=TEST
 
 # Specify compiler.
 # 'clang' or 'clangxgcc' or 'gcc' or 'kale'
@@ -558,12 +558,13 @@ gen_zip() {
 	sed -i "s/build.date=.*/build.date=$DATE/g" anykernel.sh
 	sed -i "s/build.type=.*/build.type=$BUILD_TYPE/g" anykernel.sh
 	sed -i "s/supported.versions=.*/supported.versions=$ANDRVER/g" anykernel.sh
-	sed -i "s/device.name1=.*/device.name1=X00TD/g" anykernel.sh
-	sed -i "s/device.name2=.*/device.name2=X00T/g" anykernel.sh
-	sed -i "s/device.name3=.*/device.name3=Zenfone Max Pro M1 (X00TD)/g" anykernel.sh
-	sed -i "s/device.name4=.*/device.name4=ASUS_X00TD/g" anykernel.sh
-	sed -i "s/device.name5=.*/device.name5=ASUS_X00T/g" anykernel.sh
-	sed -i "s/X00TD=.*/X00TD=1/g" anykernel.sh
+	sed -i "s/device.name1=.*/device.name1=X01BD/g" anykernel.sh
+	sed -i "s/device.name2=.*/device.name2=X01BDA/g" anykernel.sh
+	sed -i "s/device.name3=.*/device.name3=Zenfone Max Pro M2 (X01BD)/g" anykernel.sh
+	sed -i "s/device.name4=.*/device.name4=ASUS_X01BD/g" anykernel.sh
+	sed -i "s/device.name5=.*/device.name5=ASUS_X01BDA/g" anykernel.sh
+	sed -i "s/X01BD=.*/X01BD=1/g" anykernel.sh
+	sed -i "s/BLOCK=.*/BLOCK=/dev/block/bootdevice/by-name/boot;/g" anykernel.sh
 
 	cd $AK_DIR/META-INF/com/google/android
 	mv -f update-binary update-binary-installer
@@ -571,7 +572,7 @@ gen_zip() {
 	sed -i "s/KNAME/$KERNAME/g" aroma-config
 	sed -i "s/KVER/$LINUXVER/g" aroma-config
 	sed -i "s/KAUTHOR/$KBUILD_BUILD_USER/g" aroma-config
-	sed -i "s/KDEVICE/Zenfone Max Pro M1/g" aroma-config
+	sed -i "s/KDEVICE/Zenfone Max Pro M2/g" aroma-config
 	sed -i "s/KBDATE/$DATE/g" aroma-config
 	sed -i "s/KVARIANT/$BUILD_TYPE/g" aroma-config
 	cd "$AK_DIR"
