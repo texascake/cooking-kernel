@@ -244,7 +244,7 @@ DATE2=$(TZ=Asia/Jakarta date +"%d%m%Y-%H%M")
 # Function to replace defconfig versioning
 setversioning() {
     # For staging branch
-    KERNELNAME="$KERNAME-$BUILD_TYPE-$LINUXVER"
+    KERNELNAME="$KERNAME-$DEVICE-$BUILD_TYPE-$LINUXVER"
     # Export our new localversion and zipnames
     ZIPNAME="$KERNELNAME"
 }
@@ -564,7 +564,8 @@ gen_zip() {
 	sed -i "s/device.name4=.*/device.name4=ASUS_X01BD/g" anykernel.sh
 	sed -i "s/device.name5=.*/device.name5=ASUS_X01BDA/g" anykernel.sh
 	sed -i "s/X01BD=.*/X01BD=1/g" anykernel.sh
-	sed -i "s/BLOCK=.*/BLOCK=/dev/block/bootdevice/by-name/boot;/g" anykernel.sh
+    sed -i 's#BLOCK=/dev/block/platform/soc/c0c4000.sdhci/by-name/boot;#BLOCK=/dev/block/bootdevice/by-name/boot;#g' anykernel.sh
+    sed -i '/patch_cmdline use_new_nvtouch use_new_nvtouch=0/s/^/# /' anykernel.sh
 
 	cd $AK_DIR/META-INF/com/google/android
 	mv -f update-binary update-binary-installer
