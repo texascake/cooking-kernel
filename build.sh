@@ -79,11 +79,11 @@ KERNAME=TOM
 KBUILD_BUILD_USER=queen
 
 # Build Type
-BUILD_TYPE=TEST
+BUILD_TYPE=TESTING
 
 # Specify compiler.
 # 'clang' or 'clangxgcc' or 'gcc' or 'kale'
-COMPILER=kale
+COMPILER=clangxgcc
 
 # Kernel is LTO. 1 is YES (default) | 0 is NO
 LTO=1
@@ -185,9 +185,9 @@ DATE2=$(TZ=Asia/Jakarta date +"%d%m%Y-%H%M")
   		cd $KERNEL_DIR
   		;;
 	clangxgcc)
-		msg "|| Cloning clang-r536225 for Android V release ||"
+		msg "|| Cloning clang-r584948 for Android 16 release ||"
 		mkdir -p "$KERNEL_DIR/clang" && cd "$KERNEL_DIR/clang"
-		wget -q https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/refs/heads/main/clang-r536225.tar.gz -O "clang.tar.gz" && tar -xzf clang.tar.gz && rm -f clang.tar.gz
+		wget -q https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/refs/heads/mirror-goog-main-llvm-toolchain-source/clang-r584948.tar.gz -O "clang.tar.gz" && tar -xzf clang.tar.gz && rm -f clang.tar.gz
   		cd $KERNEL_DIR
 
 		msg "|| Cloning GCC aarch64-linux-android-4.9 ||"
