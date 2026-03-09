@@ -21,14 +21,14 @@ sed -i 's/CONFIG_DEBUG_INFO=.*/CONFIG_DEBUG_INFO=n/g' arch/arm64/configs/X00TD_d
 KERNELDIR=$(pwd)
 
 # Set kernel name
-CODENAME="Tzy"
+CODENAME="TZY"
 DEVICENAME="X00TD"
 KERNELNAME="TOM"
 VARIANT="EAS"
 VERSION="EOL"
 KERVER=$(make kernelversion)
 
-BONUS_MSG="*Note:* KernelSU-Next and APatch Supported!! 🤫"
+BONUS_MSG="*Note:* APatch and FolkPatch Supported!! 🤫"
 
 ## Set defaults first
 HOST=$(uname -a | awk '{print $2}')
