@@ -10,7 +10,7 @@ else
 fi
 
 # Additional command (if you're lazy to commit :v)
-sed -i 's/CONFIG_LOCALVERSION=.*/CONFIG_LOCALVERSION="-TOMT-EAS-969"/g' arch/arm64/configs/X00TD_defconfig
+sed -i 's/CONFIG_LOCALVERSION=.*/CONFIG_LOCALVERSION="-TOM-EAS-969+"/g' arch/arm64/configs/X00TD_defconfig
 sed -i 's/CONFIG_DEBUG_INFO=.*/CONFIG_DEBUG_INFO=n/g' arch/arm64/configs/X00TD_defconfig
 #sed -i 's/CONFIG_KSU=.*/CONFIG_KSU=n/g' arch/arm64/configs/X00TD_defconfig
 #sed -i 's/CONFIG_SCHED_WALT=.*/CONFIG_SCHED_WALT=n/g' arch/arm64/configs/X00TD_defconfig
@@ -28,7 +28,7 @@ VARIANT="EAS"
 VERSION="EOL"
 KERVER=$(make kernelversion)
 
-BONUS_MSG="*Note:* APatch and FolkPatch Supported!! 🤫"
+BONUS_MSG="*Note:* KowSU and KSUNext Supported!! 🤫"
 
 ## Set defaults first
 HOST=$(uname -a | awk '{print $2}')
@@ -162,8 +162,10 @@ fi
     bash antman -S=09092023
     bash antman --patch=glibc
     cd $KERNELDIR
+    CLANG_VER=$($KERNELDIR/clang/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//')
+    LLD_VER=$($KERNELDIR/clang/bin/ld.lld --version | head -n 1)
     export PATH="$KERNELDIR/clang/bin:$PATH"
-    export KBUILD_COMPILER_STRING=$($KERNELDIR/clang/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/  */ /g' -e 's/[[:space:]]*$//')
+    export KBUILD_COMPILER_STRING="$CLANG_VER with $LLD_VER"
     if ! [ -f "$KERNELDIR/clang/bin/clang" ]; then
       echo "Cloning failed! Aborting..."; exit 1
     fi
