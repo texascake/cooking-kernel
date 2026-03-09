@@ -45,7 +45,7 @@ KERNEL_DIR=$(pwd)/kernel
 cd $KERNEL_DIR
 
 #sed -i 's/CONFIG_DEBUG_INFO=.*/CONFIG_DEBUG_INFO=n/g' arch/arm64/configs/X00TD_defconfig
-sed -i 's/CONFIG_LOCALVERSION=.*/CONFIG_LOCALVERSION="-TOMTzy"/g' arch/arm64/configs/X00TD_defconfig
+sed -i 's/CONFIG_LOCALVERSION=.*/CONFIG_LOCALVERSION="-TOM-969"/g' arch/arm64/configs/X00TD_defconfig
 #sed -i 's/CONFIG_HAVE_KPROBES=.*/CONFIG_HAVE_KPROBES=n/g' arch/arm64/configs/X00TD_defconfig
 #sed -i 's/CONFIG_ARCH_HAS_REFCOUNT_FULL=.*/CONFIG_ARCH_HAS_REFCOUNT_FULL=n/g' arch/arm64/configs/X00TD_defconfig
 #sed -i 's/CONFIG_ARCH_HAS_REFCOUNT=.*/CONFIG_ARCH_HAS_REFCOUNT=n/g' arch/arm64/configs/X00TD_defconfig
