@@ -10,7 +10,7 @@ else
 fi
 
 # Additional command (if you're lazy to commit :v)
-sed -i 's/CONFIG_LOCALVERSION=.*/CONFIG_LOCALVERSION="-TOMTzy-EAS"/g' arch/arm64/configs/X00TD_defconfig
+sed -i 's/CONFIG_LOCALVERSION=.*/CONFIG_LOCALVERSION="-TOMT-EAS-969"/g' arch/arm64/configs/X00TD_defconfig
 sed -i 's/CONFIG_DEBUG_INFO=.*/CONFIG_DEBUG_INFO=n/g' arch/arm64/configs/X00TD_defconfig
 #sed -i 's/CONFIG_KSU=.*/CONFIG_KSU=n/g' arch/arm64/configs/X00TD_defconfig
 #sed -i 's/CONFIG_SCHED_WALT=.*/CONFIG_SCHED_WALT=n/g' arch/arm64/configs/X00TD_defconfig
@@ -113,7 +113,7 @@ tg_pin_msg()
 
 ############################################################
 
-tg_post_msg "<b>`date '+%d %b %Y, %H:%M %Z'`</b>
+tg_post_msg "<b>🗓 `date '+%d %b %Y, %H:%M %Z'`</b>
 Masterpiece creation starts!
 kernel Version <b>$KERVER</b> for <b>$DEVICENAME</b>.
 Crafted with <b>`source /etc/os-release && echo "$NAME"`</b>.
