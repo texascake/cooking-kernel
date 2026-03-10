@@ -30,7 +30,7 @@ VARIANT="EAS"
 VERSION="EOL"
 KERVER=$(make kernelversion)
 
-BONUS_MSG="*Note:* KowSU and KSUNext Supported!! 🤫"
+BONUS_MSG="*Note:* Use Magisk better!!"
 
 ## Set defaults first
 HOST=$(uname -a | awk '{print $2}')
