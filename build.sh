@@ -27,10 +27,10 @@ CODENAME="TZY"
 DEVICENAME="X00TD"
 KERNELNAME="TOM"
 VARIANT="EAS"
-VERSION="EOL"
+VERSION="SLTS"
 KERVER=$(make kernelversion)
 
-BONUS_MSG="*Note:* Jika itu memang terbaik!!"
+BONUS_MSG="*Note:* Bring the tree up-to-date with 4.9.320"
 
 ## Set defaults first
 HOST=$(uname -a | awk '{print $2}')
@@ -57,7 +57,7 @@ TG_SUPER=0
 KERNEL_DEFCONFIG=X00TD_defconfig
 DATE=$(date '+%d%m%Y')
 DATE2=$(date '+%d%m%Y-%H%M')
-FINAL_ZIP="$KERNELNAME-$VARIANT-$VERSION-$KERVER-$DATE"
+FINAL_ZIP="$KERNELNAME-$VARIANT-$VERSION-$KERVER-$DATE2"
 export KBUILD_BUILD_TIMESTAMP=$(date)
 export KBUILD_BUILD_USER="queen"
 export KBUILD_BUILD_HOST="$HOST"
