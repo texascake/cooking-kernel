@@ -30,7 +30,7 @@ VARIANT="EAS"
 VERSION="preSLTS"
 KERVER=$(make kernelversion)
 
-BONUS_MSG="*Note:* Bring the tree up-to-date with 4.9.320"
+BONUS_MSG="*Note:* Bring the tree up-to-date with 4.9.337"
 
 ## Set defaults first
 HOST=$(uname -a | awk '{print $2}')
@@ -43,7 +43,7 @@ TERM=xterm
 # 3 = ElectroWizard Clang
 # 4 = Proton Clang
 # 5 = Snapdragon Clang
-COMP=1
+COMP=2
 
 # You want to sign your build?
 # 1 = yes || 0 = no
