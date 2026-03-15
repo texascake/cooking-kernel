@@ -43,7 +43,7 @@ TERM=xterm
 # 3 = ElectroWizard Clang
 # 4 = Proton Clang
 # 5 = Snapdragon Clang
-COMP=2
+COMP=1
 
 # You want to sign your build?
 # 1 = yes || 0 = no
@@ -117,7 +117,7 @@ tg_pin_msg()
 
 tg_post_msg "<b>🗓 `date '+%d %b %Y, %H:%M %Z'`</b>
 Masterpiece creation starts!
-kernel Version <b>$KERVER</b> for <b>$DEVICENAME</b>.
+Kernel version <b>$KERVER</b> for <b>$DEVICENAME</b>.
 Crafted with <b>`source /etc/os-release && echo "$NAME"`</b>.
 Log URL <a href='$CIRCLE_BUILD_URL'>Click Here</a>."
 
