@@ -12,7 +12,7 @@ else
 fi
 
 # Additional command (if you're lazy to commit :v)
-sed -i 's/CONFIG_LOCALVERSION=.*/CONFIG_LOCALVERSION="-TOMxVoidWalker-EAS-969+"/g' arch/arm64/configs/X00TD_defconfig
+sed -i 's/CONFIG_LOCALVERSION=.*/CONFIG_LOCALVERSION="-TOM-EAS-969+"/g' arch/arm64/configs/X00TD_defconfig
 sed -i 's/CONFIG_DEBUG_INFO=.*/CONFIG_DEBUG_INFO=n/g' arch/arm64/configs/X00TD_defconfig
 #sed -i 's/CONFIG_KSU=.*/CONFIG_KSU=n/g' arch/arm64/configs/X00TD_defconfig
 #sed -i 's/CONFIG_SCHED_WALT=.*/CONFIG_SCHED_WALT=n/g' arch/arm64/configs/X00TD_defconfig
@@ -57,7 +57,7 @@ TG_SUPER=0
 KERNEL_DEFCONFIG=X00TD_defconfig
 DATE=$(date '+%d%m%Y')
 DATE2=$(date '+%d%m%Y-%H%M')
-FINAL_ZIP="$KERNELNAME-$VARIANT-$VERSION-$KERVER-$DATE2"
+FINAL_ZIP="$KERNELNAME-$VARIANT-$VERSION-$KERVER-$DATE"
 export KBUILD_BUILD_TIMESTAMP=$(date)
 export KBUILD_BUILD_USER="queen"
 export KBUILD_BUILD_HOST="$HOST"
