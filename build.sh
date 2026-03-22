@@ -2,7 +2,7 @@
 
 export TZ="Asia/Jakarta"
 
-if [ -f kernel/arch/arm64/configs/sdm636-perf_defconfig ]; then
+if [ -f kernel/arch/arm64/configs/X00TD_defconfig ]; then
     cd kernel
 else
     echo "Kernel Cloning Failed! aborting..."
@@ -10,7 +10,7 @@ else
 fi
 
 # Additional command (if you're lazy to commit :v)
-sed -i 's/CONFIG_LOCALVERSION=.*/CONFIG_LOCALVERSION="-TOMTzy-EAS"/g' arch/arm64/configs/sdm636-perf_defconfig
+sed -i 's/CONFIG_LOCALVERSION=.*/CONFIG_LOCALVERSION="-TOM-HMP"/g' arch/arm64/configs/X00TD_defconfig
 #sed -i 's/CONFIG_KSU=.*/CONFIG_KSU=n/g' arch/arm64/configs/X00TD_defconfig
 curl -LSs "https://raw.githubusercontent.com/Sorayukii/KernelSU-Next/stable/kernel/setup.sh" | bash -s hookless
 
@@ -24,10 +24,10 @@ CODENAME="TZY"
 DEVICENAME="X00TD"
 KERNELNAME="TOM"
 VARIANT="EAS"
-VERSION="EOL"
+VERSION="CLO"
 KERVER=$(make kernelversion)
 
-BONUS_MSG="*Note:* KernelSU-Next and APatch Supported!! 🤫"
+BONUS_MSG="*Note:* KernelSU-Next Supported!! 🤫"
 
 ## Set defaults first
 HOST=$(uname -a | awk '{print $2}')
@@ -54,10 +54,10 @@ SIGN=1
 TG_SUPER=0
 
 # Additional Variables
-KERNEL_DEFCONFIG=sdm636-perf_defconfig
+KERNEL_DEFCONFIG=X00TD_defconfig
 DATE=$(date '+%d%m%Y')
 DATE2=$(date '+%d%m%Y-%H%M')
-FINAL_ZIP="$KERNELNAME-$VARIANT-$VERSION-$KERVER-$DATE"
+FINAL_ZIP="$KERNELNAME-$VARIANT-$VERSION-$KERVER-$DATE2"
 export KBUILD_BUILD_TIMESTAMP=$(date)
 export KBUILD_BUILD_USER="tokodepia"
 export KBUILD_BUILD_HOST="$HOST"
