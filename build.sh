@@ -12,10 +12,10 @@ else
 fi
 
 # Additional command (if you're lazy to commit :v)
-sed -i 's/CONFIG_LOCALVERSION=.*/CONFIG_LOCALVERSION="-TOM-HMP"/g' arch/arm64/configs/X00TD_defconfig
-sed -i '$aCONFIG_KPROBES=n' arch/arm64/configs/X00TD_defconfig
-sed -i '$aCONFIG_KSU=y' arch/arm64/configs/X00TD_defconfig
-sed -i '$aCONFIG_KSU_TAMPER_SYSCALL_TABLE=y' arch/arm64/configs/X00TD_defconfig
+sed -i 's/CONFIG_LOCALVERSION=.*/CONFIG_LOCALVERSION="-TOM-HMP-969"/g' arch/arm64/configs/X00TD_defconfig
+#sed -i '$aCONFIG_KPROBES=n' arch/arm64/configs/X00TD_defconfig
+#sed -i '$aCONFIG_KSU=y' arch/arm64/configs/X00TD_defconfig
+#sed -i '$aCONFIG_KSU_TAMPER_SYSCALL_TABLE=y' arch/arm64/configs/X00TD_defconfig
 curl -LSs "https://raw.githubusercontent.com/Sorayukii/KernelSU-Next/stable/kernel/setup.sh" | bash -s hookless
 
 # Set the Variables
@@ -25,7 +25,7 @@ KERNELDIR=$(pwd)
 CODENAME="TZY"
 DEVICENAME="X00TD"
 KERNELNAME="TOM"
-VARIANT="EAS"
+VARIANT="HMP"
 VERSION="CLO"
 KERVER=$(make kernelversion)
 
@@ -59,7 +59,7 @@ TG_SUPER=0
 KERNEL_DEFCONFIG=X00TD_defconfig
 DATE=$(date '+%d%m%Y')
 DATE2=$(date '+%d%m%Y-%H%M')
-FINAL_ZIP="$KERNELNAME-$VARIANT-$VERSION-$KERVER-$DATE2"
+FINAL_ZIP="$KERNELNAME-$VARIANT-$VERSION-$KERVER-$DATE"
 export KBUILD_BUILD_TIMESTAMP=$(date)
 export KBUILD_BUILD_USER="tokodepia"
 export KBUILD_BUILD_HOST="$HOST"
@@ -119,14 +119,14 @@ tg_pin_msg()
 
 tg_post_msg "<b>`date '+%d %b %Y, %H:%M %Z'`</b>
 Masterpiece creation starts!
-kernel Version <b>$KERVER</b> for <b>$DEVICENAME</b>.
+Kernel version <b>$KERVER</b> for <b>$DEVICENAME</b>.
 Crafted with <b>`source /etc/os-release && echo "$NAME"`</b>.
 Log URL <a href='$CIRCLE_BUILD_URL'>Click Here</a>."
 
 if ! [ -d "$KERNELDIR/clang" ]; then
-  echo "Clang not found! Cloning..."
+  echo "Clang not found!"
 if ! [ -d "$KERNELDIR/sdclang" ]; then
-  echo "SDClang not found! Cloning..."
+  echo "SDClang not found!"
   fi
 fi
 
@@ -142,7 +142,7 @@ fi
     cd $KERNELDIR
     export PATH="$KERNELDIR/sdclang/bin:$KERNELDIR/gcc64/bin:$KERNELDIR/gcc32/bin:$PATH"
     export LD_LIBRARY_PATH="$KERNELDIR/sdclang/lib:$LD_LIBRARY_PATH"
-    CLANG_VER="Qualcomm® Snapdragon™ clang version 14.1.5"
+    CLANG_VER="Snapdragon™ clang version 14.1.5"
     export KBUILD_COMPILER_STRING="$CLANG_VER"
     if ! [ -f "$KERNELDIR/sdclang/bin/clang" ]; then
       echo "Cloning failed! Aborting..."; exit 1
@@ -325,13 +325,13 @@ echo "**** Uploading your zip now ****"
 tg_post_build "$FINAL_ZIP.zip" "⏳ *Compile Time*
  $(($DIFF / 60)) min(s) and $(($DIFF % 60)) seconds
 📱 *Device*
- ${DEVICENAME}
+- ${DEVICENAME}
 🐧 *Kernel Version*
- ${KERVER}
+- ${KERVER}
 🛠 *Compiler*
- ${KBUILD_COMPILER_STRING}
+- ${KBUILD_COMPILER_STRING}
 Ⓜ *MD5*
- ${MD5CHECK}
+- ${MD5CHECK}
 🆕 *Last Changelogs*
 \`\`\`
 `git log --oneline -n3 | cut -d" " -f2- | awk '{print "• " $(A)}'`\`\`\`
