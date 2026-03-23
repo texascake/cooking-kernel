@@ -2,7 +2,7 @@ version: 2.1
 jobs:
   compile:
     docker:
-      - image: inok2341/anu:latest
+      - image: sandatjepil/build:jammy
     steps:
       - run:
           shell: /bin/bash
