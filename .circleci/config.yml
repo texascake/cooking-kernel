@@ -2,7 +2,7 @@ version: 2.1
 jobs:
   compile:
     docker:
-      - image: sandatjepil/build:jammy
+      - image: texascake/tiramisu:latest
     steps:
       - run:
           shell: /bin/bash
