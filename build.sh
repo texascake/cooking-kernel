@@ -226,11 +226,11 @@ DATE2=$(TZ=Asia/Jakarta date +"%d%m%Y-%H%M")
 		GCC64_DIR=$KERNEL_DIR/gcc64
 		GCC32_DIR=$KERNEL_DIR/gcc32
 
-	# AnyKernel Directory
-		AK_DIR=$KERNEL_DIR/Anykernel3
-
 	msg "|| Cloning Anykernel ||"
 	git clone --depth=1 https://github.com/sandatjepil/AnyKernel3 -b kesu $KERNEL_DIR/Anykernel3
+
+	# AnyKernel Directory
+		AK_DIR=$KERNEL_DIR/Anykernel3
 
 	if [ $BUILD_DTBO = 1 ]
 	then
@@ -244,7 +244,7 @@ DATE2=$(TZ=Asia/Jakarta date +"%d%m%Y-%H%M")
 # Function to replace defconfig versioning
 setversioning() {
     # For staging branch
-    KERNELNAME="$KERNAME-$DEVICE-$BUILD_TYPE-$LINUXVER"
+    KERNELNAME="$KERNAME-$BUILD_TYPE-$LINUXVER"
     # Export our new localversion and zipnames
     ZIPNAME="$KERNELNAME"
 }
@@ -558,14 +558,14 @@ gen_zip() {
 	sed -i "s/build.date=.*/build.date=$DATE/g" anykernel.sh
 	sed -i "s/build.type=.*/build.type=$BUILD_TYPE/g" anykernel.sh
 	sed -i "s/supported.versions=.*/supported.versions=$ANDRVER/g" anykernel.sh
-	sed -i "s/device.name1=.*/device.name1=X01BD/g" anykernel.sh
-	sed -i "s/device.name2=.*/device.name2=X01BDA/g" anykernel.sh
-	sed -i "s/device.name3=.*/device.name3=Zenfone Max Pro M2 (X01BD)/g" anykernel.sh
-	sed -i "s/device.name4=.*/device.name4=ASUS_X01BD/g" anykernel.sh
-	sed -i "s/device.name5=.*/device.name5=ASUS_X01BDA/g" anykernel.sh
-	sed -i "s/X01BD=.*/X01BD=1/g" anykernel.sh
-    sed -i 's#BLOCK=/dev/block/platform/soc/c0c4000.sdhci/by-name/boot;#BLOCK=/dev/block/bootdevice/by-name/boot;#g' anykernel.sh
-    sed -i '/patch_cmdline use_new_nvtouch use_new_nvtouch=0/s/^/# /' anykernel.sh
+	sed -i "s/device.name1=.*/device.name1=X00TD/g" anykernel.sh
+	sed -i "s/device.name2=.*/device.name2=X00T/g" anykernel.sh
+	sed -i "s/device.name3=.*/device.name3=Zenfone Max Pro M1 (X00TD)/g" anykernel.sh
+	sed -i "s/device.name4=.*/device.name4=ASUS_X00TD/g" anykernel.sh
+	sed -i "s/device.name5=.*/device.name5=ASUS_X00T/g" anykernel.sh
+	sed -i "s/X00TD=.*/X00TD=1/g" anykernel.sh
+    #sed -i 's#BLOCK=/dev/block/platform/soc/c0c4000.sdhci/by-name/boot;#BLOCK=/dev/block/bootdevice/by-name/boot;#g' anykernel.sh
+    #sed -i '/patch_cmdline use_new_nvtouch use_new_nvtouch=0/s/^/# /' anykernel.sh
 
 	cd $AK_DIR/META-INF/com/google/android
 	mv -f update-binary update-binary-installer
@@ -573,7 +573,7 @@ gen_zip() {
 	sed -i "s/KNAME/$KERNAME/g" aroma-config
 	sed -i "s/KVER/$LINUXVER/g" aroma-config
 	sed -i "s/KAUTHOR/$KBUILD_BUILD_USER/g" aroma-config
-	sed -i "s/KDEVICE/Zenfone Max Pro M2/g" aroma-config
+	sed -i "s/KDEVICE/Zenfone Max Pro M1/g" aroma-config
 	sed -i "s/KBDATE/$DATE/g" aroma-config
 	sed -i "s/KVARIANT/$BUILD_TYPE/g" aroma-config
 	cd "$AK_DIR"
