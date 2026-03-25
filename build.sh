@@ -54,8 +54,8 @@ sed -i 's/CONFIG_LOCALVERSION=.*/CONFIG_LOCALVERSION="-TOM-969"/g' arch/arm64/co
 #sed -i 's/CONFIG_BLK_MQ_RDMA=.*/CONFIG_BLK_MQ_RDMA=n/g' arch/arm64/configs/asus/X00TD_defconfig
 #sed -i 's/CONFIG_BLK_PM=.*/CONFIG_BLK_PM=n/g' arch/arm64/configs/asus/X00TD_defconfig
 #sed -i 's/CONFIG_CNSS2=.*/CONFIG_CNSS2=n/g' arch/arm64/configs/asus/X00TD_defconfig
-#sed -i 's/CONFIG_SCHED_THERMAL_PRESSURE=.*/CONFIG_SCHED_THERMAL_PRESSURE=n/g' arch/arm64/configs/asus/X00TD_defconfig
-#sed -i 's/CONFIG_SCHED_CASS=.*/CONFIG_SCHED_CASS=n/g' arch/arm64/configs/asus/X00TD_defconfig
+sed -i 's/CONFIG_SCHED_THERMAL_PRESSURE=.*/CONFIG_SCHED_THERMAL_PRESSURE=n/g' arch/arm64/configs/asus/X00TD_defconfig
+sed -i 's/CONFIG_SCHED_CASS=.*/CONFIG_SCHED_CASS=n/g' arch/arm64/configs/asus/X00TD_defconfig
 
 # The name of the device for which the kernel is built
 MODEL="Asus Zenfone Max Pro M1"
