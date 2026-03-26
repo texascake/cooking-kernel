@@ -17,7 +17,7 @@ sed -i 's/CONFIG_LOCALVERSION=.*/CONFIG_LOCALVERSION="-TOM-HMP-969"/g' arch/arm6
 #sed -i '$aCONFIG_KSU=y' arch/arm64/configs/X00TD_defconfig
 #sed -i '$aCONFIG_KSU_TAMPER_SYSCALL_TABLE=y' arch/arm64/configs/X00TD_defconfig
 #curl -LSs "https://raw.githubusercontent.com/Sorayukii/KernelSU-Next/stable/kernel/setup.sh" | bash -s hookless
-curl -LSs "https://raw.githubusercontent.com/Kneba/KernelSU/master/kernel/setup.sh" | bash -s staging
+curl -LSs "https://raw.githubusercontent.com/Kneba/KernelSU/master/kernel/setup.sh" | bash -s master
 
 # Set the Variables
 KERNELDIR=$(pwd)
