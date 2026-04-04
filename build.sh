@@ -16,8 +16,8 @@ sed -i 's/CONFIG_LOCALVERSION=.*/CONFIG_LOCALVERSION="-TOM-HMP-969"/g' arch/arm6
 #sed -i '$aCONFIG_KPROBES=n' arch/arm64/configs/X00TD_defconfig
 #sed -i '$aCONFIG_KSU=y' arch/arm64/configs/X00TD_defconfig
 #sed -i '$aCONFIG_KSU_TAMPER_SYSCALL_TABLE=y' arch/arm64/configs/X00TD_defconfig
-#curl -LSs "https://raw.githubusercontent.com/Sorayukii/KernelSU-Next/stable/kernel/setup.sh" | bash -s hookless
-curl -LSs "https://raw.githubusercontent.com/Kneba/KernelSU/master/kernel/setup.sh" | bash -s master
+curl -LSs "https://raw.githubusercontent.com/Sorayukii/KernelSU-Next/stable/kernel/setup.sh" | bash -s hookless
+#curl -LSs "https://raw.githubusercontent.com/Kneba/KernelSU/master/kernel/setup.sh" | bash -s master
 
 # Set the Variables
 KERNELDIR=$(pwd)
@@ -30,7 +30,7 @@ VARIANT="HMP"
 VERSION="CLO"
 KERVER=$(make kernelversion)
 
-BONUS_MSG="*Note:* KowSU and KernelSU-Next Supported!! 🤫"
+BONUS_MSG="*Note:* KernelSU-Next and WildKSU Supported!! 🤫"
 
 ## Set defaults first
 HOST=$(uname -a | awk '{print $2}')
@@ -62,7 +62,7 @@ DATE=$(date '+%d%m%Y')
 DATE2=$(date '+%d%m%Y-%H%M')
 FINAL_ZIP="$KERNELNAME-$VARIANT-$VERSION-$KERVER-$DATE"
 export KBUILD_BUILD_TIMESTAMP=$(date)
-export KBUILD_BUILD_USER="tokodepia"
+export KBUILD_BUILD_USER="eunjix"
 export KBUILD_BUILD_HOST="$HOST"
 
 ############################################################
