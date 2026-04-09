@@ -12,7 +12,7 @@ else
 fi
 
 # Additional command (if you're lazy to commit :v)
-sed -i 's/CONFIG_LOCALVERSION=.*/CONFIG_LOCALVERSION="-TOM-HMP-969"/g' arch/arm64/configs/X00TD_defconfig
+sed -i 's/CONFIG_LOCALVERSION=.*/CONFIG_LOCALVERSION="-perf+"/g' arch/arm64/configs/X00TD_defconfig
 #sed -i '$aCONFIG_KPROBES=n' arch/arm64/configs/X00TD_defconfig
 #sed -i '$aCONFIG_KSU=y' arch/arm64/configs/X00TD_defconfig
 #sed -i '$aCONFIG_KSU_TAMPER_SYSCALL_TABLE=y' arch/arm64/configs/X00TD_defconfig
