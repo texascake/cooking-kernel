@@ -44,10 +44,10 @@ export TZ="Asia/Jakarta"
 KERNEL_DIR=$(pwd)/kernel
 cd $KERNEL_DIR
 
-curl -LSs "https://raw.githubusercontent.com/backslashxx/KernelSU/master/kernel/setup.sh" | bash -s master
+curl -LSs "https://raw.githubusercontent.com/Sorayukii/KernelSU-Next/stable/kernel/setup.sh" | bash -s hookless
 
 #sed -i 's/CONFIG_DEBUG_INFO=.*/CONFIG_DEBUG_INFO=n/g' arch/arm64/configs/asus/X00TD_defconfig
-sed -i 's/CONFIG_LOCALVERSION=.*/CONFIG_LOCALVERSION="-TOMTzy-969"/g' arch/arm64/configs/vendor/X00TD_defconfig
+#sed -i 's/CONFIG_LOCALVERSION=.*/CONFIG_LOCALVERSION="-TOMTzy-969"/g' arch/arm64/configs/vendor/X00TD_defconfig
 #sed -i 's/CONFIG_HAVE_KPROBES=.*/CONFIG_HAVE_KPROBES=n/g' arch/arm64/configs/asus/X00TD_defconfig
 #sed -i 's/CONFIG_ARCH_HAS_REFCOUNT_FULL=.*/CONFIG_ARCH_HAS_REFCOUNT_FULL=n/g' arch/arm64/configs/asus/X00TD_defconfig
 #sed -i 's/CONFIG_ARCH_HAS_REFCOUNT=.*/CONFIG_ARCH_HAS_REFCOUNT=n/g' arch/arm64/configs/asus/X00TD_defconfig
@@ -63,7 +63,7 @@ DEVICE="X00TD"
 
 # The defconfig which should be used. Get it from config.gz from
 # your device or check source
-DEFCONFIG=vendor/X00TD_defconfig
+DEFCONFIG=vendor/asus/X00TD_defconfig
 
 # Show manufacturer info
 MANUFACTURERINFO="ASUSTek Computer Inc."
@@ -79,7 +79,7 @@ KERNAME=TOM
 KBUILD_BUILD_USER=Tokodepia
 
 # Build Type
-BUILD_TYPE=cip128-st12
+BUILD_TYPE=TYTYD
 
 # Specify compiler.
 # 'clang' or 'clangxgcc' or 'gcc' or 'kale'
