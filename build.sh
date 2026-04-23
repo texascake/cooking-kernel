@@ -27,7 +27,7 @@ CODENAME="TZY"
 DEVICENAME="X00TD"
 KERNELNAME="TOM"
 VARIANT="EAS"
-VERSION="preSLTS"
+VERSION="EOL"
 KERVER=$(make kernelversion)
 
 BONUS_MSG="*Note:* Bring the tree up-to-date with 4.9.337"
@@ -251,7 +251,7 @@ fi
 echo "**** Verifying AnyKernel3 Directory ****"
 if ! [ -d "$KERNELDIR/AnyKernel3" ]; then
   echo "AnyKernel3 not found! Cloning..."
-  if ! git clone --depth=1 https://github.com/texascake/AnyKernel3 -b eas-oc AnyKernel3; then
+  if ! git clone --depth=1 https://github.com/texascake/AnyKernel3 -b new AnyKernel3; then
     tg_post_build "$KERNELDIR/out/arch/arm64/boot/Image.gz-dtb" "Failed to Clone Anykernel, Sending image file instead"
     echo "Cloning failed! Aborting..."
     exit 1
@@ -272,7 +272,7 @@ sed -i "s/kernel.string=.*/kernel.string=$KERNELNAME/g" anykernel.sh
 sed -i "s/kernel.type=.*/kernel.type=$VARIANT/g" anykernel.sh
 sed -i "s/kernel.for=.*/kernel.for=$CODENAME/g" anykernel.sh
 sed -i "s/kernel.compiler=.*/kernel.compiler=$KBUILD_COMPILER_STRING/g" anykernel.sh
-sed -i "s/kernel.made=.*/kernel.made=benkz @Kneba/g" anykernel.sh
+sed -i "s/kernel.made=.*/kernel.made=EunjiX @Kneba/g" anykernel.sh
 sed -i "s/kernel.version=.*/kernel.version=$KERVER/g" anykernel.sh
 sed -i "s/message.word=.*/message.word=Appreciate your efforts for choosing TheOneMemory kernel./g" anykernel.sh
 sed -i "s/build.date=.*/build.date=$DATE/g" anykernel.sh
