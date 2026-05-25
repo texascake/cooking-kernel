@@ -44,7 +44,7 @@ export TZ="Asia/Jakarta"
 KERNEL_DIR=$(pwd)/kernel
 cd $KERNEL_DIR
 
-curl -LSs "https://raw.githubusercontent.com/Sorayukii/KernelSU-Next/stable/kernel/setup.sh" | bash -s hookless
+#curl -LSs "https://raw.githubusercontent.com/Sorayukii/KernelSU-Next/stable/kernel/setup.sh" | bash -s hookless
 
 #sed -i 's/CONFIG_DEBUG_INFO=.*/CONFIG_DEBUG_INFO=n/g' arch/arm64/configs/asus/X00TD_defconfig
 #sed -i 's/CONFIG_LOCALVERSION=.*/CONFIG_LOCALVERSION="-TOMTzy-969"/g' arch/arm64/configs/vendor/X00TD_defconfig
@@ -76,17 +76,17 @@ VARIANT="May be unstable so use at your own risk"
 KERNAME=TOM
 
 ## main Account ##
-KBUILD_BUILD_USER=Tokodepia
+KBUILD_BUILD_USER=EunjiX
 
 # Build Type
-BUILD_TYPE=TYTYD
+BUILD_TYPE=OLDCAM
 
 # Specify compiler.
 # 'clang' or 'clangxgcc' or 'gcc' or 'kale'
 COMPILER=kale
 
 # Kernel is LTO. 1 is YES (default) | 0 is NO
-LTO=0
+LTO=1
 
 # Specify linker.
 # 'ld.lld'(default)
@@ -212,7 +212,7 @@ DATE2=$(TZ=Asia/Jakarta date +"%d%m%Y-%H%M")
 		msg "|| Cloning toolchain ||"
 		TC_EXT="$KERNEL_DIR/clang"
 		mkdir -p "$TC_EXT" && pushd "$TC_EXT"
-		wget -qO clang.tar.zst "https://github.com/PurrrsLitterbox/LLVM-stable/releases/download/llvmorg-21.1.8/clang.tar.zst" && tar -xf clang.tar.zst && rm -f clang.tar.zst
+		wget -qO clang.tar.zst "https://github.com/PurrrsLitterbox/LLVM-stable/releases/download/llvmorg-22.1.4/clang.tar.zst" && tar -xf clang.tar.zst && rm -f clang.tar.zst
 		popd
 		[[ -f "$TC_EXT/bin/clang" ]] || exit 1
 		unset TC_EXT
@@ -430,7 +430,7 @@ build_kernel() {
 
 	case "$COMPILER" in
 	clang)
-		make -j"$PROCS" O=out LLVM=1 LLVM_IAS=1 \
+		make -j"$PROCS" O=out LLVM=1 \
 				LD=$LINKER \
 				CC=clang \
 				HOSTCC=clang \
@@ -460,7 +460,7 @@ build_kernel() {
 		make CC=clang \
 		LD="$LINKER" \
 		$DEFCONFIG O=out 2>&1 | tee -a build.log
-		make -j"$PROCS" O=out LLVM=1 LLVM_IAS=1 \
+		make -j"$PROCS" O=out LLVM=1 \
 				CC=clang \
 				CXX=clang++ \
 				AR=llvm-ar \
@@ -481,7 +481,7 @@ build_kernel() {
 				2>&1 | tee -a build.log
 				;;
 	kale)
-		make -j4 O=out LLVM=1 LLVM_IAS=1 \
+		make -j4 O=out LLVM=1 \
     	LD="ld.lld" \
 		CC="clang" \
 		HOSTCC="clang" \
