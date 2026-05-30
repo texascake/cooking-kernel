@@ -3,7 +3,6 @@ jobs:
   compile:
     docker:
       - image: wizardprjkt/build:kernel
-    resource_class: large.gen2
     steps:
       - run:
           shell: /bin/bash
