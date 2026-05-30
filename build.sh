@@ -44,7 +44,7 @@ export TZ="Asia/Jakarta"
 KERNEL_DIR=$(pwd)/kernel
 cd $KERNEL_DIR
 
-#curl -LSs "https://raw.githubusercontent.com/Sorayukii/KernelSU-Next/stable/kernel/setup.sh" | bash -s hookless
+curl -LSs "https://raw.githubusercontent.com/Sorayukii/KernelSU-Next/stable/kernel/setup.sh" | bash -s hookless
 
 #sed -i 's/CONFIG_DEBUG_INFO=.*/CONFIG_DEBUG_INFO=n/g' arch/arm64/configs/asus/X00TD_defconfig
 #sed -i 's/CONFIG_LOCALVERSION=.*/CONFIG_LOCALVERSION="-TOMTzy-969"/g' arch/arm64/configs/vendor/X00TD_defconfig
@@ -79,7 +79,7 @@ KERNAME=TOM
 KBUILD_BUILD_USER=EunjiX
 
 # Build Type
-BUILD_TYPE=OLDCAM
+BUILD_TYPE=NEWCAM
 
 # Specify compiler.
 # 'clang' or 'clangxgcc' or 'gcc' or 'kale'
